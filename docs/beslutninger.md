@@ -10,6 +10,8 @@ Ejerens anden app (Zoonex) bruger grøn brandfarve på cremefarvet baggrund, og 
 
 Afløste samme dag "fyrregrøn, hør og rav", som kun levede få timer.
 
+Forsidens layout er sat som et hæfte, ikke som en skabelon: nummererede afsnit (01–07) med en lille, fast margen til venstre, hårstreger i stedet for kort og skygger, ét udtryk pr. afsnit, og små stykker af selve appen ved hvert trin (mærkeseddel, SMS, point, underskrift). Prisen står som tal, ikke i en boks. Knapperne er kantede, ikke piller. Afsnit toner stille ind, når de rulles frem; uden bevægelse, hvis brugeren har bedt om det. Begrundelse: ejeren ville have et mere moderne layout, der ikke ligner en side lavet af en skabelon eller en AI.
+
 ## 2026-11-10 · En arving kan sige "Jeg ønsker ikke noget"
 Før skulle alle 100 point bruges, så en arving, der ikke ønskede noget, kunne ikke svare og blokerede hele familien. Nu er der en knap, når ingen point er brugt. Resultatet viser "Ønskede ikke noget af tingene" uden procent, og personen tæller ikke som "fik ingen af sine ønsker". Testamenteret gods går stadig til personen.
 

@@ -73,6 +73,9 @@ label.f{display:grid;gap:5px;font-size:12.5px;font-weight:700;color:var(--soft);
 .hero{display:grid;grid-template-columns:1.25fr 1fr;gap:28px;align-items:start}
 @media (max-width:860px){.hero{grid-template-columns:1fr}}
 .memorial{display:flex;gap:18px;align-items:center;margin-bottom:20px}
+.memorial>div:last-child{min-width:0}
+.memorial h1{overflow-wrap:anywhere;hyphens:auto}
+@media (max-width:400px){.memorial{gap:14px}.memorial .portrait{width:64px;height:64px;font-size:26px}}
 .portrait{width:84px;height:84px;border-radius:50%;flex:0 0 auto;background:var(--kraft);display:grid;place-items:center;color:var(--kraft-ink);font-family:var(--display);font-weight:500;font-size:34px;border:4px solid var(--card);box-shadow:var(--shadow)}
 .years{font-family:var(--mono);font-size:13px;color:var(--soft)}
 .track{display:grid;gap:0;padding:6px 0}
