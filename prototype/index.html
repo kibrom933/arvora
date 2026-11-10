@@ -1,0 +1,668 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Arvora</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&family=Caveat:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: et hjem, der tømmes med omtanke — ting som mærkesedler på snor, arvinger som flyttekasser med håndskrevne navne, fem trin fra billede til underskrift. */
+:root{
+  --paper:#F4F3EE; --card:#FFFFFF; --ink:#152A26; --soft:#5C6E69; --line:#D9DFDB;
+  --forest:#1E4D43; --forest-2:#2F7A6B; --on-forest:#F6F3EA; --kraft:#E3AA3C; --kraft-ink:#3A2800;
+  --ochre:#E3AA3C; --mint:#E2EEE8; --good:#2D7048; --warn:#B4412A; --warn-soft:#F9E3DC;
+  --display:"Familjen Grotesk", "Arial Narrow", system-ui, sans-serif; --hand:"Caveat", "Segoe Print", cursive;
+  --body:"Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif; --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --r:6px; --shadow:0 1px 0 rgba(27,36,32,.04), 0 8px 24px -14px rgba(27,36,32,.35); --name-mix:100%;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0F1A18; --card:#16231F; --ink:#EEF2EF; --soft:#A5B5AF; --line:#27362F;
+  --forest:#173B34; --forest-2:#7CC7B4; --on-forest:#F3F1E8; --kraft:#D9A43C; --kraft-ink:#2B1D00;
+  --ochre:#E3AA3C; --mint:#1A2F28; --good:#84CFA3; --warn:#FF9F86; --warn-soft:#3C1E17;
+  --shadow:0 1px 0 rgba(0,0,0,.2), 0 10px 26px -14px rgba(0,0,0,.7); --name-mix:55%; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0F1A18; --card:#16231F; --ink:#EEF2EF; --soft:#A5B5AF; --line:#27362F;
+  --forest:#173B34; --forest-2:#7CC7B4; --on-forest:#F3F1E8; --kraft:#D9A43C; --kraft-ink:#2B1D00;
+  --ochre:#E3AA3C; --mint:#1A2F28; --good:#84CFA3; --warn:#FF9F86; --warn-soft:#3C1E17;
+  --shadow:0 1px 0 rgba(0,0,0,.2), 0 10px 26px -14px rgba(0,0,0,.7); --name-mix:55%; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{background:var(--paper)}
+body{color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.5;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:20;background:var(--forest)}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+/* top */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:15;background:var(--forest);color:var(--on-forest)}
+.bar{display:flex;align-items:center;gap:14px;padding-block:12px}
+.logo{display:flex;align-items:center;gap:10px;white-space:nowrap;font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:-.02em;text-decoration:none}
+.logo svg{flex:0 0 auto}
+.bo{font-size:13.5px;opacity:.8;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:560px){.bo{display:none}}
+.pill{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:rgba(255,255,255,.12)}
+@media (max-width:380px){.pill{display:none}}
+.grow{flex:1}
+.ghost{font:inherit;font-size:13px;font-weight:600;color:var(--on-forest);background:transparent;border:1px solid rgba(255,255,255,.28);border-radius:99px;padding:6px 12px;cursor:pointer;white-space:nowrap}
+nav.steps{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;padding-bottom:10px}
+nav.steps a{flex:0 0 auto;display:flex;gap:8px;align-items:center;text-decoration:none;font-weight:600;font-size:14px;padding:7px 12px 7px 8px;border-radius:99px;color:rgba(244,242,234,.72)}
+nav.steps a .n{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-family:var(--mono);font-size:11.5px;border:1px solid rgba(255,255,255,.3)}
+nav.steps a.done .n{background:var(--kraft);border-color:var(--kraft);color:var(--kraft-ink)}
+nav.steps a[aria-current="page"]{background:var(--on-forest);color:var(--forest)}
+nav.steps a[aria-current="page"] .n{border-color:var(--forest)}
+main{padding-block:32px 72px;min-height:60vh}
+/* type */
+h1{font-family:var(--display);font-weight:700;font-size:clamp(32px,5vw,52px);line-height:1;letter-spacing:-.03em;margin:0 0 10px;text-wrap:balance}
+h2{font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:-.02em;line-height:1.2;margin:0 0 8px;text-wrap:balance}
+h3{font-size:16px;margin:0}
+.lead{color:var(--soft);font-size:17px;max-width:60ch;margin:0 0 26px}
+.eyebrow{font-family:var(--hand);font-size:24px;line-height:1;color:var(--forest-2);margin-bottom:6px;transform:rotate(-2deg);display:inline-block}
+.hand{font-family:var(--hand);font-weight:700}
+.soft{color:var(--soft)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+/* controls */
+.btn{font:inherit;font-weight:700;border-radius:99px;padding:11px 18px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:inline-flex;gap:8px;align-items:center;text-decoration:none;transition:transform .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn.go{background:var(--forest);border-color:var(--forest);color:var(--on-forest)}
+.btn.ochre{background:var(--ochre);border-color:var(--ochre);color:#1a1300}
+.btn.sm{padding:7px 12px;font-size:13px}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+.btn:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,button:focus-visible{outline:2px solid var(--ochre);outline-offset:2px}
+input,select{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-width:0;width:100%}
+label.f{display:grid;gap:5px;font-size:12.5px;font-weight:700;color:var(--soft);letter-spacing:.02em}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+/* overview */
+.hero{display:grid;grid-template-columns:1.25fr 1fr;gap:28px;align-items:start}
+@media (max-width:860px){.hero{grid-template-columns:1fr}}
+.memorial{display:flex;gap:18px;align-items:center;margin-bottom:20px}
+.portrait{width:84px;height:84px;border-radius:50%;flex:0 0 auto;background:var(--kraft);display:grid;place-items:center;color:var(--kraft-ink);font-family:var(--display);font-weight:700;font-size:34px;border:4px solid var(--card);box-shadow:var(--shadow)}
+.years{font-family:var(--mono);font-size:13px;color:var(--soft)}
+.track{display:grid;gap:0;padding:6px 0}
+.trk{display:grid;grid-template-columns:34px 1fr auto;gap:14px;align-items:center;padding:14px 18px;border-top:1px solid var(--line)}
+.trk:first-child{border-top:0}
+.trk .dot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:var(--mono);font-size:12px;border:1.5px solid var(--line);color:var(--soft)}
+.trk.done .dot{background:var(--good);border-color:var(--good);color:var(--card)}
+.trk.now .dot{border-color:var(--ochre);color:var(--ochre);box-shadow:0 0 0 4px color-mix(in srgb,var(--ochre) 18%,transparent)}
+.trk b{display:block}
+.trk small{color:var(--soft)}
+.phone{width:min(300px,100%);margin-inline:auto;border-radius:38px;background:var(--ink);padding:12px;box-shadow:var(--shadow)}
+.screen{border-radius:28px;background:var(--paper);padding:18px 14px 22px;min-height:400px;display:flex;flex-direction:column;gap:10px}
+.screen .who{font-size:12px;text-align:center;color:var(--soft);font-weight:600}
+.bubble{background:var(--card);border:1px solid var(--line);border-radius:18px 18px 18px 6px;padding:12px 14px;font-size:14px;line-height:1.45;max-width:92%}
+.bubble a{color:var(--forest-2);font-weight:700}
+.rooms{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:99px;background:var(--card);border:1px solid var(--line);color:var(--soft);cursor:default}
+button.chip{cursor:pointer;font-family:inherit}
+button.chip[aria-pressed="true"]{background:var(--forest);border-color:var(--forest);color:var(--on-forest)}
+.chip.good{background:var(--mint);border-color:transparent;color:var(--good)}
+.chip.warn{background:var(--warn-soft);border-color:transparent;color:var(--warn)}
+.chip.will{background:var(--kraft);border-color:transparent;color:var(--kraft-ink)}
+/* tags (items) */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px}
+.tag{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden}
+.tag .pic{aspect-ratio:4/3;max-width:100%;display:grid;place-items:center;position:relative}
+.tag .pic svg{width:72%;height:auto}
+.tag .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.lot{position:absolute;top:12px;right:12px;z-index:2;background:var(--kraft);color:var(--kraft-ink);font-family:var(--mono);font-size:11.5px;font-weight:500;padding:4px 10px 4px 16px;clip-path:polygon(9px 0,100% 0,100% 100%,9px 100%,0 50%);transform:rotate(4deg)}
+.lot::before{content:"";position:absolute;left:6px;top:50%;width:4px;height:4px;margin-top:-2px;border-radius:50%;background:var(--card)}
+.tag .txt{padding:12px 14px 14px;display:grid;gap:4px;flex:1;align-content:start}
+.tag .name{font-weight:700;line-height:1.3}
+.tag .room{font-size:12.5px;color:var(--soft)}
+.tag .acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.addbar{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:12px;align-items:end;padding:16px;margin-bottom:20px}
+@media (max-width:760px){.addbar{grid-template-columns:1fr 1fr}.addbar .wide{grid-column:1/-1}}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+/* heirs */
+.heirs{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.heir{padding:18px;display:grid;gap:12px;align-content:start}
+.heir .top{display:flex;gap:12px;align-items:center}
+.heir .nm{font-family:var(--hand);font-size:32px;line-height:1;font-weight:700;color:color-mix(in srgb,var(--c,var(--ink)) var(--name-mix),#fff)}
+.av{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;flex:0 0 auto}
+/* wishes */
+.method{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;max-width:760px}
+@media (max-width:560px){.method{grid-template-columns:1fr}}
+.method button{font:inherit;text-align:left;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:var(--r);padding:14px 16px;cursor:pointer}
+.method button[aria-pressed="true"]{border-color:var(--forest);background:color-mix(in srgb,var(--mint) 60%,var(--card))}
+.method b{display:block;margin-bottom:2px}
+.method span{font-size:13.5px;color:var(--soft)}
+.who-sw{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.who-sw button{font:inherit;display:flex;align-items:center;gap:10px;padding:6px 14px 6px 6px;border-radius:99px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font-weight:700}
+.who-sw button[aria-pressed="true"]{border-color:var(--forest)}
+.who-sw .av{width:32px;height:32px;font-size:14px}
+.purse{position:sticky;top:calc(env(safe-area-inset-top,0px) + 112px);z-index:10;display:flex;gap:16px;flex-wrap:wrap;align-items:center;padding:14px 18px;margin-bottom:20px}
+.coins{display:flex;gap:4px;flex-wrap:wrap;flex:1;min-width:200px}
+.coin{width:14px;height:14px;border-radius:50%;background:var(--ochre);box-shadow:inset 0 -2px 0 rgba(0,0,0,.18);transition:transform .2s,opacity .2s}
+.coin.spent{opacity:.18;transform:scale(.75)}
+.pips{display:flex;gap:3px;flex-wrap:wrap;min-height:10px}
+.pip{width:9px;height:9px;border-radius:50%;background:var(--ochre)}
+.stepper{display:flex;align-items:center;gap:8px;margin-top:6px}
+.stepper button{font:inherit;font-size:18px;line-height:1;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font-weight:700}
+.stepper .val{font-family:var(--mono);font-size:15px;min-width:52px;text-align:center}
+.secret{display:flex;gap:10px;align-items:center;font-size:13.5px;color:var(--soft);margin:-8px 0 18px}
+/* reveal */
+.stage{display:grid;gap:24px}
+.pile{position:relative;min-height:180px;display:grid;place-items:center;border:2px dashed var(--line);border-radius:22px;padding:24px}
+.pile .heap{position:relative;width:220px;height:130px}
+.pile .heap span{position:absolute;left:50%;top:50%;width:120px;height:34px;margin:-17px 0 0 -60px;border-radius:6px;background:var(--kraft);color:var(--kraft-ink);font-family:var(--mono);font-size:11px;display:grid;place-items:center;box-shadow:var(--shadow)}
+.boxes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.box{position:relative;padding:22px 18px 18px;background:linear-gradient(180deg,color-mix(in srgb,var(--kraft) 55%,var(--card)) 0 64px,var(--card) 64px);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);min-width:0}
+.box::before{content:"";position:absolute;left:50%;top:0;width:46px;height:64px;margin-left:-23px;background:color-mix(in srgb,var(--kraft) 30%,var(--card));opacity:.7}
+.box .label{position:relative;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:22px}
+.box .label .hand{font-size:38px;line-height:.9;color:var(--kraft-ink)}
+.fair{display:grid;gap:6px;margin-bottom:12px}
+.bar2{height:8px;border-radius:99px;background:var(--paper);overflow:hidden}
+.bar2 span{display:block;height:100%;border-radius:99px;transition:width 1s ease}
+.box ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.it{display:flex;gap:10px;align-items:center;padding:6px 8px;border-radius:10px;background:var(--paper);will-change:transform}
+.it .mini{width:40px;height:30px;border-radius:6px;display:grid;place-items:center;flex:0 0 auto}
+.it .mini svg{width:36px;height:auto}
+.it .nm{flex:1;min-width:0;font-size:13.5px;font-weight:600;line-height:1.25}
+.it .p{font-family:var(--mono);font-size:11.5px;color:var(--soft);white-space:nowrap}
+.checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:6px}
+.chk{display:flex;gap:12px;padding:14px 16px;align-items:flex-start}
+.chk .ic{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto;background:var(--mint);color:var(--good);font-weight:800}
+.chk.no .ic{background:var(--warn-soft);color:var(--warn)}
+.chk.lod .ic{background:var(--kraft);color:var(--kraft-ink)}
+.chk b{display:block;font-size:14.5px}
+.chk small{color:var(--soft);font-size:13px;line-height:1.4;display:block}
+.rest{padding:18px;display:grid;gap:12px}
+.rest .row .chip{background:var(--paper)}
+table.st{border-collapse:collapse;width:100%;font-size:14px}
+table.st th,table.st td{padding:10px;border-bottom:1px solid var(--line);text-align:left}
+table.st .r{text-align:right}
+.tw{overflow-x:auto}
+/* sign */
+.sign{display:grid;grid-template-columns:1.1fr 1fr;gap:26px;align-items:start}
+@media (max-width:860px){.sign{grid-template-columns:1fr}}
+.sig{display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:12px;align-items:end;padding:14px 16px}
+.sig form{display:grid;grid-template-columns:minmax(110px,1fr) 88px auto;gap:8px;align-items:center}
+.sig form input.pin{text-align:center;letter-spacing:.2em;padding-inline:6px}
+.sig form input.pin::placeholder{letter-spacing:0}
+.sig form small{grid-column:1/-1;font-size:12.5px;line-height:1.35}
+.sig form small:empty{display:none}
+@media (max-width:560px){.sig form{grid-column:1/-1;grid-template-columns:minmax(0,1fr) 84px}.sig form button{grid-column:1/-1;justify-content:center}}
+.forgot{font-size:13.5px;color:var(--soft);justify-self:stretch}
+.forgot summary{cursor:pointer;font-weight:700;color:var(--forest-2)}
+.forgot p{margin:8px 0}
+.copytext{width:100%;font:12.5px/1.5 var(--mono);padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);resize:vertical}
+.sig .line{border-bottom:1.5px solid var(--ink);min-height:44px;display:flex;align-items:flex-end;font-family:var(--hand);font-size:30px;line-height:1;color:var(--forest-2);padding-bottom:2px}
+.sig .line:empty::after{content:"Underskrift";font-family:var(--body);font-size:12px;color:var(--soft)}
+.doc{position:relative;overflow:hidden;padding:26px 24px;background:var(--card);border:1px solid var(--line);border-radius:6px;box-shadow:var(--shadow);font-size:13.5px}
+.doc h3{font-family:var(--display);font-weight:400;font-size:20px;margin-bottom:4px}
+.doc .who{margin-top:14px;font-weight:700}
+.doc ul{margin:4px 0 0;padding-left:18px}
+.stamp{position:absolute;right:18px;top:20px;border:3px solid var(--good);color:var(--good);font-family:var(--mono);font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:6px 10px;border-radius:6px;transform:rotate(-9deg) scale(1);font-size:13px;opacity:.9;animation:stamp .5s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes stamp{from{transform:rotate(-9deg) scale(2.2);opacity:0}to{transform:rotate(-9deg) scale(1);opacity:.9}}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(140%);background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:99px;font-weight:600;font-size:14px;z-index:30;transition:transform .3s;max-width:calc(100% - 32px)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.aibox{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:16px 18px;margin-bottom:14px;border:2px dashed var(--forest-2);box-shadow:none}
+.aibox .grow{min-width:220px}
+.lock{max-width:520px;padding:26px;display:grid;gap:12px;justify-items:start}
+.lock .av{width:56px;height:56px;font-size:22px}
+.modes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.why{margin-top:12px;font-size:13.5px}
+.why summary{cursor:pointer;font-weight:700;color:var(--forest-2)}
+.why ul{margin:8px 0 0;padding-left:18px;display:grid;gap:4px}
+.why li{background:none;padding:0}
+.nmedit{font-weight:700}
+footer{border-top:1px solid var(--line);padding-block:20px;font-size:13px;color:var(--soft)}
+@media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="bar">
+      <a class="logo" href="#oversigt" aria-label="Arvora, til oversigten">
+        <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path d="M6 9h14l5 6-5 6H6z" fill="var(--kraft)"/><circle cx="20" cy="15" r="2" fill="var(--forest)"/><path d="M20 15c3-6 6-8 8-8" stroke="var(--on-forest)" stroke-width="1.5" fill="none"/></svg>
+        Arvora
+      </a>
+      <span class="bo" id="boName"></span>
+      <span class="pill">Eksempel</span>
+      <span class="grow"></span>
+      <button class="ghost" id="reset" type="button">Start forfra</button>
+    </div>
+    <nav class="steps" aria-label="Trin">
+      <a href="#oversigt" data-v="oversigt"><span class="n">⌂</span>Oversigt</a>
+      <a href="#ting" data-v="ting"><span class="n">1</span>Ting</a>
+      <a href="#arvinger" data-v="arvinger"><span class="n">2</span>Arvinger</a>
+      <a href="#oensker" data-v="oensker"><span class="n">3</span>Ønsker</a>
+      <a href="#fordeling" data-v="fordeling"><span class="n">4</span>Fordeling</a>
+      <a href="#underskrift" data-v="underskrift"><span class="n">5</span>Underskrift</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap" id="view"></main>
+<footer class="wrap">Prototype af Arvora med et opdigtet eksempel. Alt gemmes kun i din egen browser, også koderne. I den rigtige version får hver arving sit eget link, og ønskerne ligger krypteret hos Arvora.</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+/* ---------- Illustrationer: én tegning pr. slags ting ---------- */
+const D='var(--ink)';
+const ART={
+ table:(a,b)=>`<rect x="14" y="30" width="92" height="9" rx="2" fill="${a}"/><rect x="22" y="39" width="6" height="34" fill="${a}"/><rect x="92" y="39" width="6" height="34" fill="${a}"/><rect x="2" y="44" width="16" height="4" fill="${b}"/><rect x="4" y="22" width="4" height="50" fill="${b}"/><rect x="14" y="48" width="4" height="24" fill="${b}"/><rect x="102" y="44" width="16" height="4" fill="${b}"/><rect x="112" y="22" width="4" height="50" fill="${b}"/><rect x="102" y="48" width="4" height="24" fill="${b}"/>`,
+ plates:(a,b)=>`<ellipse cx="60" cy="56" rx="44" ry="14" fill="${b}"/><ellipse cx="60" cy="50" rx="44" ry="14" fill="#fff" stroke="${a}" stroke-width="3"/><ellipse cx="60" cy="50" rx="26" ry="8" fill="none" stroke="${a}" stroke-width="2"/><path d="M44 50c4-5 8 5 12 0s8 5 12 0 6 3 8 1" stroke="${a}" stroke-width="2" fill="none"/><path d="M78 26h12v10a6 6 0 0 1-12 0z" fill="#fff" stroke="${a}" stroke-width="2.5"/><path d="M90 29c5 0 5 6 0 6" stroke="${a}" stroke-width="2.5" fill="none"/>`,
+ clock:(a,b)=>`<path d="M44 82V30a16 16 0 0 1 32 0v52z" fill="${b}"/><circle cx="60" cy="32" r="12" fill="#fff" stroke="${a}" stroke-width="3"/><path d="M60 24v8l5 4" stroke="${a}" stroke-width="2.5" fill="none" stroke-linecap="round"/><rect x="54" y="50" width="12" height="24" rx="6" fill="none" stroke="${a}" stroke-width="2.5"/><circle cx="60" cy="66" r="4" fill="${a}"/><rect x="40" y="80" width="40" height="5" rx="2" fill="${a}"/>`,
+ sewing:(a,b)=>`<rect x="16" y="66" width="88" height="10" rx="3" fill="${a}"/><path d="M26 66V34a10 10 0 0 1 10-10h50a10 10 0 0 1 10 10v12H72v20z" fill="${b}"/><rect x="84" y="46" width="6" height="14" fill="${a}"/><circle cx="34" cy="38" r="5" fill="#fff"/><circle cx="96" cy="32" r="8" fill="none" stroke="${a}" stroke-width="3"/>`,
+ painting:(a,b)=>`<rect x="16" y="14" width="88" height="62" rx="2" fill="${a}"/><rect x="23" y="21" width="74" height="48" fill="#fff"/><rect x="23" y="47" width="74" height="22" fill="${b}"/><path d="M23 47c12-4 22 3 34 0s26-3 40 0" stroke="#fff" stroke-width="2" fill="none"/><circle cx="78" cy="32" r="6" fill="#F2C14E"/>`,
+ ring:(a,b)=>`<circle cx="60" cy="56" r="20" fill="none" stroke="${b}" stroke-width="7"/><path d="M50 30l10-12 10 12-10 8z" fill="${a}"/><path d="M50 30h20" stroke="#fff" stroke-width="1.5"/>`,
+ armchair:(a,b)=>`<path d="M30 22h60a6 6 0 0 1 6 6v26H24V28a6 6 0 0 1 6-6z" fill="${b}"/><rect x="16" y="40" width="16" height="30" rx="6" fill="${a}"/><rect x="88" y="40" width="16" height="30" rx="6" fill="${a}"/><rect x="30" y="52" width="60" height="14" rx="4" fill="${a}" opacity=".85"/><rect x="22" y="70" width="5" height="10" fill="${a}"/><rect x="93" y="70" width="5" height="10" fill="${a}"/>`,
+ pots:(a,b)=>`<path d="M14 40h44v22a10 10 0 0 1-10 10H24a10 10 0 0 1-10-10z" fill="${b}"/><rect x="10" y="36" width="52" height="5" rx="2" fill="${a}"/><path d="M62 46h46v16a8 8 0 0 1-8 8H70a8 8 0 0 1-8-8z" fill="${b}" opacity=".8"/><rect x="58" y="42" width="54" height="5" rx="2" fill="${a}"/><path d="M30 36c0-6 12-6 12 0" stroke="${a}" stroke-width="3" fill="none"/>`,
+ box:(a,b)=>`<path d="M20 36h80v40H20z" fill="${b}"/><path d="M20 36l12-14h56l12 14z" fill="${a}" opacity=".85"/><rect x="50" y="44" width="20" height="10" rx="2" fill="#fff"/><path d="M38 20l6 8 6-10 6 9 6-11 6 10 6-7" stroke="#C0392B" stroke-width="2.5" fill="none"/>`,
+ album:(a,b)=>`<rect x="22" y="14" width="70" height="64" rx="4" fill="${a}"/><rect x="28" y="18" width="70" height="64" rx="4" fill="${b}"/><rect x="40" y="30" width="22" height="18" fill="#fff"/><rect x="66" y="40" width="22" height="18" fill="#fff"/><rect x="28" y="18" width="6" height="64" fill="${a}" opacity=".6"/>`,
+ radio:(a,b)=>`<rect x="14" y="30" width="92" height="44" rx="8" fill="${b}"/><circle cx="40" cy="52" r="14" fill="${a}"/><circle cx="40" cy="52" r="8" fill="none" stroke="#fff" stroke-width="1.5" stroke-dasharray="2 3"/><rect x="62" y="40" width="34" height="12" rx="2" fill="#fff"/><path d="M66 46h26" stroke="${a}" stroke-width="1.5"/><circle cx="70" cy="62" r="4" fill="${a}"/><circle cx="88" cy="62" r="4" fill="${a}"/><path d="M84 30l14-16" stroke="${a}" stroke-width="2.5"/>`,
+ dresser:(a,b)=>`<rect x="20" y="16" width="80" height="60" rx="3" fill="${b}"/><rect x="26" y="22" width="68" height="15" rx="2" fill="#fff" opacity=".35"/><rect x="26" y="40" width="68" height="15" rx="2" fill="#fff" opacity=".35"/><rect x="26" y="58" width="68" height="13" rx="2" fill="#fff" opacity=".35"/><rect x="54" y="28" width="12" height="3" rx="1.5" fill="${a}"/><rect x="54" y="46" width="12" height="3" rx="1.5" fill="${a}"/><rect x="54" y="63" width="12" height="3" rx="1.5" fill="${a}"/><rect x="24" y="76" width="5" height="8" fill="${a}"/><rect x="91" y="76" width="5" height="8" fill="${a}"/>`,
+ garden:(a,b)=>`<ellipse cx="60" cy="44" rx="34" ry="8" fill="${b}"/><rect x="57" y="44" width="6" height="34" fill="${a}"/><path d="M42 82l18-8 18 8" stroke="${a}" stroke-width="4" fill="none"/><path d="M10 34h14v44M10 50h16" stroke="${a}" stroke-width="4" fill="none"/><path d="M110 34H96v44M110 50H94" stroke="${a}" stroke-width="4" fill="none"/>`,
+ tools:(a,b)=>`<rect x="18" y="40" width="84" height="36" rx="4" fill="${b}"/><path d="M44 40v-8a4 4 0 0 1 4-4h24a4 4 0 0 1 4 4v8" stroke="${a}" stroke-width="5" fill="none"/><rect x="18" y="52" width="84" height="4" fill="${a}"/><path d="M84 18l12 12M90 12l-4 10 6 6 10-4" stroke="${a}" stroke-width="3" fill="none"/>`,
+ plate:(a,b)=>`<circle cx="60" cy="46" r="34" fill="#fff" stroke="${a}" stroke-width="3"/><circle cx="60" cy="46" r="24" fill="${b}"/><path d="M48 54l12-20 12 20z" fill="#fff"/><circle cx="60" cy="30" r="3" fill="#F2C14E"/>`,
+ blanket:(a,b)=>`<path d="M14 30c20-8 72-8 92 0v40c-20 8-72 8-92 0z" fill="${b}"/><path d="M14 44c20-8 72-8 92 0M14 58c20-8 72-8 92 0" stroke="#fff" stroke-width="3" fill="none" stroke-dasharray="6 5"/><path d="M38 24v52M60 22v56M82 24v52" stroke="${a}" stroke-width="1.5" opacity=".5"/>`,
+ thing:(a,b)=>`<rect x="30" y="22" width="60" height="50" rx="8" fill="${b}"/><path d="M30 38h60" stroke="${a}" stroke-width="2.5"/><circle cx="60" cy="56" r="6" fill="${a}"/>`
+};
+const TINT={Stue:['#1D3A9E','#8FA6F0','#E6ECFD'],Køkken:['#1D3A9E','#F2C14E','#FDF3D8'],Værelse:['#B23A22','#F2A48F','#FCE8E2'],Smykker:['#7A5A00','#F2C14E','#FDF3D8'],Soveværelse:['#3B3F8F','#B4B8EC','#EDEEFB'],Kælder:['#5B4630','#D2B48C','#F3ECE2'],Have:['#2D7048','#9ED1A9','#E5F3E8']};
+const tint=g=>TINT[g]||['#4A5752','#B7C2BC','#EAEEEB'];
+const art=(k,g,size)=>{const [a,b]=tint(g);return `<svg viewBox="0 0 120 90" ${size?`width="${size}"`:''} aria-hidden="true">${(ART[k]||ART.thing)(a,b)}</svg>`};
+const bg=g=>`background:${tint(g)[2]}`;
+
+/* ---------- Data ---------- */
+const HC=['#1E4D43','#C2452B','#2F5DA8','#B88600','#6A4FB3','#5B4630','#0E7C86','#A23B72'];
+const DEMO={
+ bo:'Inger Marie Jensen', years:'1938 – 2026', tov:'h1', deadline:'20. november', method:'point', revealed:false,
+ heirs:[{id:'h1',name:'Mette',rel:'Datter · tovholder',w:1,sig:''},{id:'h2',name:'Lars',rel:'Søn',w:1,sig:''},{id:'h3',name:'Anna',rel:'Datter',w:1,sig:''}],
+ items:[
+  {id:'i1',name:'Spisebord i eg med 6 stole',group:'Stue',k:'table',will:''},
+  {id:'i2',name:'Musselmalet stel, 48 dele',group:'Køkken',k:'plates',will:''},
+  {id:'i3',name:'Bornholmerur',group:'Stue',k:'clock',will:''},
+  {id:'i4',name:'Mormors symaskine',group:'Værelse',k:'sewing',will:''},
+  {id:'i5',name:'Maleri: Skagen strand',group:'Stue',k:'painting',will:''},
+  {id:'i6',name:'Guldring med granat',group:'Smykker',k:'ring',will:'h3'},
+  {id:'i7',name:'Lænestol i læder',group:'Stue',k:'armchair',will:''},
+  {id:'i8',name:'Kobbergryder, 5 stk.',group:'Køkken',k:'pots',will:''},
+  {id:'i9',name:'Julepynt, 3 kasser',group:'Kælder',k:'box',will:''},
+  {id:'i10',name:'Fotoalbum 1960–1990',group:'Værelse',k:'album',will:''},
+  {id:'i11',name:'Radio fra 1970’erne',group:'Stue',k:'radio',will:''},
+  {id:'i12',name:'Kommode i teak',group:'Soveværelse',k:'dresser',will:''},
+  {id:'i13',name:'Havemøbler, bord og 4 stole',group:'Have',k:'garden',will:''},
+  {id:'i14',name:'Værktøjskasse',group:'Kælder',k:'tools',will:''},
+  {id:'i15',name:'Juleplatter, 30 stk.',group:'Kælder',k:'plate',will:''},
+  {id:'i16',name:'Strikket tæppe',group:'Soveværelse',k:'blanket',will:''}],
+ pts:{h1:{i1:5,i2:30,i3:10,i4:20,i5:5,i10:15,i16:15},h2:{i1:25,i3:20,i5:10,i7:15,i11:10,i14:15,i13:5},h3:{i2:25,i4:15,i5:20,i10:20,i12:10,i16:10}},
+ bids:{h1:{i1:2000,i2:6000,i3:3000,i4:1500,i10:500,i16:300},h2:{i1:5000,i3:4500,i5:2500,i7:1500,i11:800,i14:400},h3:{i2:5000,i4:1200,i5:3500,i10:600,i12:1500,i16:400}},
+ submitted:{h1:true,h2:true,h3:false}, photos:{}, pins:{}, mode:'doed'
+};
+let S; const KEY='arvora-v1';
+try{const s=localStorage.getItem(KEY);S=s?JSON.parse(s):null}catch(e){}
+if(!S)S=JSON.parse(JSON.stringify(DEMO));
+/* full: browserens lager er løbet tør, så det seneste er ikke gemt. toast() siger det højt. */
+let full=false; const NOROOM='Der er ikke plads til flere billeder i denne browser.';
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S));full=false;return true}catch(e){full=!!e&&(e.name==='QuotaExceededError'||e.name==='NS_ERROR_DOM_QUOTA_REACHED'||e.code===22);if(full)toast('');return false}};
+/* Et billede gemmes kun, hvis der er plads. Ellers fjernes det igen, så resten stadig kan gemmes. */
+function keepPhoto(id,url){S.photos[id]=url;if(save()||!full)return true;delete S.photos[id];save();return false}
+let me='h3', roomFilter='Alle';
+let unlocked=null, editing=null, SAMPLE=null, AI_OK=false, DL=null, busy=false;
+/* Hver ting får sit nummer én gang for alle, så mærkesedlerne ikke skifter, når en anden ting fjernes. */
+function norm(){S.pins=S.pins||{};S.mode=S.mode||'doed';S.photos=S.photos||{};let n=S.nextNo||0;S.items.forEach(i=>{if(i.no>n)n=i.no});S.items.forEach(i=>{if(!i.no)i.no=++n});S.nextNo=n;if(!S.heirs.some(h=>h.id===me))me=S.tov;
+ /* Boets lod trækkes én gang og gemmes med det samme, så det er det samme, hver gang siden åbnes */
+ if(!S.lod){try{S.lod=crypto.getRandomValues(new Uint32Array(1))[0]}catch(e){}S.lod=S.lod||Math.floor(Math.random()*4294967295)+1;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}}
+norm();
+const live=()=>S.mode==='live'; const T=(a,b)=>live()?b:a;
+(async()=>{try{const s=await window.claude?.use?.('sample');if(s){const l=await s.limits().catch(()=>null);if(l?.images){SAMPLE=s;AI_OK=true;render()}}}catch(e){}
+ try{const d=await window.claude?.use?.('downloads');if(d){DL=d;render()}}catch(e){}})();
+const PROMPT='Du hjælper en familie med at registrere indbo, der skal fordeles mellem arvinger. Se på billedet af én ting (eller en samlet gruppe ting) og svar KUN med JSON på formen {"name":"...","room":"...","kind":"...","valuable":false}. name: kort dansk navn, højst 6 ord, fx "Spisebord i eg med 6 stole" eller "Kaffestel med blå blomster, 12 dele". room: et af Stue, Køkken, Soveværelse, Værelse, Kælder, Have, Smykker, Andet. kind: det nærmeste af table, plates, clock, sewing, painting, ring, armchair, pots, box, album, radio, dresser, garden, tools, plate, blanket, thing. valuable: true kun hvis tingen kan have betydelig handelsværdi (kunst, smykker, ure, kendte designmøbler, sølv), ellers false.';
+function shrink(file){return new Promise((res,rej)=>{const fr=new FileReader();fr.onerror=rej;fr.onload=()=>{const im=new Image();im.onerror=rej;im.onload=()=>{const c=document.createElement('canvas'),k=Math.min(1,560/Math.max(im.width,im.height));c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);const url=c.toDataURL('image/jpeg',.8);c.toBlob(b=>b?res({blob:b,url}):rej(new Error('blob')),'image/jpeg',.85)};im.src=fr.result};fr.readAsDataURL(file)})}
+async function aiAdd(files){busy=true;render();let n=0,noroom=false;const rooms=['Stue','Køkken','Soveværelse','Værelse','Kælder','Have','Smykker','Andet'];
+ for(const f of [...files].slice(0,6)){
+  try{const {blob,url}=await shrink(f);const r=await SAMPLE.json(PROMPT,{images:[blob],modelTier:'quick'});
+   const id='i'+Date.now()+Math.random().toString(36).slice(2,6);
+   S.items.push({id,no:++S.nextNo,name:String(r&&r.name||'Ny ting').slice(0,60),group:rooms.includes(r&&r.room)?r.room:'Andet',k:(r&&ART[r.kind])?r.kind:'thing',will:'',ai:true,val:!!(r&&r.valuable)});
+   n++;invalidate();if(!keepPhoto(id,url))noroom=true;render();
+  }catch(e){if(e&&e.code==='not_granted'){AI_OK=false;break}toast(e&&e.code==='rate_limited'?'For mange billeder på én gang. Prøv igen om lidt.':'Et billede kunne ikke læses.')}
+ }
+ busy=false;render();if(n)toast(n+' ting tilføjet. '+(noroom?NOROOM:'Ret navnene, hvis de ikke passer.'))}
+function why(h,r){const owner={};S.heirs.forEach(x=>r.out[x.id].forEach(o=>owner[o.i.id]=x));
+ const ws=Object.entries(S.pts[h.id]||{}).filter(([k])=>free().some(i=>i.id===k)).sort((a,b)=>b[1]-a[1]);
+ if(!ws.length)return '<p class="soft" style="margin:8px 0 0">'+esc(h.name)+' ønskede ikke noget af tingene.</p>';
+ return '<ul>'+ws.map(([iid,p])=>{const it=S.items.find(i=>i.id===iid),o=owner[iid];
+  return '<li>'+esc(it.name)+': '+esc(h.name)+' gav '+p+' p'+(o===h?' – <b>fik den</b>':o?' – gik til '+esc(o.name)+', som gav '+((S.pts[o.id]||{})[iid]||0)+' p':' – ingen fik den')+(r.lodIds.has(iid)?' <span class="soft">(lodtrækning)</span>':'')+'</li>'}).join('')+'</ul><p class="soft" style="margin:8px 0 0">Fordelingen ser på alle ønsker samlet, så alle får mest muligt af det, der betyder mest for dem.</p>'}
+/* PDF-skrift: jsPDF's indbyggede Helvetica kan kun vesteuropæiske bogstaver, så Ayşe blev til "Ay_e".
+   Derfor hentes Hanken Grotesk (latin + udvidet latin) fra fonts/ første gang, der laves en PDF. */
+let PDFFONT=null;
+async function pdfFonts(doc){if(PDFFONT===false)return false;
+ try{if(!PDFFONT){const get=async f=>{const r=await fetch('fonts/'+f);if(!r.ok)throw new Error(f);const b=new Uint8Array(await r.arrayBuffer());let s='';for(let k=0;k<b.length;k+=0x8000)s+=String.fromCharCode.apply(null,b.subarray(k,k+0x8000));return btoa(s)};
+   PDFFONT={normal:await get('hk-400.ttf'),bold:await get('hk-700.ttf')}}
+  doc.addFileToVFS('hk-400.ttf',PDFFONT.normal);doc.addFont('hk-400.ttf','HK','normal');doc.addFileToVFS('hk-700.ttf',PDFFONT.bold);doc.addFont('hk-700.ttf','HK','bold');return true}
+ catch(e){PDFFONT=false;return false}}
+/* Tegn, skriften ikke har (fx arabisk eller kinesisk), bliver til tomme kasser i PDF'en. Dem siger vi til om. */
+const PRINTABLE=/^[\u0009\u000A -~ -ɏəʻʼˆ˚˜Ḁ-ỿ -⁯€™−∕]*$/, PRINTABLE_HELV=/^[\u0009\u000A -~ -ÿ–—‘’“”•…€™]*$/;
+async function makePdf(){try{const {jsPDF}=window.jspdf;const doc=new jsPDF({unit:'mm',format:'a4'});let y=24;
+ const FONT=(await pdfFonts(doc))?'HK':'helvetica', okRe=FONT==='HK'?PRINTABLE:PRINTABLE_HELV, bad=new Set(), seen=t=>{if(!okRe.test(t))t.split(/\s+/).forEach(w=>{if(!okRe.test(w))bad.add(w.replace(/^[(:]+|[):,.]+$/g,''))});return t};
+ const line=(t,sz,bold)=>{doc.setFont(FONT,bold?'bold':'normal');doc.setFontSize(sz||11);doc.splitTextToSize(seen(String(t)),170).forEach(p=>{if(y>282){doc.addPage();y=20}doc.text(p,20,y);y+=(sz||11)*0.48})};
+ doc.setFillColor(30,77,67);doc.rect(0,0,210,10,'F');
+ const bid=S.method==='kroner',r=bid?solveBids():solvePoints();
+ line('Fordelingsliste',22,true);y+=2;line(T('Boet efter ','Ønskeliste for ')+S.bo,13);line((bid?'Kronemetoden':'Pointmetoden')+' · '+new Date().toLocaleDateString('da-DK'),10);y+=5;
+ S.heirs.forEach(h=>{line(h.name+' ('+h.rel+')',13,true);r.out[h.id].forEach(x=>line('    '+lot(x.i)+'   '+x.i.name+(x.will?'   (testamente)':'')+(bid&&!x.will?'   '+kr(r.price[x.i.id]):''),10.5));if(!r.out[h.id].length)line('    '+(!bid&&used(h.id)===0?'Ønskede ikke noget':'Ingen ting'),10.5);y+=3});
+ if(bid){line('Udligning i arven',13,true);r.settle.forEach(z=>line('    '+z.h.name+': '+(z.diff>0.5?'får '+kr(z.diff)+' mindre':z.diff<-0.5?'får '+kr(-z.diff)+' mere':'lige op'),10.5));y+=3}
+ if(r.rest.length){line('Til salg, genbrug eller rydning',13,true);r.rest.forEach(i=>line('    '+lot(i)+'   '+i.name,10.5));y+=3}
+ if(r.lod.length){line('Afgjort ved lodtrækning',13,true);r.lod.forEach(s=>line('    '+s,10.5));y+=3}
+ line('Underskrevet',13,true);S.heirs.forEach(h=>line('    '+h.name+': '+h.sig,10.5));y+=6;
+ line(T('Indboets værdi skal stadig med i boopgørelsen til handelsværdi. ','Listen kan bruges som grundlag for et indbotestamente hos en advokat. ')+'Arvora er en hjælp til at blive enige og ikke juridisk rådgivning.',8.5);
+ await DL.save({filename:'fordelingsliste-'+S.bo.toLowerCase().replace(/[^a-z0-9æøå]+/g,'-')+'.pdf',data:doc.output('blob')});
+ toast(bad.size?`PDF gemt, men den kan ikke skrive "${[...bad].slice(0,2).join('" og "')}" rigtigt. Brug Kopiér til det.`:'PDF gemt')}
+ catch(e){if(!(e&&e.code==='declined'))toast('PDF kunne ikke laves her. Brug Kopiér i stedet.')}}
+const $=s=>document.querySelector(s);
+const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const H=id=>S.heirs.find(h=>h.id===id);
+const hc=id=>HC[Math.max(0,S.heirs.findIndex(h=>h.id===id))%HC.length];
+const av=h=>`<span class="av" style="background:${hc(h.id)}" aria-hidden="true">${esc([...h.name][0]||'?')}</span>`;
+const lot=i=>'Nr. '+String(i.no).padStart(3,'0');
+const kr=n=>Math.round(n).toLocaleString('da-DK')+' kr.';
+const free=()=>S.items.filter(i=>!i.will);
+const used=hid=>Object.entries(S.pts[hid]||{}).filter(([k])=>free().some(i=>i.id===k)).reduce((a,[,v])=>a+v,0);
+const allIn=()=>S.heirs.every(h=>S.submitted[h.id]);
+const allSigned=()=>S.heirs.every(h=>h.sig);
+function toast(t){const el=$('#toast');el.textContent=full?'Browseren har ikke plads til mere, så det seneste er ikke gemt. Fjern nogle billeder.':t;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),full?6000:2600)}
+/* Knapper, der sletter noget, skal trykkes to gange. Dialogbokse virker ikke her. */
+let armed=null;
+function arm(key,btn,label){
+ if(armed&&armed.key===key){clearTimeout(armed.t);if(armed.btn.isConnected)armed.btn.textContent=armed.old;armed=null;return true}
+ if(armed){clearTimeout(armed.t);if(armed.btn.isConnected)armed.btn.textContent=armed.old}
+ const old=btn.textContent;btn.textContent=label;armed={key,btn,old,t:setTimeout(()=>{if(btn.isConnected)btn.textContent=old;armed=null},4000)};return false}
+/* Luk navnefeltet på stedet uden at tegne hele siden om, så et tryk på en anden knap ikke går tabt. */
+function closeEdit(t,keep){const it=S.items.find(i=>i.id===t.dataset.rename);if(!it||editing!==it.id)return;editing=null;
+ const v=t.value.trim().slice(0,80),wasAi=it.ai;if(keep&&v&&v!==it.name){it.name=v;it.ai=false;save()}
+ if(wasAi&&!it.ai){render();return}
+ const lab=t.closest('label'),d=document.createElement('div');d.className='name';d.textContent=it.name;if(lab)lab.replaceWith(d)}
+function invalidate(){S.revealed=false;S.heirs.forEach(h=>h.sig='')}
+
+/* ---------- Motor ---------- */
+/* Lodtrækning: hvert bo får ét lod (S.lod), når det oprettes. Ud fra loddet får hver arving et fast,
+   tilfældigt tal for hver ting. Står nogen helt lige, vinder det højeste tal. Det samme lod giver altid
+   det samme udfald, så der kan ikke trækkes om. I den rigtige version trækkes og gemmes loddet på serveren. */
+const lodtal=(h,i)=>{let x=(S.lod>>>0)||1;const s=h.id+'|'+(i.id||i);for(let k=0;k<s.length;k++){x=Math.imul(x^s.charCodeAt(k),2654435761)>>>0;x^=x>>>15}
+ x=Math.imul(x^(x>>>16),2246822507)>>>0;x=Math.imul(x^(x>>>13),3266489909)>>>0;return((x^(x>>>16))>>>0)/4294967296};
+const og=a=>a.length<2?a.join(''):a.slice(0,-1).join(', ')+' og '+a[a.length-1];
+function solvePoints(){
+ const HS=S.heirs, F=free(); const v=(h,i)=>(S.pts[h.id]||{})[i.id]||0;
+ const wanted=F.filter(i=>HS.some(h=>v(h,i)>0)), rest=F.filter(i=>!HS.some(h=>v(h,i)>0));
+ let A; const U=h=>A[h.id].reduce((a,i)=>a+v(h,i),0);
+ const obj=()=>{let p=0,s=0;for(const h of HS){const u=U(h);if(u>0){p++;s+=h.w*Math.log(u)}}return p*1e6+s};
+ /* Held: summen af lodtal for den fordeling, der ligger nu. Den tæller kun mellem fordelinger, der er præcis lige gode. */
+ const luck=()=>{let s=0;for(const h of HS)for(const i of A[h.id])s+=lodtal(h,i);return s};
+ const E=1e-9, better=(n,l,cn,cl)=>n>cn+E||(n>cn-E&&l>cl+1e-12);
+ const top=i=>Math.max(...HS.map(h=>v(h,i)));
+ /* Ét forsøg: læg tingene ud i den givne rækkefølge, og flyt og byt derefter, så længe det bliver bedre. */
+ const attempt=(items,hs)=>{A={};HS.forEach(h=>A[h.id]=[]);
+  items.forEach(i=>{let best=null,bs=-Infinity;for(const h of hs){if(!v(h,i))continue;const u=U(h);const s=(Math.log(u+v(h,i))-Math.log(u+1e-9))*h.w;if(s>bs){bs=s;best=h}}A[best.id].push(i)});
+  let imp=true,g=0;
+  while(imp&&g++<300){imp=false;let cur=obj(),cl=luck();
+   /* break: en ting, der er flyttet, må ikke prøves hos flere, ellers ender den i to kasser */
+   for(const a of hs)for(const i of [...A[a.id]])for(const b of hs){if(a===b||!v(b,i))continue;
+    A[a.id]=A[a.id].filter(x=>x!==i);A[b.id].push(i);const n=obj(),l=luck();if(better(n,l,cur,cl)){cur=n;cl=l;imp=true;break}else{A[b.id].pop();A[a.id].push(i)}}
+   sw: for(const a of hs)for(const b of hs){if(a.id>=b.id)continue;
+    for(const i of [...A[a.id]])for(const j of [...A[b.id]]){
+     const s1=()=>{A[a.id]=A[a.id].map(x=>x===i?j:x);A[b.id]=A[b.id].map(x=>x===j?i:x)},s2=()=>{A[a.id]=A[a.id].map(x=>x===j?i:x);A[b.id]=A[b.id].map(x=>x===i?j:x)};
+     s1();const n=obj(),l=luck();if(better(n,l,cur,cl)){cur=n;cl=l;imp=true;break sw}else s2()}
+    /* to arvinger kan også bytte hele kassen */
+    const ta=A[a.id];A[a.id]=A[b.id];A[b.id]=ta;const n=obj(),l=luck();if(better(n,l,cur,cl)){cur=n;cl=l;imp=true;break sw}else{A[b.id]=A[a.id];A[a.id]=ta}}}
+  return [obj(),luck()]};
+ /* Første forsøg går frem i loddets rækkefølge, ikke listens. De næste prøver andre rækkefølger.
+    Den bedste fordeling vinder. Er to præcis lige gode, vinder den med mest held i lodtrækningen.
+    Alt det tilfældige kommer fra boets lod, så de samme ønsker altid giver den samme fordeling. */
+ const draw=[...HS].sort((a,b)=>lodtal(b,'*')-lodtal(a,'*'));
+ let [bestV,bestL]=attempt([...wanted].sort((a,b)=>top(b)-top(a)),draw), bestA=A;
+ let seed=(S.lod|0)||20261109;const rnd=()=>{seed=(seed+0x6D2B79F5)|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+ const mix=a=>{a=[...a];for(let k=a.length-1;k>0;k--){const j=Math.floor(rnd()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a};
+ const tries=HS.length<2||wanted.length<2?0:wanted.length*HS.length>1500?6:40;
+ for(let t=0;t<tries;t++){const [val,l]=attempt(mix(wanted),mix(HS));if(better(val,l,bestV,bestL)){bestV=val;bestL=l;bestA=A}}
+ A=bestA;
+ /* Hvad blev afgjort af loddet? Alt, der kunne være endt anderledes, uden at fordelingen blev dårligere. */
+ const keep=A, base=obj(), lod=[], lodIds=new Set(), met=new Set(), key=(a,b)=>a.id<b.id?a.id+'|'+b.id:b.id+'|'+a.id;
+ const alt=fn=>{const B={};HS.forEach(h=>B[h.id]=[...keep[h.id]]);A=B;fn(B);const t=Math.abs(obj()-base)<=E;A=keep;return t};
+ for(const a of HS)for(const i of keep[a.id]){
+  const oth=HS.filter(b=>b!==a&&v(b,i)>0&&alt(B=>{B[a.id]=B[a.id].filter(x=>x!==i);B[b.id].push(i)}));if(!oth.length)continue;
+  const grp=[a,...oth].sort((x,y)=>HS.indexOf(x)-HS.indexOf(y)),p=v(a,i),eq=grp.every(h=>v(h,i)===p);lodIds.add(i.id);oth.forEach(b=>met.add(key(a,b)));
+  lod.push(`${i.name}: ${og(grp.map(h=>h.name))} ${eq?`gav ${grp.length>2?'alle':'begge'} ${p} p`:'stod lige'}. Loddet faldt på ${a.name}.`)}
+ if(wanted.length<=60)for(const a of HS)for(const b of HS){if(a.id>=b.id)continue;
+  for(const i of keep[a.id])for(const j of keep[b.id]){if(lodIds.has(i.id)||lodIds.has(j.id))continue;
+   if(alt(B=>{B[a.id]=B[a.id].map(x=>x===i?j:x);B[b.id]=B[b.id].map(x=>x===j?i:x)})){lodIds.add(i.id);lodIds.add(j.id);met.add(key(a,b));
+    lod.push(`${og([a.name,b.name])} stod lige om ${i.name} og ${j.name}. Loddet gav ${a.name} ${i.name}.`)}}
+  if(!met.has(key(a,b))&&keep[a.id].length+keep[b.id].length>0&&alt(B=>{const t=B[a.id];B[a.id]=B[b.id];B[b.id]=t}))
+   lod.push(`${og([a.name,b.name])} stod helt lige. Loddet afgjorde, hvem der fik hvilken kasse.`)}
+ const ef=[];for(const a of HS)for(const b of HS){if(a===b)continue;const ua=U(a);const vs=A[b.id].map(i=>v(a,i));const ub=vs.reduce((s,x)=>s+x,0)-(vs.length?Math.max(...vs):0);if(ua/a.w+1e-9<ub/b.w)ef.push([a,b])}
+ const out={};HS.forEach(h=>out[h.id]=[...A[h.id].map(i=>({i,val:v(h,i)+' p',lod:lodIds.has(i.id)}))]);
+ S.items.filter(i=>i.will&&out[i.will]).forEach(i=>out[i.will].push({i,val:'testamente',will:true}));
+ /* zero: dem, der ønskede noget, men ikke fik noget af det */
+ return {out,rest,ef,lod,lodIds,zero:HS.filter(h=>used(h.id)>0&&U(h)===0),score:h=>U(h),of:h=>used(h.id)};
+}
+function solveBids(){
+ const HS=S.heirs;const b=(h,i)=>(S.bids[h.id]||{})[i.id]||0;const out={};HS.forEach(h=>out[h.id]=[]);const rest=[],lod=[],lodIds=new Set();let V=0;const price={};
+ for(const i of free()){const top=Math.max(0,...HS.map(h=>b(h,i)));if(!top){rest.push(i);continue}
+  /* Højeste bud vinder. Byder flere det samme, afgør loddet det. */
+  const tied=HS.filter(h=>b(h,i)===top),best=tied.length>1?[...tied].sort((x,y)=>lodtal(y,i)-lodtal(x,i))[0]:tied[0];
+  if(tied.length>1){lodIds.add(i.id);lod.push(`${i.name}: ${og(tied.map(h=>h.name))} bød ${tied.length>2?'alle':'begge'} ${kr(top)} Loddet faldt på ${best.name}.`)}
+  price[i.id]=top;V+=top;out[best.id].push({i,val:kr(top),lod:tied.length>1})}
+ S.items.filter(i=>i.will&&out[i.will]).forEach(i=>out[i.will].push({i,val:'testamente',will:true}));
+ const W=HS.reduce((a,h)=>a+h.w,0);const settle=HS.map(h=>{const got=out[h.id].filter(x=>!x.will).reduce((a,x)=>a+price[x.i.id],0);const share=V*h.w/W;return {h,got,share,diff:got-share}});
+ return {out,rest,price,V,settle,lod,lodIds,zero:[]};
+}
+
+/* ---------- Visninger ---------- */
+const V={};
+V.oversigt=()=>{
+ const sub=S.heirs.filter(h=>S.submitted[h.id]).length;
+ const st=[
+  {t:'Ting fotograferet',d:`${S.items.length} ting i ${new Set(S.items.map(i=>i.group)).size} rum`,done:S.items.length>0,href:'ting'},
+  {t:T('Arvinger inviteret','Børn inviteret'),d:`${S.heirs.length} ${T('arvinger','børn')} har fået et link`,done:S.heirs.length>1,href:'arvinger'},
+  {t:'Ønsker afgivet',d:`${sub} af ${S.heirs.length} · frist ${S.deadline}`,done:allIn(),href:'oensker'},
+  {t:'Fordeling',d:S.revealed?'Beregnet og vist for alle':'Beregnes, når alle har afgivet ønsker',done:S.revealed,href:'fordeling'},
+  {t:T('Underskrift','Godkendelse'),d:`${S.heirs.filter(h=>h.sig).length} af ${S.heirs.length} har underskrevet`,done:allSigned(),href:'underskrift'}];
+ const now=st.findIndex(s=>!s.done);
+ const nextTxt=['Fotografér tingene','Inviter arvingerne','Se hvem der mangler','Del tingene','Underskriv fordelingen'][now]||'Se fordelingslisten';
+ const missing=S.heirs.filter(h=>!S.submitted[h.id]);
+ return `<div class="hero"><div>
+  <div class="modes" role="group" aria-label="Situation"><button type="button" class="chip" data-mode="doed" aria-pressed="${!live()}">Efter et dødsfald</button><button type="button" class="chip" data-mode="live" aria-pressed="${live()}">Mens de lever</button></div>
+  <div class="memorial"><div class="portrait">${esc([...S.bo][0]||'')}</div><div><div class="eyebrow">${T('boet efter','mors ting')}</div><h1 style="margin:0">${esc(S.bo)}</h1><div class="years">${T(esc(S.years),'flytter i plejebolig til foråret')}</div></div></div>
+  <p class="lead">${T(`Hej ${esc(H(S.tov).name)}. Her er status på jeres deling. Alle vælger i hemmelighed, og ingen skal sidde om bordet og forhandle om mors ting.`,`Hej ${esc(H(S.tov).name)}. Mor vil gerne selv være med til at bestemme, hvem der får hvad. Børnene giver deres ønsker i hemmelighed, og resultatet kan blive grundlaget for et indbotestamente.`)}</p>
+  <div class="card track">${st.map((s,i)=>`<a class="trk ${s.done?'done':i===now?'now':''}" href="#${s.href}" style="text-decoration:none"><span class="dot">${s.done?'✓':i+1}</span><span><b>${s.t}</b><small>${s.d}</small></span><span class="soft">→</span></a>`).join('')}</div>
+  <div class="row" style="margin-top:18px"><a class="btn go" href="#${st[now]?.href||'underskrift'}"${now===2&&missing[0]?` data-as="${missing[0].id}"`:''}>${nextTxt}</a>
+   ${missing.length?`<button class="btn" type="button" data-remind>Send påmindelse til ${missing.map(h=>esc(h.name)).join(' og ')}</button>`:''}</div>
+  <div class="rooms">${[...new Set(S.items.map(i=>i.group))].map(g=>`<span class="chip"><span style="width:8px;height:8px;border-radius:50%;background:${tint(g)[0]}"></span>${esc(g)} · ${S.items.filter(i=>i.group===g).length}</span>`).join('')}</div>
+ </div>
+ <div><div class="phone" aria-label="Eksempel på SMS til en arving"><div class="screen">
+  <div class="who">Arvora · i dag 10:41</div>
+  <div class="bubble">Hej Anna. ${T(`${esc(H(S.tov).name)} har inviteret dig til at dele ${esc(S.bo)}s ting på Arvora.`,`Mor vil gerne vide, hvilke af hendes ting der betyder mest for dig.`)} Dine ønsker er hemmelige, og ingen kan se dem, før alle har svaret.<br><br>Svar inden ${esc(S.deadline)}:<br><a href="#oensker">arvora.dk/b/7Q4K</a></div>
+  <div class="bubble">Det tager ca. 15 minutter. Du skal ikke oprette en konto.</div>
+ </div></div><p class="soft" style="text-align:center;font-size:13px;margin-top:10px">Sådan ser invitationen ud for ${T('arvingerne','børnene')}.</p></div></div>`;
+};
+V.ting=()=>{
+ const rooms=['Alle',...new Set(S.items.map(i=>i.group))];
+ const list=S.items.filter(i=>roomFilter==='Alle'||i.group===roomFilter);
+ return `<div class="eyebrow">trin 1 af 5</div><h1>Gå en tur gennem hjemmet</h1>
+ <p class="lead">Tag et billede af hver ting, rum for rum. Hver ting får sin egen mærkeseddel med et nummer, så alle taler om det samme.</p>
+ ${AI_OK?`<div class="card aibox"><div class="grow"><b>Fotografér, og lad AI skrive navnene</b><div class="soft">Vælg op til 6 billeder ad gangen. Claude foreslår navn og rum, og du retter bagefter. Billederne bruges kun til at finde navnet.</div></div><label class="btn ochre" for="aiPics">${busy?'Arbejder …':'Vælg billeder'}</label><input id="aiPics" type="file" accept="image/*" multiple hidden ${busy?'disabled':''}></div>`:''}
+ <form class="card addbar" id="addItem"><label class="f wide">Hvad er det?<input id="nName" required placeholder="Fx Kaffestel med blå blomster"></label>
+  <label class="f">Rum<input id="nGroup" list="roomlist" placeholder="Fx Køkken"><datalist id="roomlist">${rooms.slice(1).map(r=>`<option value="${esc(r)}">`).join('')}</datalist></label>
+  <label class="f">Testamenteret til<select id="nWill"><option value="">Ingen</option>${S.heirs.map(h=>`<option value="${h.id}">${esc(h.name)}</option>`).join('')}</select></label>
+  <button class="btn go" type="submit">Sæt mærkeseddel på</button></form>
+ <div class="filters" role="group" aria-label="Filtrér efter rum">${rooms.map(r=>`<button type="button" class="chip" data-room="${esc(r)}" aria-pressed="${r===roomFilter}">${esc(r)}${r==='Alle'?` · ${S.items.length}`:''}</button>`).join('')}</div>
+ <div class="grid">${list.map(i=>`<article class="tag"><span class="lot">${lot(i)}</span>
+  <div class="pic" style="${bg(i.group)}">${S.photos[i.id]?`<img src="${S.photos[i.id]}" alt="${esc(i.name)}">`:art(i.k,i.group)}</div>
+  <div class="txt">${editing===i.id?`<label class="f" for="rn-${i.id}">Navn<input class="nmedit" id="rn-${i.id}" data-rename="${i.id}" value="${esc(i.name)}"></label>`:`<div class="name">${esc(i.name)}</div>`}<div class="room">${esc(i.group)}</div>
+   ${i.ai||i.val?`<div class="row" style="gap:6px">${i.ai?'<span class="chip">Navn fra AI</span>':''}${i.val?'<span class="chip warn">Bør vurderes</span>':''}</div>`:''}
+   ${i.will?`<div><span class="chip will">Testamenteret til ${esc(H(i.will)?.name)}</span></div>`:''}
+   <div class="acts"><label class="btn sm" for="ph-${i.id}">${S.photos[i.id]?'Nyt billede':'Tag billede'}</label><input id="ph-${i.id}" type="file" accept="image/*" capture="environment" data-photo="${i.id}" hidden>
+   <button class="btn sm" type="button" data-edit="${i.id}">Ret navn</button><button class="btn sm" type="button" data-del="${i.id}">Fjern</button></div></div></article>`).join('')}</div>`;
+};
+V.arvinger=()=>`<div class="eyebrow">trin 2 af 5</div><h1>${T('Hvem skal dele?','Hvem skal give ønsker?')}</h1>
+ <p class="lead">Hver arving får sit eget link på SMS. Arvelod bruges, hvis nogen arver mere eller mindre, fx et barnebarn, der arver halvdelen af en afdød forælders del.</p>
+ <div class="heirs">${S.heirs.map(h=>`<div class="card heir"><div class="top">${av(h)}<div><div class="nm" style="--c:${hc(h.id)}">${esc(h.name)}</div><div class="soft" style="font-size:13px">${esc(h.rel)}</div></div></div>
+  <div class="row"><span class="chip ${S.submitted[h.id]?'good':'warn'}">${S.submitted[h.id]?'Ønsker afgivet':'Har ikke svaret endnu'}</span></div>
+  <label class="f">Arvelod<select data-w="${h.id}">${[[1,'Hel andel'],[0.5,'Halv andel'],[0.25,'Kvart andel'],[2,'Dobbelt andel']].map(([v,t])=>`<option value="${v}" ${+h.w===v?'selected':''}>${t}</option>`).join('')}</select></label>
+  ${S.submitted[h.id]&&h.id===S.tov?'':`<div class="row">${S.submitted[h.id]?'':`<button class="btn sm" type="button" data-remind="${h.id}">Send påmindelse</button>`}${h.id===S.tov?'':`<button class="btn sm" type="button" data-rmheir="${h.id}">Fjern</button>`}</div>`}</div>`).join('')}
+ <form class="card heir" id="addHeir" style="border-style:dashed;box-shadow:none"><h3>Tilføj arving</h3><label class="f">Navn<input id="hName" required placeholder="Fx Jonas"></label><label class="f">Telefon<input id="hTel" inputmode="tel" placeholder="Fx 20 30 40 50"></label><label class="f">Relation<input id="hRel" placeholder="Fx Barnebarn"></label><button class="btn go" type="submit">Inviter</button></form></div>`;
+V.oensker=()=>{
+ const h=H(me), bid=S.method==='kroner', done=S.submitted[me], left=100-used(me);
+ if(unlocked!==me){const has=S.pins[me],tov=H(S.tov)||h,isTov=me===S.tov;
+  /* Glemt kode: tovholderen kan nulstille den. Ønskerne bevares. I den rigtige version bekræftes det med SMS. */
+  const forgot=!has?'':`<details class="forgot"><summary>Glemt koden?</summary>${
+   isTov?`<p>Som tovholder får du en ny kode på SMS. Dine ønsker bevares.</p><button class="btn sm" type="button" data-resetpin="${me}">Send mig en ny kode (kun i eksemplet)</button>`
+   :S.pins[S.tov]?`<p>${esc(tov.name)} er tovholder og kan nulstille koden. ${esc(h.name)}s ønsker bevares.</p><form class="row" id="resetForm"><label class="f" for="tovpin" style="position:absolute;left:-9999px">${esc(tov.name)}s kode</label><input id="tovpin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="${esc(tov.name)}s kode" style="width:160px"><button class="btn sm" type="submit">Nulstil ${esc(h.name)}s kode</button></form><p class="soft" id="resetMsg" aria-live="polite" style="margin:0"></p>`
+   :`<p>${esc(tov.name)} er tovholder og kan nulstille koden. ${esc(tov.name)} har ikke selv valgt en kode endnu, så her kan den nulstilles direkte. ${esc(h.name)}s ønsker bevares.</p><button class="btn sm" type="button" data-resetpin="${me}">Nulstil ${esc(h.name)}s kode</button>`}</details>`;
+  return `<div class="eyebrow">trin 3 af 5</div><h1>Giv telefonen til ${esc(h.name)}</h1>
+  <p class="lead">Ønskerne er hemmelige. Når telefonen går på omgang, har hver person sin egen kode, så ingen kan se de andres ønsker.</p>
+  <div class="who-sw" role="group" aria-label="Hvem har telefonen">${S.heirs.map(x=>`<button type="button" data-me="${x.id}" aria-pressed="${x.id===me}">${av(x)}${esc(x.name)} ${S.submitted[x.id]?'<span class="chip good">Afgivet</span>':''}</button>`).join('')}</div>
+  <div class="card lock">${av(h)}<h2 style="margin:0">${has?`Hej ${esc(h.name)}. Skriv din kode`:`Hej ${esc(h.name)}. Vælg en kode på 4 cifre`}</h2>
+  <p class="soft" style="margin:0">${has?'Så kan du se og rette dine ønsker.':'Koden sørger for, at kun du kan se dine ønsker, og du skriver under med den til sidst. Husk den.'}</p>
+  <form class="row" id="pinForm"><label class="f" for="pin" style="position:absolute;left:-9999px">Kode</label><input id="pin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="····" style="width:130px;font-size:22px;text-align:center;letter-spacing:.3em"><button class="btn go" type="submit">${has?'Lås op':'Gem kode og fortsæt'}</button></form>
+  <p class="soft" id="pinMsg" aria-live="polite" style="margin:0"></p>${forgot}</div>`}
+ return `<div class="eyebrow">trin 3 af 5</div><h1>Hvad betyder mest for dig?</h1>
+ <p class="lead">${bid?'Byd det, tingen er værd for dig. Du betaler kun for det, du får, og beløbet trækkes fra din arv.':'Du har 100 point. Giv flest til det, der betyder mest. Du kan sagtens give alle dine point til én ting.'}</p>
+ <div class="method" role="group" aria-label="Metode"><button type="button" data-method="point" aria-pressed="${!bid}"><b>Pointmetoden</b><span>Bedst til ting med følelser i. Ingen penge involveret.</span></button><button type="button" data-method="kroner" aria-pressed="${bid}"><b>Kronemetoden</b><span>Til værdifulde ting. Højeste bud vinder, forskellen udlignes i arven.</span></button></div>
+ <div class="who-sw" role="group" aria-label="Se som">${S.heirs.map(x=>`<button type="button" data-me="${x.id}" aria-pressed="${x.id===me}">${av(x)}${esc(x.name)} ${S.submitted[x.id]?'<span class="chip good">Afgivet</span>':''}</button>`).join('')}</div>
+ <div class="secret"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="currentColor"/><path d="M5 7V5a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>Telefonen er låst op for ${esc(h.name)}. De andre kan ikke se ${esc(h.name)}s ${bid?'bud':'point'}.<button class="btn sm" type="button" id="lock" style="margin-left:auto">Lås og giv videre</button></div>
+ <div class="card purse">${bid?`<b>${esc(h.name)}s bud</b><span class="soft grow">Bud i alt: <span class="num">${kr(Object.values(S.bids[me]||{}).reduce((a,b)=>a+b,0))}</span></span>`:
+  done&&left===100?`<b>${esc(h.name)} ønsker ikke noget af tingene</b><span class="soft grow">Det er helt i orden. De andre deler.</span>`:
+  `<b class="num">${left} point tilbage</b><div class="coins" aria-hidden="true">${Array.from({length:20},(_,k)=>`<span class="coin ${k>=left/5?'spent':''}"></span>`).join('')}</div>`}
+  ${done?`<button class="btn sm" type="button" id="unsubmit">Ret mine ønsker</button>`:`<button class="btn ochre sm" type="button" id="submit" ${!bid&&left!==0?'disabled':''}>${!bid&&left!==0?'Brug alle point først':'Afgiv mine ønsker'}</button>${!bid&&left===100?`<button class="btn sm" type="button" id="nothing">Jeg ønsker ikke noget</button>`:''}`}</div>
+ <div class="grid">${free().map(i=>{const val=bid?((S.bids[me]||{})[i.id]||0):((S.pts[me]||{})[i.id]||0);
+  return `<article class="tag"><span class="lot">${lot(i)}</span><div class="pic" style="${bg(i.group)}">${S.photos[i.id]?`<img src="${S.photos[i.id]}" alt="${esc(i.name)}">`:art(i.k,i.group)}</div>
+  <div class="txt"><div class="name">${esc(i.name)}</div><div class="room">${esc(i.group)}</div>
+  ${bid?`<label class="f" style="margin-top:6px">Dit bud<input type="number" min="0" step="100" inputmode="numeric" value="${val||''}" placeholder="0 kr." data-bid="${i.id}" ${done?'disabled':''}></label>`:
+  `<div class="pips" aria-hidden="true">${Array.from({length:val/5},()=>'<span class="pip"></span>').join('')}</div>
+   <div class="stepper"><button type="button" data-dec="${i.id}" aria-label="5 point mindre til ${esc(i.name)}" ${done||!val?'disabled':''}>−</button><span class="val">${val} p</span><button type="button" data-inc="${i.id}" aria-label="5 point mere til ${esc(i.name)}" ${done||!left?'disabled':''}>+</button></div>`}
+  </div></article>`}).join('')}</div>`;
+};
+V.fordeling=()=>{
+ if(!allIn()){const m=S.heirs.filter(h=>!S.submitted[h.id]);return `<div class="eyebrow">trin 4 af 5</div><h1>Venter på ${m.map(h=>esc(h.name)).join(' og ')}</h1><p class="lead">Fordelingen kan først beregnes, når alle har afgivet deres ønsker. Det sikrer, at ingen kan se de andres ønsker og tilpasse sine egne.</p><div class="row"><a class="btn go" href="#oensker" data-as="${m[0].id}">Afgiv ønsker som ${esc(m[0].name)}</a><button class="btn" type="button" data-remind>Send påmindelse</button></div>`}
+ const bid=S.method==='kroner'; const r=bid?solveBids():solvePoints();
+ if(!S.revealed) return `<div class="eyebrow">trin 4 af 5</div><h1>Alle har svaret</h1><p class="lead">${free().length} ting venter på at blive delt mellem ${S.heirs.map(h=>esc(h.name)).join(', ')}. Tryk, når I er klar. Det er en god idé at gøre det, mens I er sammen eller i telefonen.</p>
+  <div class="stage"><div class="pile"><div class="heap">${free().slice(0,7).map((i,k)=>`<span style="transform:rotate(${(k-3)*7}deg) translate(${(k-3)*9}px,${Math.abs(k-3)*5-10}px)">${lot(i)}</span>`).join('')}</div></div>
+  <div class="row" style="justify-content:center"><button class="btn ochre" type="button" id="reveal" style="font-size:17px;padding:14px 26px">Del tingene</button></div>
+  <p class="soft" style="text-align:center;font-size:13.5px;margin:0">Står nogen helt lige om en ting, afgør et lod det. Loddet er trukket på forhånd og kan ikke trækkes om.</p></div>`;
+ const boxes=S.heirs.map(h=>{const list=r.out[h.id],none=!bid&&r.of(h)===0;const pct=bid?null:Math.round(100*r.score(h)/Math.max(1,r.of(h)));
+  return `<section class="box"><div class="label"><span class="hand">${esc(h.name)}</span>${av(h)}</div>
+  ${bid?'':none?`<div class="fair"><small class="soft">Ønskede ikke noget af tingene</small></div>`:`<div class="fair"><div class="row" style="justify-content:space-between"><small class="soft">Fik af sine ønsker</small><b class="num">${pct} %</b></div><div class="bar2"><span data-w="${pct}" style="width:0;background:${hc(h.id)}"></span></div></div>`}
+  <ul>${list.map(x=>`<li class="it" data-fly><span class="mini" style="${bg(x.i.group)}">${art(x.i.k,x.i.group)}</span><span class="nm">${esc(x.i.name)}</span><span class="p">${x.will?'<span class="chip will">Testamente</span>':x.val+(x.lod?' · lod':'')}</span></li>`).join('')||'<li class="soft">Ingen ting</li>'}</ul>${bid||none?'':`<details class="why"><summary>Hvorfor fik ${esc(h.name)} netop det her?</summary>${why(h,r)}</details>`}</section>`}).join('');
+ /* Lodtrækning vises åbent. Det grønne "ingen misunder" vises kun, når hverken lod eller tomme kasser har været i spil. */
+ const lodCard=r.lod.length?`<div class="card chk lod"><span class="ic">=</span><div><b>Afgjort ved lodtrækning</b><small>${r.lod.slice(0,6).map(esc).join('<br>')}${r.lod.length>6?`<br>Og ${r.lod.length-6} mere, som står på fordelingslisten.`:''}<br>Loddet blev trukket på forhånd og kan ikke trækkes om.</small></div></div>`:'';
+ const zeroCard=r.zero.length?`<div class="card chk no"><span class="ic">!</span><div><b>${esc(og(r.zero.map(h=>h.name)))} fik ingen af ${r.zero.length>1?'deres':'sine'} ønsker</b><small>Det, ${r.zero.length>1?'de':esc(r.zero[0].name)} ønskede, gik til andre. Tal sammen om det, eller prøv kronemetoden, hvor forskellen udlignes i penge.</small></div></div>`:'';
+ const checks=bid?(lodCard?`<div class="checks">${lodCard}</div>`:''):`<div class="checks">
+  ${r.ef.length||!(r.lod.length||r.zero.length)?`<div class="card chk ${r.ef.length?'no':''}"><span class="ic">${r.ef.length?'!':'✓'}</span><div><b>${r.ef.length?'Nogen kan misunde en anden':'Ingen misunder de andre'}</b><small>${r.ef.length?r.ef.map(([a,b])=>esc(a.name)+' foretrækker '+esc(b.name)+'s kasse').join('. ')+'. Prøv kronemetoden.':'Fjerner man én ting fra en andens kasse, vil alle hellere have deres egen. Det er standarden for fair fordeling af ting, der ikke kan deles.'}</small></div></div>`:''}${lodCard}${zeroCard}
+  <div class="card chk"><span class="ic">✓</span><div><b>Ingen bytning gør det bedre</b><small>Ingen flytning eller bytning af to ting kan gøre én gladere uden at gøre en anden mindre glad.</small></div></div>
+  <div class="card chk"><span class="ic">✓</span><div><b>Testamentet er fulgt</b><small>${S.items.filter(i=>i.will).length} ting er givet efter testamentet og tæller ikke med i pointene.</small></div></div></div>`;
+ const settle=bid?`<h2 style="margin-top:30px">Udligning i arven</h2><p class="soft">Det fordelte er samlet ${kr(r.V)} værd efter de vindende bud. Hver arving har ret til sin andel, og forskellen udlignes, når boet gøres op.</p>
+  <div class="card tw"><table class="st"><thead><tr><th>Arving</th><th class="r">Har fået for</th><th class="r">Andel</th><th class="r">Udligning</th></tr></thead><tbody>${r.settle.map(s=>`<tr><td>${esc(s.h.name)}</td><td class="r num">${kr(s.got)}</td><td class="r num">${kr(s.share)}</td><td class="r"><b>${s.diff>0.5?'Får '+kr(s.diff)+' mindre':s.diff<-0.5?'Får '+kr(-s.diff)+' mere':'Lige op'}</b></td></tr>`).join('')}</tbody></table></div>`:'';
+ const rest=r.rest.length?`<div class="card rest" style="margin-top:22px"><h2 style="margin:0">${r.rest.length} ting har ingen ønsket</h2><p class="soft" style="margin:0">De kan sælges, gives væk eller ryddes. Arvora kan sende listen videre for jer.</p>
+  <div class="row">${r.rest.map(i=>`<span class="chip">${lot(i)} · ${esc(i.name)}</span>`).join('')}</div>
+  <div class="row"><button class="btn sm" type="button" data-partner="vurdering">Få gratis vurdering fra auktionshus</button><button class="btn sm" type="button" data-partner="rydning">Få tilbud på rydning</button><button class="btn sm" type="button" data-partner="genbrug">Find nærmeste genbrug</button></div></div>`:'';
+ return `<div class="eyebrow">trin 4 af 5</div><h1>Sådan bliver det delt</h1><p class="lead">${bid?'Hver ting gik til den, der bød højest.':'Fordelingen giver den største samlede tilfredshed'+(r.zero.length?'.':', uden at nogen bliver overset.')}</p>
+  <div class="boxes" id="boxes">${boxes}</div>${checks}${settle}${rest}
+  <div class="row" style="margin-top:24px"><a class="btn go" href="#underskrift">Videre til underskrift</a><button class="btn" type="button" id="again">Vis fordelingen igen</button></div>`;
+};
+V.underskrift=()=>{
+ if(!S.revealed||!allIn()) return `<div class="eyebrow">trin 5 af 5</div><h1>Intet at underskrive endnu</h1><p class="lead">Når fordelingen er vist, underskriver alle her.</p><a class="btn go" href="#fordeling">Gå til fordelingen</a>`;
+ const bid=S.method==='kroner'; const r=bid?solveBids():solvePoints();
+ return `<div class="eyebrow">trin 5 af 5</div><h1>Er I enige?</h1><p class="lead">Fordelingen gælder først, når alle har underskrevet. Hver især skriver under med sin egen kode, så ingen kan skrive under for en anden. Hvis nogen ikke er enige, kan I rette ønskerne og dele igen.${T('',' Listen kan bruges som grundlag for et indbotestamente hos en advokat. Gaver til et barn over 80.600 kr. i 2026 udløser gaveafgift.')}</p>
+ <div class="sign"><div style="display:grid;gap:12px">${S.heirs.map(h=>`<div class="card sig">${av(h)}<div><div class="line">${esc(h.sig)}</div></div>
+   ${h.sig?`<button class="btn sm" type="button" data-unsign="${h.id}">Fortryd</button>`:`<form data-signform="${h.id}"><label class="f" style="position:absolute;left:-9999px" for="sg-${h.id}">Navn for ${esc(h.name)}</label><input id="sg-${h.id}" placeholder="${esc(h.name)}" autocomplete="off"><label class="f" style="position:absolute;left:-9999px" for="sp-${h.id}">${S.pins[h.id]?esc(h.name)+'s kode':'Vælg en kode til '+esc(h.name)}</label><input class="pin" id="sp-${h.id}" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="${S.pins[h.id]?'Kode':'Vælg kode'}"><button class="btn go sm" type="submit">Underskriv</button><small class="soft" data-signmsg aria-live="polite"></small></form>`}</div>`).join('')}
+  ${allSigned()?`<div class="row">${DL?'<button class="btn go" type="button" id="pdf">Hent som PDF</button>':''}<button class="btn ochre" type="button" id="copy">Kopiér fordelingslisten</button><span class="soft" id="copied" aria-live="polite"></span></div><p class="soft" style="font-size:13px">I den rigtige version får alle desuden listen på mail. ${T('Indboets værdi skal stadig med i boopgørelsen. ','')}Arvora er en hjælp til at blive enige og ikke juridisk rådgivning.</p>`:''}
+ </div>
+ <div class="doc">${allSigned()?'<div class="stamp">Alle enige</div>':''}<div class="eyebrow">Fordelingsliste</div><h3>${T('Boet efter','Ønskeliste for')} ${esc(S.bo)}</h3><div class="soft">${bid?'Kronemetoden':'Pointmetoden'} · ${free().length+S.items.filter(i=>i.will).length} ting · ${S.heirs.length} ${T('arvinger','børn')}</div>
+  ${S.heirs.map(h=>`<div class="who">${esc(h.name)}</div><ul>${r.out[h.id].map(x=>`<li>${lot(x.i)} ${esc(x.i.name)}${x.will?' (testamente)':''}</li>`).join('')||`<li class="soft">${!bid&&used(h.id)===0?'Ønskede ikke noget':'Ingen ting'}</li>`}</ul>`).join('')}
+  ${r.rest.length?`<div class="who">Til salg, genbrug eller rydning</div><ul>${r.rest.map(i=>`<li>${lot(i)} ${esc(i.name)}</li>`).join('')}</ul>`:''}
+  ${r.lod.length?`<div class="who">Afgjort ved lodtrækning</div><ul>${r.lod.map(s=>`<li>${esc(s)}</li>`).join('')}</ul>`:''}
+ </div></div>`;
+};
+function listText(){const bid=S.method==='kroner';const r=bid?solveBids():solvePoints();let t=`${T('FORDELINGSLISTE – boet efter','ØNSKELISTE for')} ${S.bo}\n${bid?'Kronemetoden':'Pointmetoden'}\nUnderskrevet af: ${S.heirs.map(h=>h.sig).join(', ')}\n\n`;
+ S.heirs.forEach(h=>{t+=h.name+'\n';r.out[h.id].forEach(x=>t+=`  ${lot(x.i)}  ${x.i.name}${x.will?'  [testamente]':''}\n`);if(!r.out[h.id].length)t+=`  (${!bid&&used(h.id)===0?'ønskede ikke noget':'ingen ting'})\n`;t+='\n'});
+ if(bid){t+='Udligning:\n';r.settle.forEach(s=>t+=`  ${s.h.name}: ${s.diff>0.5?'får '+kr(s.diff)+' mindre':s.diff<-0.5?'får '+kr(-s.diff)+' mere':'lige op'}\n`)}
+ if(r.rest.length){t+='\nTil salg, genbrug eller rydning:\n';r.rest.forEach(i=>t+=`  ${lot(i)}  ${i.name}\n`)}
+ if(r.lod.length){t+='\nAfgjort ved lodtrækning:\n';r.lod.forEach(s=>t+=`  ${s}\n`)}return t}
+
+/* ---------- Animation: tingene flyver i kasserne ---------- */
+function flyIn(){
+ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const bars=()=>document.querySelectorAll('.bar2 span').forEach(s=>s.style.width=s.dataset.w+'%');
+ if(reduce){bars();return}
+ const items=[...document.querySelectorAll('[data-fly]')];const box=$('#boxes').getBoundingClientRect();
+ const cx=box.left+box.width/2, cy=box.top-60;
+ items.forEach((el,k)=>{const r=el.getBoundingClientRect();el.style.transition='none';el.style.opacity='0';
+  el.style.transform=`translate(${cx-(r.left+r.width/2)}px,${cy-(r.top+r.height/2)}px) rotate(${(k%5-2)*8}deg) scale(.7)`});
+ requestAnimationFrame(()=>requestAnimationFrame(()=>{items.forEach((el,k)=>{el.style.transition=`transform .7s cubic-bezier(.2,.9,.25,1.15) ${k*90}ms, opacity .3s ${k*90}ms`;el.style.opacity='1';el.style.transform='none'});
+  setTimeout(bars,items.length*90+500)}));
+}
+
+/* ---------- Routing og hændelser ---------- */
+const ORDER=['oversigt','ting','arvinger','oensker','fordeling','underskrift'];
+function render(animate){
+ const v=ORDER.includes(location.hash.slice(1))?location.hash.slice(1):'oversigt';
+ $('#view').innerHTML=V[v]();$('#boName').textContent=T('Boet efter '+S.bo,S.bo+' · mens hun lever');
+ const done={ting:S.items.length>0,arvinger:S.heirs.length>1,oensker:allIn(),fordeling:S.revealed,underskrift:allSigned()};
+ document.querySelectorAll('nav.steps a').forEach(a=>{a.removeAttribute('aria-current');if(a.dataset.v===v)a.setAttribute('aria-current','page');a.classList.toggle('done',!!done[a.dataset.v]&&a.dataset.v!==v)});
+ /* På telefon ruller trinlinjen med, så det aktuelle trin altid kan ses */
+ const nav=$('nav.steps'),cur=nav.querySelector('[aria-current]');if(cur)nav.scrollLeft+=cur.getBoundingClientRect().left-nav.getBoundingClientRect().left-(nav.clientWidth-cur.offsetWidth)/2;
+ if(v==='fordeling'&&S.revealed){animate?flyIn():document.querySelectorAll('.bar2 span').forEach(s=>s.style.width=s.dataset.w+'%')}
+}
+addEventListener('hashchange',()=>{render();scrollTo(0,0)});
+document.addEventListener('click',e=>{
+ /* Et link som "Afgiv ønsker som Lars" skal åbne Lars, ikke den, der sidst havde telefonen */
+ const as=e.target.closest('a[data-as]');if(as&&as.dataset.as!==me){me=as.dataset.as;unlocked=null}
+ const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+ if(b.id==='reset'){if(!arm('reset',b,'Slet alt?')){toast('Tryk én gang til for at slette alt og starte forfra');return}
+  S=JSON.parse(JSON.stringify(DEMO));me='h3';norm();roomFilter='Alle';unlocked=null;editing=null;save();location.hash='oversigt';render();toast('Eksemplet er nulstillet');return}
+ if(d.room){roomFilter=d.room;render();return}
+ if(d.del){/* Den, der havde point på tingen, har nu færre end 100 og skal fordele dem igen */
+  const again=S.method==='point'?S.heirs.filter(h=>S.submitted[h.id]&&(S.pts[h.id]||{})[d.del]):[];again.forEach(h=>S.submitted[h.id]=false);
+  S.items=S.items.filter(i=>i.id!==d.del);for(const k in S.pts)delete S.pts[k][d.del];for(const k in S.bids)delete S.bids[k][d.del];delete S.photos[d.del];invalidate();save();render();
+  toast('Tingen er fjernet'+(again.length?'. '+again.map(h=>h.name).join(' og ')+' skal fordele point igen.':''));return}
+ if(d.rmheir){const h=H(d.rmheir);if(!h||h.id===S.tov)return;if(!arm('rm'+h.id,b,'Fjern '+h.name+'? Tryk igen'))return;
+  S.heirs=S.heirs.filter(x=>x.id!==h.id);delete S.pts[h.id];delete S.bids[h.id];delete S.submitted[h.id];delete S.pins[h.id];S.items.forEach(i=>{if(i.will===h.id)i.will=''});
+  if(me===h.id){me=S.tov;unlocked=null}invalidate();save();render();toast(h.name+' er fjernet');return}
+ if(d.remind!==undefined){const who=d.remind?[H(d.remind)]:S.heirs.filter(h=>!S.submitted[h.id]);toast(`Påmindelse sendt til ${who.map(h=>h.name).join(' og ')} (kun i eksemplet)`);return}
+ if(d.me){if(d.me!==me)unlocked=null;me=d.me;render();return}
+ if(d.mode){S.mode=d.mode;save();render();return}
+ if(d.edit){editing=d.edit;render();const el=document.getElementById('rn-'+d.edit);if(el){el.focus();el.select()}return}
+ if(b.id==='lock'){unlocked=null;render();return}
+ if(b.id==='pdf'){makePdf();return}
+ if(d.method){if(d.method===S.method)return;S.method=d.method;
+  /* Kun den, der allerede har afgivet og har gyldige ønsker i den nye metode, står stadig som afgivet */
+  S.heirs.forEach(h=>S.submitted[h.id]=!!S.submitted[h.id]&&(d.method==='point'?used(h.id)===100||used(h.id)===0:Object.keys(S.bids[h.id]||{}).length>0));invalidate();save();render();return}
+ if(d.inc||d.dec){const id=d.inc||d.dec,p=S.pts[me]=S.pts[me]||{},c=p[id]||0;p[id]=d.inc?c+Math.min(5,100-used(me)):Math.max(0,c-5);if(!p[id])delete p[id];save();render();return}
+ if(b.id==='submit'){submitWishes(`Tak, ${H(me).name}. Ønskerne er gemt.`);return}
+ /* En arving, der ikke ønsker noget, kan sige det i stedet for at skulle bruge 100 point */
+ if(b.id==='nothing'){S.pts[me]={};submitWishes(`Tak, ${H(me).name}. Du har sagt, at du ikke ønsker noget.`);return}
+ if(b.id==='unsubmit'){S.submitted[me]=false;invalidate();save();render();return}
+ if(d.resetpin){const h=H(d.resetpin);if(!h)return;if(!arm('pin'+h.id,b,'Tryk igen for at nulstille'))return;delete S.pins[h.id];save();render();toast(h.name+' kan nu vælge en ny kode');return}
+ if(b.id==='reveal'){S.revealed=true;save();render(true);return}
+ if(b.id==='again'){render(true);return}
+ if(d.partner){toast({vurdering:'Restlisten ville nu blive sendt til et auktionshus',rydning:'Restlisten ville nu blive sendt til tre rydningsfirmaer',genbrug:'Her ville I se genbrugsbutikker i nærheden'}[d.partner]+' (kun i eksemplet)');return}
+ if(d.unsign){H(d.unsign).sig='';save();render();return}
+ if(b.id==='copy'){const t=listText();const ok=()=>$('#copied').textContent='Kopieret';
+  /* Hvis browseren ikke må kopiere, vises teksten markeret, så man selv kan kopiere den */
+  const manual=()=>{$('#copied').textContent='Kopiér selv teksten herunder';let ta=$('#copyText');if(!ta){ta=document.createElement('textarea');ta.id='copyText';ta.readOnly=true;ta.rows=10;ta.className='copytext';ta.setAttribute('aria-label','Fordelingslisten som tekst');b.closest('.row').after(ta)}ta.value=t;ta.focus();ta.select()};
+  try{navigator.clipboard.writeText(t).then(ok,manual)}catch(err){manual()}}
+});
+document.addEventListener('change',e=>{const t=e.target,d=t.dataset;
+ if(t.id==='aiPics'&&t.files.length&&SAMPLE&&!busy){aiAdd(t.files);return}
+ if(d.rename){closeEdit(t,true);return}
+ if(d.bid){const b=S.bids[me]=S.bids[me]||{};const v=Math.max(0,Math.round(+t.value||0));if(v)b[d.bid]=v;else delete b[d.bid];save();render()}
+ if(d.w){H(d.w).w=+t.value;invalidate();save();toast('Arvelod ændret')}
+ if(d.photo&&t.files[0]){const id=d.photo,fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),s=Math.min(1,520/Math.max(im.width,im.height));c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);const ok=keepPhoto(id,c.toDataURL('image/jpeg',.8));render();toast(ok?'Billedet er gemt':NOROOM)};im.src=fr.result};fr.readAsDataURL(t.files[0])}
+});
+/* Navnefeltet: Enter gemmer, Esc fortryder, og feltet lukker, når man trykker et andet sted */
+document.addEventListener('keydown',e=>{const t=e.target;if(!t.dataset||!t.dataset.rename)return;if(e.key==='Enter'){e.preventDefault();closeEdit(t,true)}else if(e.key==='Escape')closeEdit(t,false)});
+document.addEventListener('focusout',e=>{const t=e.target;if(t.dataset&&t.dataset.rename)closeEdit(t,true)});
+document.addEventListener('submit',e=>{e.preventDefault();const f=e.target;
+ if(f.id==='pinForm'){const v=$('#pin').value.trim();if(!/^\d{4}$/.test(v)){$('#pinMsg').textContent='Koden skal være 4 cifre.';return}
+  if(!S.pins[me]){S.pins[me]=v;save();unlocked=me;render();toast('Koden er gemt')}else if(S.pins[me]===v){unlocked=me;render()}else{$('#pinMsg').textContent='Forkert kode. Prøv igen.'}return}
+ if(f.id==='resetForm'){const v=$('#tovpin').value.trim();if(v!==S.pins[S.tov]){$('#resetMsg').textContent='Det er ikke '+H(S.tov).name+'s kode.';return}delete S.pins[me];save();render();toast(H(me).name+' kan nu vælge en ny kode');return}
+ if(f.id==='addItem'){const n=$('#nName').value.trim();if(!n)return;S.items.push({id:'i'+Date.now(),no:++S.nextNo,name:n,group:$('#nGroup').value.trim()||'Andet',k:'thing',will:$('#nWill').value});invalidate();save();render();toast('Mærkeseddel sat på')}
+ if(f.id==='addHeir'){const n=$('#hName').value.trim();if(!n)return;const id='h'+Date.now();S.heirs.push({id,name:n,rel:$('#hRel').value.trim()||'Arving',w:1,sig:''});S.pts[id]={};S.bids[id]={};S.submitted[id]=false;invalidate();save();render();toast(`Invitation sendt til ${n} (kun i eksemplet)`)}
+ /* Underskrift kræver ens egen kode. Den, der ikke har en kode endnu (fx fordi ønskerne kom ind på anden vis), vælger en her. */
+ if(f.dataset.signform){const id=f.dataset.signform,h=H(id),code=f.querySelector('input.pin').value.trim(),msg=f.querySelector('[data-signmsg]');
+  if(!/^\d{4}$/.test(code)){msg.textContent=S.pins[id]?'Skriv din kode på 4 cifre.':'Vælg først en kode på 4 cifre. Du bruger den også, hvis I deler igen.';return}
+  if(S.pins[id]&&S.pins[id]!==code){msg.textContent='Forkert kode. Kun '+h.name+' kan skrive under her.';return}
+  if(!S.pins[id])S.pins[id]=code;
+  h.sig=f.querySelector('input:not(.pin)').value.trim()||h.name;save();render();if(allSigned())toast('Alle har underskrevet. Fordelingen gælder.')}
+});
+function submitWishes(msg){S.submitted[me]=true;invalidate();save();const nx=S.heirs.find(h=>!S.submitted[h.id]);toast(msg);unlocked=null;if(nx){me=nx.id;render();scrollTo(0,0)}else location.hash='fordeling'}
+render();
+</script>
+</body></html>
