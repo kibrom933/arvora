@@ -56,4 +56,4 @@ Prototypen udgives med `prototype/index.html` som side og `prototype/fonts/*.ttf
 
 ## Licens
 
-Privat. Skrifterne Hanken Grotesk, Familjen Grotesk, Caveat og IBM Plex Mono er under SIL Open Font License.
+Privat. Skrifterne Fraunces, Hanken Grotesk, Caveat og IBM Plex Mono er under SIL Open Font License.

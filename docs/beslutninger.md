@@ -5,8 +5,10 @@ Produktvalg, der ændrer, hvad familien oplever. Nyeste øverst. Skriv dato, val
 ## 2026-11-10 · Navnet er Arvora
 Ejerens valg. Afløser Godt Delt (9. nov.), som afløste Arvefred og Fair Arv. Domæne og varemærke for Arvora er ikke tjekket endnu.
 
-## 2026-11-10 · Ny farveverden: fyrregrøn, hør og rav
-Appens blå primærfarve blev til fyrregrøn (#1E4D43), accenten rav (#E3AA3C), papiret hør (#F4F3EE). Forsiden bygget om i samme verden: mærkesedler på snor, flyttekasser med håndskrevne navne. Skrifter uændret: Familjen Grotesk, Hanken Grotesk, Caveat.
+## 2026-11-10 · Eget udtryk: blomme, hvidt papir og messing
+Ejerens anden app (Zoonex) bruger grøn brandfarve på cremefarvet baggrund, og Arvora lignede den for meget. Nu: hvidt papir (#FFFFFF, mørkt tema #15111B) med lyse stenfarvede bånd, dyb blomme som blæk (#4B2D5E), messing til numre, segl og det, øjet skal finde (#C19A4B), og en serif til overskrifterne (Fraunces) i stedet for en grotesk. Logoet er en cirkel delt i tre lige dele. Forsiden viser produktet som det, familien ender med: en fordelingsliste, alle har skrevet under på, i stedet for flyttekasser på snor. Arvingernes farver i fordelingen: blomme, teglrød, blå, okker, grøn, brun, petrol, mørk rosa. Rummenes illustrationsfarver fulgte med (stue i blomme, køkken i messing).
+
+Afløste samme dag "fyrregrøn, hør og rav", som kun levede få timer.
 
 ## 2026-11-10 · En arving kan sige "Jeg ønsker ikke noget"
 Før skulle alle 100 point bruges, så en arving, der ikke ønskede noget, kunne ikke svare og blokerede hele familien. Nu er der en knap, når ingen point er brugt. Resultatet viser "Ønskede ikke noget af tingene" uden procent, og personen tæller ikke som "fik ingen af sine ønsker". Testamenteret gods går stadig til personen.

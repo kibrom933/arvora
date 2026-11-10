@@ -3,182 +3,183 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..600&family=Hanken+Grotesk:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap">
 <style>
-/* Layout: et hjem, der tømmes med omtanke. Fyrregrøn ro, hør-hvidt papir, ravgule mærkesedler på snor og håndskrevne navne på flyttekasser.
-   Siden fortæller forløbet som i appen: ting, ønsker i hemmelighed, en fair fordeling, alle skriver under. */
+/* Layout: et brev fra en, man stoler på. Hvidt papir, dyb blomme som blæk, messing til det, der skal findes, og en serif til overskrifterne.
+   Produktet vises som det, familien ender med: en fordelingsliste, alle har skrevet under på. */
 :root{
-  --linen:#F4F3EE; --card:#FFFFFF; --ink:#152A26; --soft:#5C6E69; --line:#D9DFDB;
-  --pine:#1E4D43; --pine-2:#2F7A6B; --pine-deep:#163A32; --on-pine:#F6F3EA;
-  --amber:#E3AA3C; --amber-ink:#3A2800; --sage:#E2EEE8; --kraft:#EADFC8; --kraft-2:#D9C9A6;
-  --good:#2D7048; --rose:#B4412A;
-  --display:"Familjen Grotesk","Arial Narrow",system-ui,sans-serif; --body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif; --hand:"Caveat","Segoe Print",cursive;
-  --shadow:0 1px 0 rgba(21,42,38,.05),0 14px 34px -22px rgba(21,42,38,.45);
-  --r:8px; --tagw:100%;
+  --paper:#FFFFFF; --stone:#F3F1F5; --card:#FFFFFF; --ink:#2B2436; --soft:#6B6375; --line:#E4E0E8;
+  --plum:#4B2D5E; --plum-2:#7D5494; --plum-deep:#2A1838; --on-plum:#F7F2F8; --plum-text:#4B2D5E;
+  --brass:#C19A4B; --brass-ink:#2B1E05; --brass-text:#8A6622; --lilac:#EEE8F3;
+  --good:#2F6B4F; --rose:#B4412A;
+  --display:"Fraunces",Georgia,"Times New Roman",serif; --body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif; --hand:"Caveat","Segoe Print",cursive;
+  --shadow:0 1px 0 rgba(43,36,54,.05),0 18px 40px -24px rgba(43,36,54,.4);
+  --r:10px;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --linen:#0F1A18; --card:#16231F; --ink:#EEF2EF; --soft:#A5B5AF; --line:#27362F;
-  --pine:#173B34; --pine-2:#7CC7B4; --pine-deep:#0C1F1B; --on-pine:#F3F1E8;
-  --amber:#D9A43C; --amber-ink:#2B1D00; --sage:#1A2F28; --kraft:#D8CDB0; --kraft-2:#C6B68E;
-  --good:#84CFA3; --rose:#FF9F86;
-  --shadow:0 1px 0 rgba(0,0,0,.25),0 14px 34px -22px rgba(0,0,0,.8); color-scheme:dark}}
+  --paper:#15111B; --stone:#1C1624; --card:#1F1828; --ink:#F1ECF4; --soft:#B4ABBC; --line:#352C3F;
+  --plum:#3B2650; --plum-2:#C7A6DB; --plum-deep:#110C17; --on-plum:#F5EFF6; --plum-text:#D9BFE8;
+  --brass:#D4A851; --brass-ink:#2B1E05; --brass-text:#E0B868; --lilac:#2A2134;
+  --good:#8ED0A6; --rose:#FF9F86;
+  --shadow:0 1px 0 rgba(0,0,0,.25),0 18px 40px -24px rgba(0,0,0,.8); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --linen:#0F1A18; --card:#16231F; --ink:#EEF2EF; --soft:#A5B5AF; --line:#27362F;
-  --pine:#173B34; --pine-2:#7CC7B4; --pine-deep:#0C1F1B; --on-pine:#F3F1E8;
-  --amber:#D9A43C; --amber-ink:#2B1D00; --sage:#1A2F28; --kraft:#D8CDB0; --kraft-2:#C6B68E;
-  --good:#84CFA3; --rose:#FF9F86;
-  --shadow:0 1px 0 rgba(0,0,0,.25),0 14px 34px -22px rgba(0,0,0,.8); color-scheme:dark}
+  --paper:#15111B; --stone:#1C1624; --card:#1F1828; --ink:#F1ECF4; --soft:#B4ABBC; --line:#352C3F;
+  --plum:#3B2650; --plum-2:#C7A6DB; --plum-deep:#110C17; --on-plum:#F5EFF6; --plum-text:#D9BFE8;
+  --brass:#D4A851; --brass-ink:#2B1E05; --brass-text:#E0B868; --lilac:#2A2134;
+  --good:#8ED0A6; --rose:#FF9F86;
+  --shadow:0 1px 0 rgba(0,0,0,.25),0 18px 40px -24px rgba(0,0,0,.8); color-scheme:dark}
 *{box-sizing:border-box}
-html,body{background:var(--linen)}
+html,body{background:var(--paper)}
 body{color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;margin:0;-webkit-font-smoothing:antialiased}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:20;background:var(--pine)}
-.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:20;background:var(--paper)}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
 a{color:inherit}
-h1,h2,h3{font-family:var(--display);letter-spacing:-.02em;line-height:1.05;margin:0;text-wrap:balance}
-h1{font-weight:700;font-size:clamp(40px,7vw,78px);letter-spacing:-.035em}
-h2{font-weight:700;font-size:clamp(30px,4.2vw,46px)}
-h3{font-weight:700;font-size:21px;line-height:1.2}
+h1,h2,h3{font-family:var(--display);font-weight:500;line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(42px,6.4vw,76px);line-height:1.02;letter-spacing:-.02em}
+h2{font-size:clamp(30px,4vw,46px);line-height:1.08;letter-spacing:-.015em}
+h3{font-size:22px;line-height:1.25}
 p{margin:0}
 .lead{font-size:clamp(18px,1.6vw,21px);color:var(--soft);max-width:34em}
+.eyebrow{display:flex;align-items:center;gap:12px;font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-text);margin-bottom:18px}
+.eyebrow::before{content:"";width:28px;height:2px;background:var(--brass);flex:0 0 auto}
 .hand{font-family:var(--hand);font-weight:700}
-.eyebrow{font-family:var(--hand);font-size:26px;line-height:1;color:var(--pine-2);display:inline-block;transform:rotate(-2deg);margin-bottom:10px}
 .soft{color:var(--soft)}
 .num{font-variant-numeric:tabular-nums}
-.btn{font:inherit;font-weight:700;font-size:16px;border-radius:99px;padding:14px 22px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:inline-flex;gap:10px;align-items:center;text-decoration:none;transition:transform .15s,background .15s}
-.btn:hover{transform:translateY(-1px)}
-.btn.fill{background:var(--pine);border-color:var(--pine);color:var(--on-pine)}
-.btn.amber{background:var(--amber);border-color:var(--amber);color:var(--amber-ink)}
-.btn.ghost{background:transparent;border-color:rgba(246,243,234,.35);color:var(--on-pine)}
-.btn:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
-section{padding-block:clamp(56px,9vw,112px)}
-section+section{padding-top:0}
+.btn{font:inherit;font-weight:700;font-size:16px;border-radius:99px;padding:14px 24px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:inline-flex;gap:10px;align-items:center;text-decoration:none;transition:transform .15s,background .15s,border-color .15s}
+.btn:hover{transform:translateY(-1px);border-color:var(--plum-2)}
+.btn.fill{background:var(--plum);border-color:var(--plum);color:var(--on-plum)}
+.btn.fill:hover{border-color:var(--plum)}
+.btn.brass{background:var(--brass);border-color:var(--brass);color:var(--brass-ink)}
+.btn.ghost{background:transparent;border-color:rgba(247,242,248,.35);color:var(--on-plum)}
+.btn:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+section{padding-block:clamp(60px,9vw,120px)}
+.band{background:var(--stone)}
+.band+.band{padding-top:0}
 
 /* top */
-header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:15;background:var(--pine);color:var(--on-pine)}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:15;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .bar{display:flex;align-items:center;gap:18px;padding-block:14px}
-.logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:.02em;text-decoration:none;text-transform:uppercase}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:25px;letter-spacing:0;text-decoration:none;color:var(--plum-text)}
 .logo svg{flex:0 0 auto}
-.bar nav{display:flex;gap:4px;margin-left:auto}
-.bar nav a{text-decoration:none;font-weight:600;font-size:15px;padding:8px 12px;border-radius:99px;color:rgba(246,243,234,.82)}
-.bar nav a:hover{background:rgba(255,255,255,.1);color:var(--on-pine)}
+.bar nav{display:flex;gap:2px;margin-left:auto}
+.bar nav a{text-decoration:none;font-weight:600;font-size:15px;padding:8px 12px;border-radius:99px;color:var(--soft)}
+.bar nav a:hover{background:var(--lilac);color:var(--plum-text)}
 @media (max-width:760px){.bar nav{display:none}}
-.bar .cta{margin-left:auto}
+.bar .cta{margin-left:auto;padding:10px 18px;font-size:15px}
 @media (min-width:761px){.bar .cta{margin-left:8px}}
 
 /* hero */
-.hero{background:var(--pine);color:var(--on-pine);padding-block:clamp(40px,7vw,96px) clamp(64px,9vw,128px);position:relative;overflow:hidden}
-.hero .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
-@media (max-width:900px){.hero .grid{grid-template-columns:1fr;gap:44px}}
-.hero .lead{color:rgba(246,243,234,.8)}
-.hero .eyebrow{color:var(--amber)}
-.hero .row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:30px}
-.hero small{display:block;margin-top:14px;font-size:14px;color:rgba(246,243,234,.6)}
-.hero h1 em{font-style:normal;color:var(--amber)}
-/* the boxes: the product's own picture of the result */
-.scene{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding-top:54px}
-@media (max-width:900px){.scene{max-width:620px;padding-top:0}.scene .string,.scene .hang{display:none}}
-@media (max-width:420px){.box .nm{font-size:28px}.box li{font-size:11.5px}}
-.box{position:relative;background:linear-gradient(180deg,var(--kraft-2) 0 58px,var(--kraft) 58px);color:#2A2117;border-radius:6px;padding:16px 12px 14px;min-height:230px;box-shadow:0 20px 40px -24px rgba(0,0,0,.6);transform:rotate(var(--rot,0deg));min-width:0}
-.box::before{content:"";position:absolute;left:50%;top:0;width:44px;height:58px;margin-left:-22px;background:rgba(255,255,255,.28)}
-.box .nm{font-family:var(--hand);font-weight:700;font-size:34px;line-height:1;position:relative;margin-bottom:18px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px}
-.box ul{list-style:none;margin:0;padding:0;display:grid;gap:7px}
-.box li{background:rgba(255,255,255,.72);border-radius:6px;padding:6px 8px;font-size:12.5px;font-weight:600;line-height:1.25;display:flex;gap:6px;align-items:center;color:#2A2117}
-.box li i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--amber);flex:0 0 auto}
-.box .pct{font-family:var(--display);font-weight:700;font-size:12.5px;background:var(--amber);color:var(--amber-ink);padding:3px 8px;border-radius:99px;flex:0 0 auto}
-.tag{position:absolute;background:var(--amber);color:var(--amber-ink);font-family:var(--display);font-weight:600;font-size:12px;letter-spacing:.02em;padding:6px 12px 6px 20px;clip-path:polygon(12px 0,100% 0,100% 100%,12px 100%,0 50%);transform:rotate(var(--rot,-6deg));box-shadow:0 8px 20px -10px rgba(0,0,0,.6);white-space:nowrap}
-.tag::before{content:"";position:absolute;left:8px;top:50%;width:5px;height:5px;margin-top:-2.5px;border-radius:50%;background:var(--pine)}
-.scene .tag{z-index:2}
-.string{position:absolute;left:4%;right:4%;top:22px;height:2px;background:rgba(246,243,234,.35);border-radius:2px}
-.string::after{content:"";position:absolute;left:0;right:0;top:0;height:30px;border-radius:0 0 50% 50%/0 0 100% 100%;border-bottom:2px solid rgba(246,243,234,.35);top:-2px}
-.hang{position:absolute;top:34px;transform:rotate(var(--rot,0deg));transform-origin:top center}
-.hang::before{content:"";position:absolute;left:50%;top:-16px;width:1.5px;height:16px;background:rgba(246,243,234,.5)}
+.hero{padding-block:clamp(48px,7vw,104px) clamp(56px,8vw,112px);overflow:hidden}
+.hero .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,5vw,72px);align-items:center}
+@media (max-width:900px){.hero .grid{grid-template-columns:1fr;gap:48px}}
+.hero h1 em{font-style:normal;color:var(--plum-2)}
+.hero .row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:32px}
+.hero small{display:block;margin-top:16px;font-size:14.5px;color:var(--soft)}
+/* the sheet: the product's own end point, a signed fordelingsliste */
+.stack{position:relative;max-width:520px;margin-inline:auto}
+.stack::before{content:"";position:absolute;inset:14px -10px -12px 12px;background:var(--stone);border:1px solid var(--line);border-radius:4px;transform:rotate(1.5deg);z-index:0}
+.sheet{position:relative;z-index:1;background:var(--card);border:1px solid var(--line);border-radius:4px;box-shadow:var(--shadow);padding:26px 26px 22px;transform:rotate(-.8deg)}
+.sheet .kind{font-weight:700;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-text)}
+.sheet .ttl{font-family:var(--display);font-weight:500;font-size:23px;line-height:1.15;margin:4px 0 2px;color:var(--plum-text)}
+.sheet .meta{font-size:13px;color:var(--soft);padding-bottom:14px;border-bottom:1px solid var(--line)}
+.heir{padding:12px 0;border-bottom:1px dashed var(--line);display:grid;gap:5px}
+.heir .nm{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.heir .nm b{font-family:var(--display);font-weight:500;font-size:19px}
+.heir .nm span{font-size:12.5px;color:var(--soft)}
+.heir .nm span strong{color:var(--ink);font-variant-numeric:tabular-nums}
+.heir ul{list-style:none;margin:0;padding:0;display:grid;gap:3px}
+.heir li{display:flex;gap:10px;font-size:14px;line-height:1.35;align-items:baseline}
+.heir li .no{font-variant-numeric:tabular-nums;font-size:11.5px;color:var(--brass-text);font-weight:700;letter-spacing:.02em;flex:0 0 52px}
+.heir li .lod{font-size:11px;color:var(--soft);margin-left:auto;flex:0 0 auto}
+.signed{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:16px}
+.sigs{display:flex;gap:16px;flex-wrap:wrap;font-family:var(--hand);font-weight:600;font-size:24px;line-height:1;color:var(--plum-2)}
+.seal{width:74px;height:74px;border-radius:50%;border:2px solid var(--brass);color:var(--brass-text);display:grid;place-items:center;text-align:center;font-weight:700;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;line-height:1.2;transform:rotate(-8deg);flex:0 0 auto;padding:6px;position:relative}
+.seal::after{content:"";position:absolute;inset:4px;border-radius:50%;border:1px solid var(--brass);opacity:.6}
+@media (max-width:420px){.sheet{padding:20px 18px 18px}.heir li .no{flex-basis:46px}.sigs{font-size:21px;gap:12px}}
 
 /* problem */
-.big{font-family:var(--display);font-weight:500;font-size:clamp(24px,3.2vw,36px);line-height:1.25;letter-spacing:-.015em;max-width:26em}
-.quote{margin-top:26px;font-family:var(--hand);font-size:30px;line-height:1.1;color:var(--pine-2);transform:rotate(-1.5deg);display:inline-block}
+.big{font-family:var(--display);font-weight:500;font-size:clamp(23px,3vw,34px);line-height:1.3;letter-spacing:-.01em;max-width:26em}
+.quote{margin-top:28px;font-family:var(--hand);font-weight:600;font-size:32px;line-height:1.1;color:var(--plum-2);display:inline-block}
 
-/* steps as tags on a string */
-.steps{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:38px}
-.steps::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--line)}
-.step{position:relative;padding-top:34px}
-.step::before{content:"";position:absolute;left:28px;top:0;width:1.5px;height:30px;background:var(--line)}
-.step .lot{display:inline-block;background:var(--amber);color:var(--amber-ink);font-family:var(--display);font-weight:600;font-size:12.5px;letter-spacing:.04em;padding:6px 12px 6px 20px;clip-path:polygon(12px 0,100% 0,100% 100%,12px 100%,0 50%);position:relative;margin-left:8px;transform:rotate(-3deg);transform-origin:left center}
-.step .lot::before{content:"";position:absolute;left:8px;top:50%;width:5px;height:5px;margin-top:-2.5px;border-radius:50%;background:var(--card)}
-.step h3{margin:16px 0 8px}
+/* steps, as a numbered list in a booklet */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 24px;margin-top:44px}
+.step{border-top:2px solid var(--line);padding-top:20px}
+.step .n{font-family:var(--display);font-weight:500;font-size:44px;line-height:1;color:var(--brass-text);display:block;margin-bottom:14px}
+.step h3{margin:0 0 8px}
 .step p{color:var(--soft);font-size:16px}
-@media (max-width:860px){.steps{grid-template-columns:1fr 1fr}.steps::before{display:none}.step{padding-top:0;padding-left:0}.step::before{display:none}}
-@media (max-width:520px){.steps{grid-template-columns:1fr}}
+@media (max-width:860px){.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.steps{grid-template-columns:1fr;gap:20px}}
 
 /* fairness */
-.fair{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.fair{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,64px);align-items:start}
 @media (max-width:900px){.fair{grid-template-columns:1fr}}
-.checks{display:grid;gap:12px;margin-top:26px}
-.chk{display:flex;gap:14px;padding:16px 18px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);align-items:flex-start}
-.chk .ic{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto;background:var(--sage);color:var(--good);font-weight:800}
-.chk b{display:block;font-size:16px}
-.chk small{color:var(--soft);font-size:14.5px;line-height:1.45;display:block}
-.result{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:22px;display:grid;gap:14px}
+.checks{display:grid;margin-top:28px;border-top:1px solid var(--line)}
+.chk{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+.chk .ic{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto;background:var(--lilac);color:var(--plum-text);font-weight:800;font-size:14px}
+.chk b{display:block;font-size:16.5px}
+.chk small{color:var(--soft);font-size:14.5px;line-height:1.45;display:block;margin-top:2px}
+.result{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:24px;display:grid;gap:16px}
 .result .hd{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
-.result .hd b{font-family:var(--display);font-size:18px}
+.result .hd b{font-family:var(--display);font-weight:500;font-size:19px}
 .result .hd span{font-size:13px;color:var(--soft)}
 .bars{display:grid;gap:12px}
-.row2{display:grid;grid-template-columns:70px 1fr 52px;gap:12px;align-items:center}
+.row2{display:grid;grid-template-columns:72px 1fr 52px;gap:12px;align-items:center}
 .row2 .who{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px}
 .av{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:700;flex:0 0 auto}
-.track{height:10px;border-radius:99px;background:var(--linen);overflow:hidden}
+.track{height:10px;border-radius:99px;background:var(--stone);overflow:hidden}
 .track span{display:block;height:100%;border-radius:99px}
 .row2 .v{font-weight:700;font-size:15px;text-align:right}
 .result .note{font-size:13.5px;color:var(--soft);border-top:1px solid var(--line);padding-top:12px}
-.result .why{font-size:14px;color:var(--pine-2);font-weight:700}
+.result .why{font-size:14.5px;color:var(--plum-2);font-weight:700}
 
 /* audience */
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
 @media (max-width:860px){.cards{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:grid;gap:10px;align-content:start;box-shadow:var(--shadow)}
-.card .when{justify-self:start;font-family:var(--display);font-weight:600;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:99px;background:var(--sage);color:var(--pine-2)}
-.card .when.later{background:var(--linen);color:var(--soft)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px;display:grid;gap:10px;align-content:start}
+.card .when{justify-self:start;font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:5px 10px;border-radius:99px;background:var(--lilac);color:var(--plum-text)}
+.card .when.later{background:var(--stone);color:var(--soft)}
 .card p{color:var(--soft);font-size:16px}
 
 /* price */
-.pricewrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.pricewrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,64px);align-items:center}
 @media (max-width:900px){.pricewrap{grid-template-columns:1fr}}
-.price{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:28px 28px 26px;max-width:520px}
-.price .tagtop{position:absolute;top:-16px;left:28px;background:var(--amber);color:var(--amber-ink);font-family:var(--display);font-weight:600;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;padding:6px 12px 6px 20px;clip-path:polygon(12px 0,100% 0,100% 100%,12px 100%,0 50%);transform:rotate(-3deg)}
-.price .amt{font-family:var(--display);font-weight:700;font-size:clamp(40px,5vw,56px);letter-spacing:-.03em;line-height:1}
-.price .amt small{font-family:var(--body);font-weight:600;font-size:17px;letter-spacing:0;color:var(--soft);margin-left:6px}
-.price ul{list-style:none;margin:20px 0 0;padding:0;display:grid;gap:10px}
+.price{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:30px 30px 26px;max-width:520px}
+.price .kind{font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-text)}
+.price .amt{font-family:var(--display);font-weight:500;font-size:clamp(44px,5vw,60px);letter-spacing:-.02em;line-height:1;margin-top:8px}
+.price .amt small{font-family:var(--body);font-weight:600;font-size:17px;letter-spacing:0;color:var(--soft);margin-left:8px}
+.price ul{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:10px}
 .price li{display:flex;gap:10px;align-items:flex-start;font-size:16px}
 .price li::before{content:"✓";color:var(--good);font-weight:800;flex:0 0 auto}
-.price .fine{margin-top:20px;font-size:13.5px;color:var(--soft);border-top:1px solid var(--line);padding-top:14px;line-height:1.5}
-.pricewrap .btn{margin-top:22px}
+.price .fine{margin-top:22px;font-size:13.5px;color:var(--soft);border-top:1px solid var(--line);padding-top:14px;line-height:1.5}
+.pricewrap .btn{margin-top:24px}
 
 /* partners */
-.partners{background:var(--pine-deep);color:var(--on-pine);padding-block:clamp(56px,9vw,112px)!important}
-.partners .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.partners{background:var(--plum-deep);color:var(--on-plum)}
+.partners .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,5vw,64px);align-items:center}
 @media (max-width:900px){.partners .grid{grid-template-columns:1fr}}
-.partners .eyebrow{color:var(--amber)}
-.partners p{color:rgba(246,243,234,.82);font-size:17px}
-.partners .mail{display:inline-flex;gap:10px;align-items:center;margin-top:22px;font-family:var(--display);font-weight:600;font-size:20px;padding:12px 18px;border:1.5px solid rgba(246,243,234,.3);border-radius:99px;color:var(--on-pine)}
+.partners .eyebrow{color:var(--brass)}
+.partners p{color:rgba(247,242,248,.82);font-size:17px}
+.partners .mail{display:inline-flex;gap:10px;align-items:center;margin-top:24px;font-family:var(--display);font-weight:500;font-size:21px;padding:12px 20px;border:1.5px solid rgba(247,242,248,.3);border-radius:99px;color:var(--on-plum)}
 .partners ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-.partners li{display:flex;gap:12px;align-items:flex-start;padding:16px 18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r)}
-.partners li b{display:block;color:var(--on-pine)}
-.partners li span{font-size:15px;color:rgba(246,243,234,.75)}
-.partners li .n{font-family:var(--hand);font-size:28px;line-height:1;color:var(--amber);flex:0 0 28px}
+.partners li{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--r)}
+.partners li b{display:block;color:var(--on-plum)}
+.partners li span{font-size:15px;color:rgba(247,242,248,.72)}
+.partners li .n{font-family:var(--display);font-weight:500;font-size:28px;line-height:1;color:var(--brass);flex:0 0 26px}
 
 /* faq */
 .faq{max-width:760px}
 .faq details{border-top:1px solid var(--line);padding:16px 0}
 .faq details:last-child{border-bottom:1px solid var(--line)}
-.faq summary{cursor:pointer;font-family:var(--display);font-weight:700;font-size:19px;list-style:none;display:flex;justify-content:space-between;gap:14px;align-items:center}
+.faq summary{cursor:pointer;font-family:var(--display);font-weight:500;font-size:20px;list-style:none;display:flex;justify-content:space-between;gap:14px;align-items:center}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";font-weight:400;font-size:26px;line-height:1;color:var(--pine-2);flex:0 0 auto;transition:transform .2s}
+.faq summary::after{content:"+";font-family:var(--body);font-weight:400;font-size:26px;line-height:1;color:var(--plum-2);flex:0 0 auto;transition:transform .2s}
 .faq details[open] summary::after{transform:rotate(45deg)}
 .faq details p{margin-top:10px;color:var(--soft);font-size:16px;max-width:38em}
 
 /* end */
 .end{text-align:center}
 .end h2{max-width:16em;margin-inline:auto}
-.end .row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+.end .row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:30px}
 footer{border-top:1px solid var(--line);padding-block:26px;font-size:13.5px;color:var(--soft);display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between}
 footer a{color:inherit}
 @media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
@@ -187,7 +188,7 @@ footer a{color:inherit}
 <header class="top" id="top">
   <div class="wrap bar">
     <a class="logo" href="#top" aria-label="Arvora, til toppen">
-      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path d="M6 9h14l5 6-5 6H6z" fill="var(--amber)"/><circle cx="20" cy="15" r="2" fill="var(--pine)"/><path d="M20 15c3-6 6-8 8-8" stroke="var(--on-pine)" stroke-width="1.5" fill="none"/></svg>
+      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="13" fill="var(--brass)"/><path d="M14 14V1M14 14l11.3 6.5M14 14L2.7 20.5" stroke="var(--plum)" stroke-width="1.8" stroke-linecap="round"/></svg>
       Arvora
     </a>
     <nav aria-label="Sider">
@@ -197,55 +198,64 @@ footer a{color:inherit}
       <a href="#partner">Bedemænd og advokater</a>
       <a href="#faq">Spørgsmål</a>
     </nav>
-    <a class="btn ghost cta" href="https://claude.ai/artifact/MaQ3gr7yC6AqMySFqZkBCw" target="_blank" rel="noopener">Prøv et eksempel</a>
+    <a class="btn fill cta" href="https://claude.ai/artifact/MaQ3gr7yC6AqMySFqZkBCw" target="_blank" rel="noopener">Prøv et eksempel</a>
   </div>
 </header>
 
 <section class="hero">
   <div class="wrap grid">
     <div>
-      <span class="eyebrow">når mors og fars ting skal fordeles</span>
+      <span class="eyebrow">Når mors og fars ting skal fordeles</span>
       <h1>Del tingene.<br><em>Ikke familien.</em></h1>
-      <p class="lead" style="margin-top:22px">Tag billeder af tingene. Hver arving vælger i hemmelighed, hvad der betyder mest. Arvora finder en fordeling, der er fair for alle, uden at nogen skal forhandle ved spisebordet.</p>
+      <p class="lead" style="margin-top:24px">Tag billeder af tingene. Hver arving vælger i hemmelighed, hvad der betyder mest. Arvora finder en fordeling, der er fair for alle, uden at nogen skal forhandle ved spisebordet.</p>
       <div class="row">
-        <a class="btn amber" href="https://claude.ai/artifact/MaQ3gr7yC6AqMySFqZkBCw" target="_blank" rel="noopener">Prøv et eksempel →</a>
-        <a class="btn ghost" href="#saadan">Sådan virker det</a>
+        <a class="btn fill" href="https://claude.ai/artifact/MaQ3gr7yC6AqMySFqZkBCw" target="_blank" rel="noopener">Prøv et eksempel →</a>
+        <a class="btn" href="#saadan">Sådan virker det</a>
       </div>
       <small>Ingen app at hente. Ingen konto. Arvingerne får et link på SMS.</small>
     </div>
-    <div class="scene" aria-label="Sådan ser resultatet ud: tre kasser med navne og numrerede ting">
-      <div class="string" aria-hidden="true"></div>
-      <span class="tag hang" style="left:6%;--rot:-5deg">Nr. 003 · Bornholmerur</span>
-      <span class="tag hang" style="left:42%;--rot:3deg">Nr. 012 · Kommode</span>
-      <span class="tag hang" style="right:4%;--rot:-2deg">Nr. 006 · Guldring</span>
-      <div class="box" style="--rot:-1.5deg"><div class="nm">Mette<span class="pct">65 %</span></div><ul><li><i></i>Musselmalet stel</li><li><i></i>Mormors symaskine</li><li><i></i>Strikket tæppe</li></ul></div>
-      <div class="box" style="--rot:1deg"><div class="nm">Lars<span class="pct">90 %</span></div><ul><li><i></i>Spisebord i eg</li><li><i></i>Bornholmerur</li><li><i></i>Lænestol i læder</li><li><i></i>Værktøjskasse</li></ul></div>
-      <div class="box" style="--rot:-.5deg"><div class="nm">Anna<span class="pct">50 %</span></div><ul><li><i></i>Maleri: Skagen strand</li><li><i></i>Fotoalbum 1960–1990</li><li><i></i>Kommode i teak</li></ul></div>
+    <div class="stack" aria-label="Sådan ser resultatet ud: en fordelingsliste, alle har skrevet under på">
+      <div class="sheet">
+        <div class="kind">Fordelingsliste</div>
+        <div class="ttl">Boet efter Inger Marie Jensen</div>
+        <div class="meta">16 ting · 3 arvinger · pointmetoden · eksempel</div>
+        <div class="heir"><div class="nm"><b>Mette</b><span>fik <strong>65 %</strong> af sine ønsker</span></div><ul><li><span class="no">Nr. 001</span>Musselmalet stel, 48 dele</li><li><span class="no">Nr. 007</span>Mormors symaskine</li><li><span class="no">Nr. 014</span>Strikket tæppe</li></ul></div>
+        <div class="heir"><div class="nm"><b>Lars</b><span>fik <strong>90 %</strong> af sine ønsker</span></div><ul><li><span class="no">Nr. 002</span>Spisebord i eg</li><li><span class="no">Nr. 003</span>Bornholmerur<span class="lod">afgjort ved lod</span></li><li><span class="no">Nr. 009</span>Lænestol i læder</li></ul></div>
+        <div class="heir"><div class="nm"><b>Anna</b><span>fik <strong>50 %</strong> af sine ønsker</span></div><ul><li><span class="no">Nr. 005</span>Maleri: Skagen strand</li><li><span class="no">Nr. 011</span>Fotoalbum 1960–1990</li><li><span class="no">Nr. 012</span>Kommode i teak</li></ul></div>
+        <div class="signed">
+          <div class="sigs" aria-label="Underskrevet af Mette, Lars og Anna"><span>Mette</span><span>Lars</span><span>Anna</span></div>
+          <div class="seal">Alle har skrevet under</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="wrap" id="problem">
-  <span class="eyebrow">det svære øjeblik</span>
-  <p class="big">Man bliver sjældent uvenner over pengene. Man bliver uvenner over mors stel, fars ur og den lænestol, alle har siddet i. Når søskende skiftes til at vælge ved bordet, vinder den, der taler højest. Den konfliktsky går hjem med det, ingen andre ville have.</p>
-  <span class="quote">"Jeg ville bare ikke starte en diskussion."</span>
-</section>
-
-<section class="wrap" id="saadan">
-  <span class="eyebrow">sådan virker det</span>
-  <h2>Fire trin. Ingen forhandling.</h2>
-  <div class="steps">
-    <div class="step"><span class="lot">Trin 1</span><h3>Fotografér tingene</h3><p>Én af jer går gennem hjemmet med mobilen, rum for rum. Hver ting får en mærkeseddel med et nummer, og Arvora foreslår et navn ud fra billedet.</p></div>
-    <div class="step"><span class="lot">Trin 2</span><h3>Inviter arvingerne</h3><p>Alle får et personligt link på SMS. Ingen app, ingen konto. Et barnebarn, der arver halvdelen af en forælders del, får en halv andel.</p></div>
-    <div class="step"><span class="lot">Trin 3</span><h3>Vælg i hemmelighed</h3><p>Hver arving fordeler 100 point på det, der betyder mest. Ingen kan se de andres ønsker, før alle har svaret. Til værdifulde ting kan I byde i kroner i stedet.</p></div>
-    <div class="step"><span class="lot">Trin 4</span><h3>Se fordelingen, og skriv under</h3><p>Arvora deler tingene, så alle får mest muligt af det, de ønskede sig, og viser hvorfor. Fordelingen gælder, når alle har skrevet under med deres egen kode.</p></div>
+<section class="band" id="problem">
+  <div class="wrap">
+    <span class="eyebrow">Det svære øjeblik</span>
+    <p class="big">Man bliver sjældent uvenner over pengene. Man bliver uvenner over mors stel, fars ur og den lænestol, alle har siddet i. Når søskende skiftes til at vælge ved bordet, vinder den, der taler højest. Den konfliktsky går hjem med det, ingen andre ville have.</p>
+    <span class="quote">"Jeg ville bare ikke starte en diskussion."</span>
   </div>
 </section>
 
-<section class="wrap" id="fair">
-  <div class="fair">
+<section id="saadan">
+  <div class="wrap">
+    <span class="eyebrow">Sådan virker det</span>
+    <h2>Fire trin. Ingen forhandling.</h2>
+    <div class="steps">
+      <div class="step"><span class="n">1</span><h3>Fotografér tingene</h3><p>Én af jer går gennem hjemmet med mobilen, rum for rum. Hver ting får en mærkeseddel med et nummer, og Arvora foreslår et navn ud fra billedet.</p></div>
+      <div class="step"><span class="n">2</span><h3>Inviter arvingerne</h3><p>Alle får et personligt link på SMS. Ingen app, ingen konto. Et barnebarn, der arver halvdelen af en forælders del, får en halv andel.</p></div>
+      <div class="step"><span class="n">3</span><h3>Vælg i hemmelighed</h3><p>Hver arving fordeler 100 point på det, der betyder mest. Ingen kan se de andres ønsker, før alle har svaret. Til værdifulde ting kan I byde i kroner i stedet.</p></div>
+      <div class="step"><span class="n">4</span><h3>Se fordelingen, og skriv under</h3><p>Arvora deler tingene, så alle får mest muligt af det, de ønskede sig, og viser hvorfor. Fordelingen gælder, når alle har skrevet under med deres egen kode.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="fair">
+  <div class="wrap fair">
     <div>
-      <span class="eyebrow">derfor er det fair</span>
+      <span class="eyebrow">Derfor er det fair</span>
       <h2>Matematik, der passer på den stille søskende.</h2>
       <p class="lead" style="margin-top:18px">Arvora bruger en metode fra forskningen i fair fordeling. Den belønner ikke den, der råber højest eller vælger først. Den ser på alle ønsker på én gang og leder efter den fordeling, hvor alle bliver så tilfredse som muligt samtidig.</p>
       <div class="checks">
@@ -258,7 +268,7 @@ footer a{color:inherit}
     <div class="result" aria-label="Eksempel på resultat">
       <div class="hd"><b>Boet efter Inger Marie Jensen</b><span>16 ting · 3 arvinger · eksempel</span></div>
       <div class="bars">
-        <div class="row2"><span class="who"><span class="av" style="background:#1E4D43">M</span>Mette</span><div class="track"><span style="width:65%;background:#1E4D43"></span></div><span class="v num">65 %</span></div>
+        <div class="row2"><span class="who"><span class="av" style="background:#4B2D5E">M</span>Mette</span><div class="track"><span style="width:65%;background:#4B2D5E"></span></div><span class="v num">65 %</span></div>
         <div class="row2"><span class="who"><span class="av" style="background:#C2452B">L</span>Lars</span><div class="track"><span style="width:90%;background:#C2452B"></span></div><span class="v num">90 %</span></div>
         <div class="row2"><span class="who"><span class="av" style="background:#2F5DA8">A</span>Anna</span><div class="track"><span style="width:50%;background:#2F5DA8"></span></div><span class="v num">50 %</span></div>
       </div>
@@ -269,26 +279,28 @@ footer a{color:inherit}
   </div>
 </section>
 
-<section class="wrap" id="hvem">
-  <span class="eyebrow">til hvem</span>
-  <h2>Tre situationer, hvor et hjem skal deles.</h2>
-  <div class="cards">
-    <div class="card"><span class="when">Nu</span><h3>Dødsboet</h3><p>Når forældrene er døde, og søskende skal dele indboet, før boet gøres op. Ting, der står i testamentet, låses automatisk til den rette.</p></div>
-    <div class="card"><span class="when later">2027</span><h3>Mens de lever</h3><p>Når mor og far flytter i plejebolig og selv vil være med til at bestemme, hvem der får hvad. Resultatet kan blive grundlaget for et indbotestamente.</p></div>
-    <div class="card"><span class="when later">Senere</span><h3>Flytning</h3><p>Når et hjem skal skilles ad, fx ved flytning til en mindre bolig, og flere skal blive enige om, hvad der skal med.</p></div>
+<section id="hvem">
+  <div class="wrap">
+    <span class="eyebrow">Til hvem</span>
+    <h2>Tre situationer, hvor et hjem skal deles.</h2>
+    <div class="cards">
+      <div class="card"><span class="when">Nu</span><h3>Dødsboet</h3><p>Når forældrene er døde, og søskende skal dele indboet, før boet gøres op. Ting, der står i testamentet, låses automatisk til den rette.</p></div>
+      <div class="card"><span class="when later">2027</span><h3>Mens de lever</h3><p>Når mor og far flytter i plejebolig og selv vil være med til at bestemme, hvem der får hvad. Resultatet kan blive grundlaget for et indbotestamente.</p></div>
+      <div class="card"><span class="when later">Senere</span><h3>Flytning</h3><p>Når et hjem skal skilles ad, fx ved flytning til en mindre bolig, og flere skal blive enige om, hvad der skal med.</p></div>
+    </div>
   </div>
 </section>
 
-<section class="wrap" id="pris">
-  <div class="pricewrap">
+<section class="band" id="pris">
+  <div class="wrap pricewrap">
     <div>
-      <span class="eyebrow">pris</span>
+      <span class="eyebrow">Pris</span>
       <h2>Én betaler. Resten af familien er med gratis.</h2>
       <p class="lead" style="margin-top:18px">Intet abonnement og ingen skjulte tillæg. Prisen dækker hele forløbet fra det første billede til den underskrevne fordelingsliste.</p>
       <a class="btn fill" href="https://claude.ai/artifact/MaQ3gr7yC6AqMySFqZkBCw" target="_blank" rel="noopener">Prøv et eksempel →</a>
     </div>
     <div class="price">
-      <span class="tagtop">Ét bo</span>
+      <span class="kind">Ét bo</span>
       <div class="amt">795 kr.<small>inkl. moms</small></div>
       <ul>
         <li>Op til 6 arvinger og 300 ting</li>
@@ -305,7 +317,7 @@ footer a{color:inherit}
 <section class="partners" id="partner">
   <div class="wrap grid">
     <div>
-      <span class="eyebrow">for bedemænd og advokater</span>
+      <span class="eyebrow">For bedemænd og advokater</span>
       <h2>Giv familien en lettere vej gennem indboet.</h2>
       <p style="margin-top:18px">Med en partneraftale giver I familien Arvora som en del af jeres service. I betaler 495 kr. pr. bo, der bliver brugt, og intet for de koder, der ikke gør. Familien slipper for en konflikt. I får en service, der kan mærkes, og færre sager, hvor indboet går i hårdknude.</p>
       <span class="mail">partner@arvora.dk</span>
@@ -318,25 +330,29 @@ footer a{color:inherit}
   </div>
 </section>
 
-<section class="wrap" id="faq">
-  <span class="eyebrow">spørgsmål</span>
-  <h2>Det, folk spørger om.</h2>
-  <div class="faq" style="margin-top:30px">
-    <details><summary>Kan de andre se, hvad jeg ønsker?</summary><p>Nej. Ønskerne er hemmelige, indtil alle har svaret. Bagefter ser man, hvad man selv fik, og hvorfor fordelingen er fair.</p></details>
-    <details><summary>Hvad med testamentet?</summary><p>Ting, der er testamenteret, går til den, der står i testamentet, og indgår ikke i fordelingen.</p></details>
-    <details><summary>Far har ingen smartphone.</summary><p>Tovholderen kan afgive ønsker på hans vegne, når han har givet lov. Det står i fordelingslisten.</p></details>
-    <details><summary>Hvad hvis to vil have det samme lige meget?</summary><p>Så afgør et lod det. Loddet trækkes på forhånd, kan ikke trækkes om, og det står åbent i fordelingen, hvem der vandt det.</p></details>
-    <details><summary>Er fordelingen bindende?</summary><p>Den gælder først, når alle har skrevet under. Kan I ikke blive enige, må boet behandles af en bobestyrer. Arvora er ikke juridisk rådgivning.</p></details>
-    <details><summary>Hvad med værdien i boopgørelsen?</summary><p>Indboet skal stadig med til handelsværdi. Værdifulde ting bør vurderes af en vurderingsmand eller et auktionshus. Arvora markerer dem, der bør vurderes.</p></details>
-    <details><summary>Hvad sker der med billederne?</summary><p>De gemmes i EU og slettes automatisk 90 dage efter, at I er færdige. Vi beder aldrig om CPR-nummer eller MitID.</p></details>
+<section id="faq">
+  <div class="wrap">
+    <span class="eyebrow">Spørgsmål</span>
+    <h2>Det, folk spørger om.</h2>
+    <div class="faq" style="margin-top:30px">
+      <details><summary>Kan de andre se, hvad jeg ønsker?</summary><p>Nej. Ønskerne er hemmelige, indtil alle har svaret. Bagefter ser man, hvad man selv fik, og hvorfor fordelingen er fair.</p></details>
+      <details><summary>Hvad med testamentet?</summary><p>Ting, der er testamenteret, går til den, der står i testamentet, og indgår ikke i fordelingen.</p></details>
+      <details><summary>Far har ingen smartphone.</summary><p>Tovholderen kan afgive ønsker på hans vegne, når han har givet lov. Det står i fordelingslisten.</p></details>
+      <details><summary>Hvad hvis to vil have det samme lige meget?</summary><p>Så afgør et lod det. Loddet trækkes på forhånd, kan ikke trækkes om, og det står åbent i fordelingen, hvem der vandt det.</p></details>
+      <details><summary>Er fordelingen bindende?</summary><p>Den gælder først, når alle har skrevet under. Kan I ikke blive enige, må boet behandles af en bobestyrer. Arvora er ikke juridisk rådgivning.</p></details>
+      <details><summary>Hvad med værdien i boopgørelsen?</summary><p>Indboet skal stadig med til handelsværdi. Værdifulde ting bør vurderes af en vurderingsmand eller et auktionshus. Arvora markerer dem, der bør vurderes.</p></details>
+      <details><summary>Hvad sker der med billederne?</summary><p>De gemmes i EU og slettes automatisk 90 dage efter, at I er færdige. Vi beder aldrig om CPR-nummer eller MitID.</p></details>
+    </div>
   </div>
 </section>
 
-<section class="wrap end">
-  <h2>Det skal ikke koste en søskendeflok at dele mors ting.</h2>
-  <div class="row">
-    <a class="btn fill" href="https://claude.ai/artifact/MaQ3gr7yC6AqMySFqZkBCw" target="_blank" rel="noopener">Prøv et eksempel →</a>
-    <a class="btn" href="#partner">Jeg er bedemand eller advokat</a>
+<section class="band end">
+  <div class="wrap">
+    <h2>Det skal ikke koste en søskendeflok at dele mors ting.</h2>
+    <div class="row">
+      <a class="btn fill" href="https://claude.ai/artifact/MaQ3gr7yC6AqMySFqZkBCw" target="_blank" rel="noopener">Prøv et eksempel →</a>
+      <a class="btn" href="#partner">Jeg er bedemand eller advokat</a>
+    </div>
   </div>
 </section>
 

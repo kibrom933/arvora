@@ -9,7 +9,7 @@ const PAGE = process.env.PAGE_FILE || path.join(ROOT, '..', 'prototype', 'index.
 const FIX = path.join(ROOT, 'fixtures');
 const URL = 'https://godtdelt.test/';
 const FONTS = [
-  ['Familjen Grotesk', 'familjen-grotesk', [500, 600, 700]],
+  ['Fraunces', 'fraunces', [500, 600]],
   ['Hanken Grotesk', 'hanken-grotesk', [400, 500, 600, 700]],
   ['Caveat', 'caveat', [500, 700]],
   ['IBM Plex Mono', 'ibm-plex-mono', [400, 500]],

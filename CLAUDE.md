@@ -11,7 +11,7 @@ Læs `docs/produkt.md` først. Det er produktbriefen. `docs/beslutninger.md` er 
 ## Hvad der ligger hvor
 - `prototype/index.html` er hele appen: CSS-tokens øverst, derefter illustrationer, data (`DEMO`), motoren (`solvePoints`, `solveBids`), visningerne (`V.oversigt` … `V.underskrift`) og til sidst hændelser. Ingen build, ingen framework. Hold det sådan, indtil den rigtige version bygges.
 - Tilstanden hedder `S` og gemmes i `localStorage` under `KEY`. `norm()` kører ved start og gør gammel gemt tilstand gyldig (numre, lod). Udvid `norm()`, når tilstandens form ændres; nulstil aldrig brugerens data bare fordi et felt mangler.
-- `site/index.html` er forsiden. Samme skrifter og samme farver som appen (fyrregrøn, hør, rav).
+- `site/index.html` er forsiden. Samme skrifter og samme farver som appen: hvidt papir, dyb blomme som blæk, messing til numre og segl, Fraunces til overskrifter, Hanken Grotesk til brødtekst, Caveat til det håndskrevne. Ikke grønt, ikke cremefarvet: det er ejerens anden app (Zoonex), og Arvora skal ikke ligne den.
 - `tests/` er Playwright. `tests/lib.js` serverer siden fra disk på `https://godtdelt.test/` og erstatter Google Fonts og cdnjs med lokale kopier, så testene kører uden net.
 
 ## Motoren (skal du ikke ændre uden at køre `solver.js` og `lod.js`)
