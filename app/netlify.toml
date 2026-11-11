@@ -1,0 +1,5 @@
+# Netlify: byg appen fra mappen app/. Miljøvariabler sættes i Netlify (VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY).
+[build]
+  base = "app"
+  command = "npm ci && npm run build"
+  publish = "dist"
