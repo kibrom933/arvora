@@ -14,14 +14,15 @@ Arvora har en færdig, testet prototype (344 testtrin), en forside, en fordeling
 | Fordelingsmotor (`engine/arvora-engine.js`) | Færdig som modul. Identisk med prototypen. | Paritet 1.500/1.500 familier; 26 egenskabstest; 600 + 300 familier mod udtømmende søgning; lodtrækning jævn (χ²) |
 | Forside (`site/index.html`) | Færdig i hæftelayout, udgivet som privat artifact. | Skærmbilleder i tre bredder, lyst/mørkt |
 | Datamodel (Supabase) | 23 tabeller, enums, triggere, auditlog. Anvendt på Arvora dev. | 8 migrationer anvendt; sikkerhedslinter ren |
-| Adgangsregler (RLS) | Policies på alle tabeller, kolonnerettigheder, ingen anon-adgang. | `supabase/tests/rls.sql` (47 regler) skrevet, **ikke kørt endnu** |
+| Adgangsregler (RLS) | Policies på alle tabeller, kolonnerettigheder, ingen anon-adgang. | `supabase/tests/rls.sql` (49 regler) skrevet, **ikke kørt endnu** |
 | RPC'er | 20 funktioner for alt, klienter må ændre. Status, lod, fordeling og underskrift sættes kun af serveren. | Kodegennemgang; test i `rls.sql` |
-| Serverfunktioner | 10 Deno-funktioner deployet: invite, accept-invite, link-invite, run-distribution, sign, ai-name, housekeeping, stripe-checkout, stripe-webhook, pdf. | Deployet (version 1). **Ikke kørt ende til ende**; sandkassen kan ikke nå Supabase |
+| Serverfunktioner | 10 Deno-funktioner deployet: invite, accept-invite, link-invite, run-distribution, sign, ai-name, housekeeping, stripe-checkout, stripe-webhook, pdf. | Deployet (version 1). **Ikke kørt ende til ende mod Supabase**; sandkassen kan ikke nå projektet. Kontrakterne er prøvet mod efterligningen i `tests/fake-supabase.mjs` |
+| Appen (`app/`) | Bygget: login med engangskode, boer, opret bo, invitation, oversigt med betaling/åbning/afslutning/slet, ting med billeder og AI-navne, arvinger med links og arvelod, ønsker (point og kroner, fuldmagt), fordeling med forklaring og ny runde, underskrift med kode, PDF, kopi, vilkår/privatliv. | `tests/app.mjs`: 64 trin × 3 varianter (computer, telefon, telefon mørk), 0 fejl, mod efterligningen. **Ikke prøvet mod Arvora dev** |
 | Automatik | Sletning kl. 03:15 dagligt; housekeeping (beskeder, påmindelser, oprydning) hvert 15. minut. | pg_cron-jobs oprettet; housekeeping kræver Vault-hemmeligheder |
 
 ## Hvad er ufuldstændigt
 
-- **Den rigtige app (`app/`)** findes ikke endnu. Prototypen kører alene i browseren. Appen skal bruge samme visninger mod Supabase: login med engangskode, bo-oversigt, ting med upload, arvinger og invitationer, ønsker gennem `set_wishes`/`lock_wishes`, fordeling gennem `run-distribution`, underskrift gennem `sign`, PDF gennem `pdf`.
+- **Appen er ikke prøvet mod den rigtige backend.** Den er testet mod en efterligning, der følger RPC'ernes og funktionernes kontrakter, men første kørsel mod Arvora dev vil finde forskelle (fx Supabase Auth's OTP-flow, CORS, storage-policies). Kræver nøglen til Arvora dev i `app/.env` og en browser med net.
 - **Serverfunktionerne er deployet, men ikke prøvet** mod rigtige kald. Fejl i fx `pdf`-funktionen (skriftindlæsning fra app-URL) eller Stripe-webhook (signaturkontrol) opdages først ved første kald.
 - **RLS-testen er skrevet, men ikke kørt.** Indtil den har givet 0 FAIL, er adgangsreglerne ikke bevist.
 - **Beskeder**: teksterne til SMS og mail ligger i `housekeeping`, men ingen udbyder er sat op (GatewayAPI, Resend). Kræver konti og nøgler.
@@ -80,7 +81,7 @@ Fra briefen, uændret: købe domænet · registrere CVR · oprette eller accepte
 
 ## Plan, prioriteret
 
-1. **Appen** mod Arvora dev (login, bo, ting, arvinger, ønsker, fordeling, underskrift, PDF). Samme design som prototypen. Mål: en opdigtet familie kan gennemføre hele forløbet.
+1. **Appen kørt mod Arvora dev** med en opdigtet familie (ejerens egne numre/mails). Rettelser. Kræver publishable key i `app/.env` og Auth sat op til OTP på mail.
 2. **RLS-test** kørt, fejl rettet.
 3. **Ende-til-ende-test** af serverfunktionerne fra appen; rettelser.
 4. **Beskeder** sat op (kræver nøgler): invitation, påmindelse, fordeling klar, alle har underskrevet.

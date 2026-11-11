@@ -17,6 +17,9 @@ const SUITES = [
   ['dup', 'dup.js', []],
   ['engine parity', 'engine-parity.js', []],
   ['engine props', 'engine-props.js', []],
+  ['app desktop', 'app.mjs', []],
+  ['app mobile', 'app.mjs', ['mobile']],
+  ['app mobile dark', 'app.mjs', ['mobile', 'dark']],
 ];
 const only = process.argv.slice(2);
 let pass = 0, fail = 0, crashed = 0; const failures = [];

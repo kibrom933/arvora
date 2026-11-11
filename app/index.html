@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Arvora</title>
+<meta name="description" content="Del tingene – ikke familien. Arvinger deler indbo fair med hemmelige ønsker.">
+<meta name="theme-color" content="#4A2E5C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..600&family=Hanken+Grotesk:wght@400;500;600;700&family=Caveat:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='13' fill='%23C9963A'/%3E%3Cpath d='M14 14V1M14 14l11.3 6.5M14 14L2.7 20.5' stroke='%234A2E5C' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E">
+<script type="module" src="/src/main.js"></script>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="bar">
+      <a class="logo" href="/" aria-label="Arvora, til oversigten">
+        <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="13" fill="var(--kraft)"/><path d="M14 14V1M14 14l11.3 6.5M14 14L2.7 20.5" stroke="var(--forest)" stroke-width="1.8" stroke-linecap="round"/></svg>
+        Arvora
+      </a>
+      <span class="bo" id="boName"></span>
+      <span class="pill" id="pill" hidden></span>
+      <span class="grow"></span>
+      <button class="ghost" id="logout" type="button" hidden>Log ud</button>
+    </div>
+    <nav class="steps" aria-label="Trin" id="steps" hidden></nav>
+  </div>
+</header>
+<main class="wrap" id="view"><p class="soft" style="padding:40px 0">Henter …</p></main>
+<footer class="wrap">Arvora er en hjælp til at blive enige og ikke juridisk rådgivning. <a href="/vilkaar">Vilkår</a> · <a href="/privatliv">Privatliv</a></footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

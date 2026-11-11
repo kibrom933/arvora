@@ -25,6 +25,7 @@
 - `run-distribution` returnerer resultatet (hvem fik hvad) og hver arvings egen forklaring; den samlede liste over ønsker forlader aldrig funktionen.
 - Resultatet (`distribution_runs.result`) indeholder point pr. tildelt ting (det, prototypen viser som "fik af sine ønsker"). **Åbent punkt:** om `points` pr. ting i resultatet skal fjernes fra det, alle kan se, så kun procenten vises. Prototypen viser det i forklaringen; i den rigtige version anbefales: resultatet viser kun ting og procent, forklaringen viser egne point. *Besluttes før appen bygger resultatvisningen.*
 - `rls.sql` tester: tovholder kan ikke læse ønsker (3 regler), anden arving kan ikke (2), kan ikke efter fordeling (1), kan ikke læse inputs (2).
+- `consent_records`: egne samtykker, tovholderens alle, og `ny_runde` for alle i boet (så man kan se, hvem der har sagt ja). Migration `001000`.
 
 ### T2 · Ændringer for andre
 - `set_wishes`, `lock_wishes`, `unlock_my_wishes` finder arvingen via `auth.uid()`, aldrig via parameter.
@@ -75,7 +76,7 @@
 
 | | Status |
 |---|---|
-| RLS-testen kørt | **Nej.** 47 regler skrevet. Skal give 0 FAIL. |
+| RLS-testen kørt | **Nej.** 49 regler skrevet. Skal give 0 FAIL. |
 | Penetrationstest af Edge Functions (forkerte JWT'er, andres bo-id, replay) | Nej. Laves som Node-test mod Arvora dev, når appen findes. |
 | CSP og sikkerhedsheaders på Netlify | Nej. `_headers` skrives sammen med appen. |
 | Overvågning af fejl og mærkelig trafik | Nej. Sentry eller Supabase-logs, når projektet findes. |

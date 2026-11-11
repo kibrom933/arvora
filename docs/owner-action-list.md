@@ -8,7 +8,7 @@
 |---|---|---|---|
 | 1 | **Dobbeltklik `C:\Users\mohaa\arvora\kobl-til-github.cmd`** | Din mappe på PC'en bliver koblet til github.com/kibrom933/arvora, så `git pull` virker | Scriptet ligger i mappen. Det sletter intet. |
 | 2 | **Stop den anden Claude-session**, der arbejder på repoet (Fable 5.2), eller giv den besked om kun at røre `prototype/` og `site/` | Den har én gang pushet et konkurrerende skema | Luk den, eller skriv til den |
-| 3 | **Sig "ja" til Supabase**, når MCP spørger om lov til at køre `rls.sql` og migration `000900` | Adgangsreglerne er ikke bevist, før testen er kørt | Spørgsmålet vises i chatten |
+| 3 | **Sig "ja" til Supabase**, når MCP spørger om lov til at køre `rls.sql` og migrationerne `000900` og `001000` | Adgangsreglerne er ikke bevist, før testen er kørt | Spørgsmålet vises i chatten |
 | 4 | **Tjek arvora.dk og varemærket** | Navnet er valgt, men ikke sikret | dk-hostmaster.dk → søg; dkpto.dk → varemærkesøgning; tmdn.org/tmview |
 | 5 | **Køb arvora.dk**, hvis frit | | Hos en dansk registrator (fx Simply, One.com, GratisDNS). Ca. 60–100 kr./år. Peg ikke DNS endnu. |
 

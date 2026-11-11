@@ -3,8 +3,9 @@
 Rækkefølgen følger planen: test med familier før penge, partnere før annoncer. Den fulde status står i `complete-project-audit.md`, planen i `launch-plan.md`, ejerens liste i `owner-action-list.md`.
 
 ## Nu
-- [ ] **Appen** (`app/`) mod Arvora dev: login med engangskode, bo, ting med upload og AI-navn, arvinger og invitationer, ønsker, fordeling, underskrift, PDF, slet. Samme design som prototypen.
-- [ ] **RLS-testen** kørt (ejeren siger ja i Supabase MCP), migration `000900` anvendt.
+- [x] **Appen** (`app/`) bygget: login med engangskode, bo, ting med upload og AI-navn, arvinger og invitationer, ønsker, fordeling, underskrift, PDF, slet. Testet mod en efterligning af Supabase (64 trin × 3).
+- [ ] **Appen kørt mod Arvora dev** med opdigtet familie. Kræver nøgle i `app/.env` og Auth-OTP slået til.
+- [ ] **RLS-testen** kørt (ejeren siger ja i Supabase MCP), migrationer `000900` og `001000` anvendt.
 - [ ] Serverfunktionerne prøvet ende til ende fra appen.
 - [ ] Prøv AI-navne og PDF på en rigtig telefon i den udgivne prototype.
 - [ ] Vis prototypen for 3–5 familier og 2 bedemænd.

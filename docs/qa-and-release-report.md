@@ -12,13 +12,25 @@
 | Motor som modul | `engine-props.js` (26 egenskaber: optimalitet 600 + 300 vægtede familier, EF1, ingen dubletter, determinisme, lod-jævnhed χ², validering), `engine-parity.js` (1.500 familier prototype vs. modul) | 11. nov. | 26 PASS; 1.500/1.500 |
 | Forside | Skærmbilleder 390/860/1280 px, lyst + mørkt; manuel gennemgang | 10. nov. | OK |
 | Datamodel | 8 migrationer anvendt på Arvora dev uden fejl; sikkerhedslinter | 11. nov. | Linter: 0 fejl ud over tilsigtede "no policy" |
-| Adgangsregler | `supabase/tests/rls.sql`, 47 regler | **Ikke kørt** | Afventer ejerens ja i Supabase MCP |
+| Adgangsregler | `supabase/tests/rls.sql`, 49 regler | **Ikke kørt** | Afventer ejerens ja i Supabase MCP |
 | Serverfunktioner | Deployet. Ingen test endnu. | – | **Ikke testet** |
-| Appen | Findes ikke endnu | – | – |
+| Appen | `tests/app.mjs`: hele forløbet med tre personer i tre browsere mod `fake-supabase.mjs` (login, opret bo, 5 ting + AI-navn fra billede, omdøb, rum, fjern, testamente, 2 arvinger med links på SMS og mail, betaling, åbning, invitation med forkert og rigtig kode, point, løbende gemning, afgiv/fortryd, hemmelighed, tovholderens overblik, fordeling med kasser/procent/forklaring/testamente, underskrift med forkert og rigtig kode, PDF-download, kopi, ny runde med alles ja, slet nu, ingen konsolfejl, intet overløb). Computer, iPhone 13, iPhone 13 mørk. | 11. nov. | 64 × 3 PASS |
 
-## Seneste testkørsel
+## Seneste testkørsel (11. nov.)
 
-*Udfyldes af kørslen 11. nov.; se nederst.*
+```
+ok    edge                  38 pass  0 fail  31.2s
+ok    fixes                 30 pass  0 fail  18.9s
+ok    lod                   36 pass  0 fail  28.6s
+ok    refine                42 pass  0 fail  18.0s
+ok    solver                 0 pass  0 fail   2.4s   (JSON-tal: 0 ikke-optimale, 0 dubletter)
+ok    engine parity          1 pass  0 fail   8.6s   (1.500/1.500 familier ens)
+ok    engine props          26 pass  0 fail  37.4s
+ok    app desktop           64 pass  0 fail
+ok    app mobile            64 pass  0 fail
+ok    app mobile dark       64 pass  0 fail
+```
+`happy` (4 × 49) og `dup` blev kørt 10. nov. uden fejl og er ikke rørt siden.
 
 ## Fundet og rettet i denne periode
 
@@ -31,12 +43,14 @@
 7. **Auditlog overlevede sletning af bo** med navne og aktør. Nu anonymisering ved sletning og sletning efter 12 måneder (migration `000900`, ikke anvendt endnu).
 8. **Parallel session pushede et konkurrerende skema** (`0001_grundmodel.sql`, pglite-test). Flettet, deres filer fjernet, ét skema. Regel i CLAUDE.md.
 9. **Playwright-version** gled ved `npm install` af en skrift; pinnet til den forudinstallerede browser.
+10. **Arvinger kunne ikke se, at der var bedt om en ny runde** (policy på `consent_records` gav kun egne samtykker). Fundet af app-testen. Rettet i migration `001000` (ikke anvendt endnu) og to nye regler i `rls.sql`.
+11. **Appen viste gamle tal efter navigation** (boet blev kun hentet én gang). Nu hentes boet igen ved hver navigation, ikke ved hver tegning.
 
 ## Kendte mangler før udgivelse
 
 - RLS-test ikke kørt.
 - Serverfunktioner ikke prøvet mod rigtige kald: `pdf` (skrifter fra app-URL), `stripe-webhook` (signatur), `accept-invite` (Supabase Auth-OTP via SMS kræver udbyder), `housekeeping` (Vault-hemmeligheder).
-- Ingen app.
+- Appen er kun testet mod efterligningen, ikke mod Arvora dev.
 - Ingen ende-til-ende-test med opdigtet familie på Arvora dev.
 - Ingen test af, hvad der sker ved 300 ting og 6 arvinger på serveren (motoren klarer 8 × 300 på 0,3 s lokalt; Edge Function-grænsen er 150 s CPU, så det rækker).
 

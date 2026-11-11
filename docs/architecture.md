@@ -36,7 +36,7 @@ Tre principper bærer det hele:
 | `prototype/index.html` | Hele prototypen. Vanilla JS, én fil, `localStorage`. Demo og reference. |
 | `engine/arvora-engine.js` | Motoren som ESM-modul: `solvePoints`, `solveBids`, `lodtal`, `drawLod`, `validatePoints`, `validateBids`. |
 | `site/index.html` | Forsiden (arvora.dk). Statisk. |
-| `app/` | Den rigtige app. Statisk, ingen framework, moduler i ESM. Bygges med Vite kun for at bundle og hashe filer. |
+| `app/` | Den rigtige app. Statisk, ingen framework, moduler i ESM, bygget med Vite. `main.js` (router, hændelser), `bo.js` (model for ét bo), `api.js` (rpc, serverfunktioner, PDF), `views/` (én fil pr. side). |
 | `supabase/migrations/` | Skema, RLS, RPC'er, storage, cron, hærdning. Nummereret `YYYYMMDDHHMMSS_navn.sql`. |
 | `supabase/functions/` | Edge Functions. `_shared/common.ts` (klienter, rate limit, hash, maskering) og `_shared/engine.js` (kopi af motoren). |
 | `supabase/tests/rls.sql` | Adgangstest. Køres som postgres i SQL-editoren. |

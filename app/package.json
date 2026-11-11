@@ -1,0 +1,18 @@
+{
+  "name": "arvora-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Arvora – den rigtige app mod Supabase.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.49.4"
+  },
+  "devDependencies": {
+    "vite": "6.3.5"
+  }
+}

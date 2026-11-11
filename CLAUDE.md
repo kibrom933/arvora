@@ -13,10 +13,10 @@ Læs `docs/produkt.md` først. Det er produktbriefen. `docs/beslutninger.md` er 
 - `engine/arvora-engine.js`: fordelingsmotoren som rent modul (ESM). Samme adfærd som prototypen, bevist i `tests/engine-parity.js`. Bruges af serveren (`supabase/functions/_shared/engine.js` er en kopi; hold dem ens).
 - `supabase/migrations/2026…sql`: datamodel, RLS, RPC'er, storage, cron. Anvendt på projektet **Arvora dev** (`jqulxozrejhrinqxyffr`, eu-central-1, Frankfurt) i organisationen "Zoonex – ID til kæledyr". Produktion får sit eget projekt, når ejeren opretter det.
 - `supabase/functions/*`: serverfunktioner (Deno). `_shared/common.ts` har klienter, rate limit, hash. Deployet på Arvora dev.
-- `supabase/tests/rls.sql`: 47 adgangsregler, køres som postgres mod projektet (SQL editor eller MCP). Skal give 0 FAIL efter hver skemaændring.
+- `supabase/tests/rls.sql`: 49 adgangsregler, køres som postgres mod projektet (SQL editor eller MCP). Skal give 0 FAIL efter hver skemaændring.
 - `site/index.html`: forsiden. Samme skrifter og farver som appen: hvidt papir, dyb blomme som blæk, messing til numre og segl, Fraunces til overskrifter, Hanken Grotesk til brødtekst, Caveat til det håndskrevne. Ikke grønt, ikke cremefarvet: det er ejerens anden app (Zoonex).
-- `app/` (under opbygning): den rigtige app mod Supabase. Samme design som prototypen.
-- `tests/`: Playwright mod prototypen og Node-test af motoren. `tests/lib.js` serverer siden fra disk på `https://godtdelt.test/` uden net.
+- `app/`: den rigtige app mod Supabase. Vite + vanilla ESM, ingen framework. `src/main.js` er router og hændelser, `src/bo.js` henter ét bo til en model, `src/views/*.js` er visningerne (login, boer, nyt, invite, oversigt, ting, arvinger, oensker, fordeling, underskrift, tekst). Samme CSS som prototypen (`src/style.css`) plus et lille tillæg. Bygges med `npm run app:build`; nøgler i `app/.env` (se `.env.example`), aldrig service role.
+- `tests/`: Playwright mod prototypen og appen, Node-test af motoren. `tests/lib.js` serverer prototypen fra disk på `https://godtdelt.test/` uden net. `tests/app.mjs` bygger appen og kører hele forløbet mod `tests/fake-supabase.mjs`, en efterligning af Supabase i hukommelsen (auth, rest, rpc, storage, functions, de vigtigste adgangsregler; motoren er den rigtige). Ændres en RPC eller serverfunktion, skal efterligningen følge med.
 
 ## Sikkerhedsregler (se `docs/security-and-privacy-audit.md`)
 - Hemmelige ønsker (`wishes`) må kun kunne læses af arvingen selv. Ingen policy giver tovholderen eller andre adgang, hverken før eller efter fordelingen. Forklaringer ligger i `distribution_explanations` pr. arving; det samlede input i `distribution_inputs` kan kun serveren læse.
@@ -39,7 +39,8 @@ Læs `docs/produkt.md` først. Det er produktbriefen. `docs/beslutninger.md` er 
 - Hemmeligheder sættes som Edge Function secrets i Supabase (se `docs/production-deployment.md`): `ANTHROPIC_API_KEY`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `GATEWAYAPI_TOKEN`, `RESEND_API_KEY`, `HOUSEKEEPING_SECRET`, `ARVORA_APP_URL`.
 
 ## Test
-- `npm test` kører alt (ca. 7 min). Enkelte pakker: `node tests/run-all.js "engine props" refine`. `npm run test:quick` er det hurtige udvalg.
+- `npm test` kører alt (ca. 10 min). Enkelte pakker: `node tests/run-all.js "engine props" refine "app desktop"`. `npm run test:quick` er det hurtige udvalg.
+- Appen alene: `node tests/app.mjs` (computer), `node tests/app.mjs mobile dark`. Skærmbilleder i `tests/out/shots/app-*.png`.
 - Motoren alene: `node tests/engine-props.js` (Node, uden browser) og `node tests/run-all.js "engine parity"` (mod prototypen).
 - Nye funktioner får test i den fil, der passer, eller en ny fil, som tilføjes i `tests/run-all.js`. En test siger PASS/FAIL pr. linje; `run-all.js` tæller dem.
 - Skærmbilleder i `tests/out/shots/` er den hurtigste måde at se, om noget ser forkert ud på telefon eller i mørkt tema.

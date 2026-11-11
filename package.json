@@ -6,8 +6,10 @@
   "scripts": {
     "serve": "npx --yes serve -l 8080 .",
     "test": "node tests/run-all.js",
-    "test:quick": "node tests/run-all.js edge fixes refine \"engine props\"",
-    "fonts": "python3 tools/make-fonts.py"
+    "test:quick": "node tests/run-all.js edge fixes refine \"engine props\" \"app desktop\"",
+    "fonts": "python3 tools/make-fonts.py",
+    "app": "npm --prefix app run dev",
+    "app:build": "npm --prefix app run build"
   },
   "devDependencies": {
     "@fontsource/caveat": "^5.1.0",

@@ -216,7 +216,10 @@ begin
   perform pg_temp.as_user(ua);
   perform request_reopen(eid, 'Vi har fundet et maleri mere');
   insert into t (name, ok) values ('ny runde åbner IKKE boet, før alle har sagt ja', estate_status_of(eid) = 'fordelt');
-  perform pg_temp.as_user(ub); perform consent_reopen(eid);
+  perform pg_temp.as_user(ub);
+  select count(*) into n from consent_records where estate_id = eid and kind = 'ny_runde'; insert into t (name, ok) values ('en arving kan se, at tovholderen har bedt om ny runde', n = 1);
+  select count(*) into n from consent_records where estate_id = eid and kind <> 'ny_runde' and heir_id <> hb and user_id <> ub; insert into t (name, ok) values ('en arving kan IKKE se andres øvrige samtykker', n = 0);
+  perform consent_reopen(eid);
   perform pg_temp.as_user(uc); perform consent_reopen(eid);
   insert into t (name, ok) values ('boet åbnes igen, når alle har sagt ja', estate_status_of(eid) = 'aaben' and (select superseded_at is not null from distribution_runs where id = run));
 
