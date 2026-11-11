@@ -1,0 +1,45 @@
+# Udgiver forsiden, demoen og appen på GitHub Pages ved hvert push til main.
+#   https://kibrom933.github.io/arvora/        forsiden
+#   https://kibrom933.github.io/arvora/demo/   prototypen
+#   https://kibrom933.github.io/arvora/app/    appen (mod Arvora dev)
+name: pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+        working-directory: app
+      - run: tools/build-site.sh /arvora/
+        env:
+          VITE_SUPABASE_URL: https://jqulxozrejhrinqxyffr.supabase.co
+          VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_V6RthOBvFUAWNJBgBU-fVA_objvrTa3
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: tests/out/site-dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

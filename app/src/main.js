@@ -19,8 +19,11 @@ const STEPS = { oversigt, ting, arvinger, oensker, fordeling, underskrift };
 const ctx = { user: null, B: null, step: 'oversigt', view: null, params: {}, nav, reload, render, busy: false };
 
 /* ---------- Routing ---------- */
+// Appen kan ligge under en sti (fx /arvora/app/). BASE er den; alle stier i visningerne er uden den.
+export const BASE = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+const strip = p => p.startsWith(BASE) ? p.slice(BASE.length) : p;
 function route() {
-  const p = location.pathname.replace(/\/+$/, '') || '/';
+  const p = strip(location.pathname).replace(/\/+$/, '') || '/';
   let m;
   if (p === '/') return { name: 'home' };
   if (p === '/log-ind') return { name: 'login' };
@@ -31,12 +34,12 @@ function route() {
   return { name: 'missing' };
 }
 let stale = true; // boet hentes igen ved hver navigation, ikke ved hver tegning
-export function nav(path, replace) { history[replace ? 'replaceState' : 'pushState']({}, '', path); stale = true; render(); scrollTo(0, 0); }
+export function nav(path, replace) { history[replace ? 'replaceState' : 'pushState']({}, '', path.startsWith('/') && !path.startsWith(BASE + '/') && path !== BASE ? BASE + path : path); stale = true; render(); scrollTo(0, 0); }
 addEventListener('popstate', () => { stale = true; render(); });
 document.addEventListener('click', e => {
   const a = e.target.closest('a[href]'); if (!a) return;
   const href = a.getAttribute('href');
-  if (!href.startsWith('/') || a.target === '_blank' || e.metaKey || e.ctrlKey) return;
+  if (!href.startsWith('/') || href.startsWith('//') || a.target === '_blank' || e.metaKey || e.ctrlKey) return;
   e.preventDefault(); nav(href);
 });
 
@@ -56,7 +59,7 @@ async function render() {
     else if (r.name === 'invite') { ctx.view = invite; }
     else if (r.name === 'tekst') { ctx.view = tekst; }
     else if (r.name === 'bo') {
-      if (!ctx.user) return nav('/log-ind?next=' + encodeURIComponent(location.pathname), true);
+      if (!ctx.user) return nav('/log-ind?next=' + encodeURIComponent(strip(location.pathname)), true);
       if (stale || !ctx.B || ctx.B.id !== r.id || loadedId !== r.id) { if (!ctx.B || ctx.B.id !== r.id) $('#view').innerHTML = '<p class="soft" style="padding:40px 0">Henter boet …</p>'; ctx.B = await loadBo(r.id, ctx.user.id); loadedId = r.id; stale = false; }
       ctx.step = r.step; ctx.view = STEPS[r.step];
       $('#boName').textContent = T(ctx.B, 'Boet efter ' + ctx.B.name, ctx.B.name + ' · mens de lever');
