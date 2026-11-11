@@ -6,7 +6,7 @@
   "scripts": {
     "serve": "npx --yes serve -l 8080 .",
     "test": "node tests/run-all.js",
-    "test:quick": "node tests/run-all.js happy\\ desktop edge",
+    "test:quick": "node tests/run-all.js edge fixes refine \"engine props\"",
     "fonts": "python3 tools/make-fonts.py"
   },
   "devDependencies": {

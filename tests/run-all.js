@@ -15,6 +15,8 @@ const SUITES = [
   ['refine', 'refine.js', []],
   ['solver', 'solver.js', []],
   ['dup', 'dup.js', []],
+  ['engine parity', 'engine-parity.js', []],
+  ['engine props', 'engine-props.js', []],
 ];
 const only = process.argv.slice(2);
 let pass = 0, fail = 0, crashed = 0; const failures = [];
