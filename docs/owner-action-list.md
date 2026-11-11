@@ -21,6 +21,7 @@
 | 8 | **Resend-konto** (resend.com) | Gratis. Domænet arvora.dk skal verificeres, før mails kan sendes fra `@arvora.dk`; indtil da bruges `onboarding@resend.dev` til test. Nøgle som `RESEND_API_KEY`. |
 | 9 | **`HOUSEKEEPING_SECRET`** | Claude laver værdien; du sætter den som Edge secret og i Vault (Dashboard → Project Settings → Vault): `housekeeping_url`, `housekeeping_key`. Eller giv Claude lov til at sætte dem. |
 | 10 | **Stripe i testtilstand** | Kan være din eksisterende konto i test. `STRIPE_SECRET_KEY` (test), webhook-secret efter Claude har givet URL'en. |
+| 10b | **Mail-skabelon i Supabase Auth** (Arvora dev → Authentication → Email Templates → Magic Link): sæt teksten til "Din kode til Arvora er {{ .Token }}. Den gælder i 10 minutter." | Ellers sender Supabase et link, og appen venter på en kode. Claude kan ikke ændre skabeloner gennem MCP. |
 
 ## Virksomhed (før produktion)
 

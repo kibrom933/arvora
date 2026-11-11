@@ -18,7 +18,7 @@
 2. Claude anvender migrationerne i rækkefølge: `supabase/migrations/2026…*.sql` (MCP `apply_migration` eller `supabase db push`).
 3. Kør `supabase/tests/rls.sql` som postgres. 0 FAIL.
 4. Kør sikkerhedslinter. Kun "RLS enabled no policy" på `distribution_inputs`, `rate_limits`, `purge_queue`, `otp_codes` må stå tilbage.
-5. Auth: slå e-mail-OTP til (ikke magic link; vi bruger kode), SMS-udbyder (se pkt. 4), site URL `https://app.arvora.dk`, redirect `https://app.arvora.dk/*`. Slå signup fra for alt andet end OTP. Rate limits i Auth: 10 OTP pr. time pr. adresse.
+5. Auth: e-mail-skabelonen "Magic Link" skal indeholde koden `{{ .Token }}` (ellers sender Supabase et link, og appen venter på en kode). Forslag til tekst: "Din kode til Arvora er {{ .Token }}. Den gælder i 10 minutter." SMS-udbyder (se pkt. 4). Site URL `https://app.arvora.dk`, redirect `https://app.arvora.dk/*`. Rate limits i Auth: 10 OTP pr. time pr. adresse. Det samme gælder på Arvora dev, før appen kan prøves dér.
 6. Storage: bucket `ting` oprettes af migrationen. Tjek, at den er privat.
 7. Vault: `housekeeping_url` = `https://<ref>.supabase.co/functions/v1/housekeeping`, `housekeeping_key` = samme værdi som `HOUSEKEEPING_SECRET`.
 8. pg_cron: tjek at `arvora-purge` (03:15) og `arvora-housekeeping` (*/15) findes: `select jobname, schedule from cron.job`.
