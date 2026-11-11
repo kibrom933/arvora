@@ -2,6 +2,30 @@
 
 Produktvalg, der ændrer, hvad familien oplever. Nyeste øverst. Skriv dato, valget og hvorfor.
 
+## 2026-11-11 · Fordelingen beregnes på serveren, ikke i browseren
+Produktbriefen sagde "beregnes i browseren". Det ville kræve, at én browser (tovholderens) henter alle ønsker, og så er hemmeligheden brudt i praksis, selv om den holder i databasen. Nu kører motoren i serverfunktionen `run-distribution`. Browseren får resultatet (hvem fik hvad), sin egen forklaring, og lodtrækningerne. Den samlede liste af ønsker ligger i `distribution_inputs`, som ingen klient kan læse. Motoren er den samme kode som i prototypen (`engine/arvora-engine.js`), bevist i `tests/engine-parity.js`.
+
+## 2026-11-11 · Loddet trækkes af databasen, når boet oprettes
+Prototypen trak loddet i browseren. Nu trækker Postgres det (`draw_lod()`, 32 tilfældige bit) ved oprettelsen, og en trigger afviser enhver ændring, også fra serveren. Så kan ingen, heller ikke os, trække om.
+
+## 2026-11-11 · Ny runde kræver, at alle arvinger siger ja (model B)
+Det åbne spørgsmål fra 10. nov. Valget: efter fordelingen kan tovholderen bede om en ny runde (`request_reopen`, med en begrundelse, som alle får), og først når **alle** arvinger har sagt ja (`consent_reopen`), falder underskrifterne, og boet åbnes igen. En arving, der vil have en ny runde, beder tovholderen om det. Alternativet (ønskerne låses for altid efter første visning) ville låse en familie fast i en fejl, fx en glemt ting. Alternativet (alle kan altid bede om ny runde) ville lade én arving holde familien som gidsel. Alles ja er midten. Ting, tovholderen tilføjer eller fjerner efter fordelingen, kræver også ny runde.
+
+## 2026-11-11 · Godkendelsen hedder "underskrift" i appen, men er en elektronisk godkendelse med engangskode
+Arvingen skriver sit navn og bekræfter med en 6-cifret kode sendt til sin egen telefon eller mail. Vi gemmer navn, tidspunkt, IP, browser og dokumentets hash. Det er bevis for, at hun godkendte netop det dokument. Det er **ikke** en kvalificeret elektronisk signatur (eIDAS), og det må aldrig kaldes det, hverken i app, vilkår eller markedsføring. MitID kan komme som tilvalg, hvis juristen eller familierne beder om det. Prototypens "egen kode" (adgangskode) afløses af engangskoden.
+
+## 2026-11-11 · Arvinger logger ind med engangskode, ikke med adgangskode
+Linket i SMS'en giver ikke adgang i sig selv; det fortæller, hvem koden skal sendes til (den telefon eller mail, invitationen gik til). Videresendes linket, lander koden stadig hos den rette. Ingen adgangskoder, intet at glemme, ingen "glemt kode"-flow fra prototypen.
+
+## 2026-11-11 · AI må kun foreslå navn og rum
+Billedet sendes til Anthropic for at få et navn ("Spisebord, egetræ") og et rum. Prompten forbyder værdi, ægthed, alder og mærke; ord som "antik", "ægte", "original" fjernes fra svaret. Forslaget kan altid rettes og markeres `ai_suggested`. AI ser aldrig ønsker, arvinger eller fordeling, og bestemmer aldrig noget.
+
+## 2026-11-11 · Auditloggen gemmer aldrig ønsker, og anonymiseres, når boet slettes
+Loggen fortæller, hvem der ændrede hvad og hvornår (kolonnenavne, ikke værdier; for ønsker kun "arving X ændrede"). Tovholderen kan læse loggen for sit bo. Når boet slettes, fjernes aktør og navne fra loggen, og rækkerne slettes efter 12 måneder.
+
+## 2026-11-11 · Ingen cookies, ingen analyse i V1
+Appen gemmer kun login-token i browseren. Ingen samtykkebanner, fordi der ikke er noget at samtykke til. Skal der måles senere, vælges en cookie-fri måling.
+
 ## 2026-11-10 · Navnet er Arvora
 Ejerens valg. Afløser Godt Delt (9. nov.), som afløste Arvefred og Fair Arv. Domæne og varemærke for Arvora er ikke tjekket endnu.
 

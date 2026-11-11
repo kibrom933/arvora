@@ -1,8 +1,8 @@
 {
-  "name": "godtdelt",
+  "name": "arvora",
   "version": "0.3.0",
   "private": true,
-  "description": "Godt Delt – fair deling af indbo mellem arvinger. Prototype, forside og testpakke.",
+  "description": "Arvora – fair deling af indbo mellem arvinger. Prototype, motor, forside, backend og testpakke.",
   "scripts": {
     "serve": "npx --yes serve -l 8080 .",
     "test": "node tests/run-all.js",

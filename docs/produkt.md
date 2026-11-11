@@ -46,7 +46,7 @@ Bagefter tjekkes, at ingen arving foretrækker en andens kasse, når man fjerner
 
 ## Teknik (planlagt til den rigtige version)
 
-Webapp i mobilens browser, kan lægges på hjemskærmen. Ikke App Store. Netlify til hosting, Supabase i EU til database, login og billeder, Stripe (ny konto i Arvoras navn) til betaling, Resend til mail, en dansk udbyder til SMS, en AI-model til at navngive billeder. Fordelingen beregnes i browseren. Ønskerne er hemmelige i selve databasen med adgangsregler, ikke kun i appen. Ingen CPR, intet MitID, ingen bankoplysninger. Alt slettes 90 dage efter afslutning; tovholderen kan slette før.
+Webapp i mobilens browser, kan lægges på hjemskærmen. Ikke App Store. Netlify til hosting, Supabase i EU til database, login og billeder, Stripe (ny konto i Arvoras navn) til betaling, Resend til mail, GatewayAPI til SMS, en AI-model til at navngive billeder. Fordelingen beregnes på serveren, så ingen browser nogensinde ser alle ønsker (besluttet 11. nov.). Ønskerne er hemmelige i selve databasen med adgangsregler, ikke kun i appen. Ingen CPR, intet MitID, ingen bankoplysninger. Alt slettes 90 dage efter afslutning; tovholderen kan slette før.
 
 Prototypen i dette repo kører alene i browseren og gemmer alt lokalt. Den efterligner SMS, betaling og deling mellem telefoner.
 

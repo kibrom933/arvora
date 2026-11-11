@@ -11,9 +11,12 @@ Tidligere arbejdsnavne: Fair Arv → Arvefred → Godt Delt → **Arvora** (10. 
 | Mappe | Indhold |
 |---|---|
 | `prototype/` | Den klikbare prototype: hele forløbet fra ting til underskrift med en fungerende fordelingsmotor. Én HTML-fil, ingen build. `fonts/` er PDF-skrifterne. |
+| `engine/` | Fordelingsmotoren som modul. Samme kode som prototypen; bruges af serveren. |
 | `site/` | Forsiden (arvora.dk). Én HTML-fil. |
-| `tests/` | Playwright-test af prototypen: gennemgang på computer og telefon, kanttilfælde, lodtrækning, stresstest af motoren. |
-| `docs/` | Produktbrief, beslutninger, testrapport og næste skridt. Start med `docs/produkt.md`. |
+| `supabase/` | Den rigtige version: datamodel og adgangsregler (`migrations/`), serverfunktioner (`functions/`), adgangstest (`tests/rls.sql`). Kører på projektet Arvora dev i Frankfurt. |
+| `app/` | Den rigtige app mod Supabase (under opbygning). |
+| `tests/` | Playwright-test af prototypen, Node-test af motoren: gennemgang på computer og telefon, kanttilfælde, lodtrækning, stresstest af motoren, paritet mellem prototype og modul. |
+| `docs/` | Produktbrief, beslutninger, status, arkitektur, datamodel, sikkerhed, GDPR, juridiske udkast, økonomi, plan. Start med `docs/produkt.md` og `docs/complete-project-audit.md`. |
 | `tools/` | `make-fonts.py` laver PDF-skrifterne. |
 
 Begge sider er udgivet som Claude-artifacts, så de kan prøves uden at køre noget:
