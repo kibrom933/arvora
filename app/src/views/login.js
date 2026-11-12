@@ -9,8 +9,8 @@ export function view(ctx) {
   const next = new URLSearchParams(location.search).get('next') || '/';
   if (ctx.user) return `<h1>Du er logget ind</h1><p class="lead"><a class="btn go" href="${esc(next)}">Fortsæt</a></p>`;
   if (sent) return `<div class="eyebrow">log ind</div><h1>Skriv koden</h1>
-    <p class="lead">Vi har sendt en kode på 6 cifre til <b>${esc(sent.to)}</b>. Tjek også spam, hvis den ikke kommer.</p>
-    <form class="card lock" id="codeForm"><label class="f" for="code">Kode</label><input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="······" style="font-size:22px;text-align:center;letter-spacing:.3em;max-width:220px" autofocus>
+    <p class="lead">Vi har sendt en kode til <b>${esc(sent.to)}</b>. Tjek også spam, hvis den ikke kommer.</p>
+    <form class="card lock" id="codeForm"><label class="f" for="code">Kode</label><input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Kode" style="font-size:22px;text-align:center;letter-spacing:.3em;max-width:220px" autofocus>
     <div class="row"><button class="btn go" type="submit">Log ind</button><button class="btn" type="button" id="again">Send en ny kode</button></div>
     <p class="soft" id="codeMsg" aria-live="polite" style="margin:0"></p></form>`;
   return `<div class="eyebrow">log ind</div><h1>Hvem er du?</h1>
@@ -35,7 +35,7 @@ export async function submit(e, ctx) {
   }
   if (f.id === 'codeForm') {
     const token = $('#code').value.replace(/\D/g, ''); const btn = f.querySelector('button[type=submit]');
-    if (token.length < 6) { $('#codeMsg').textContent = 'Koden har 6 cifre.'; return; }
+    if (token.length < 6) { $('#codeMsg').textContent = 'Skriv hele koden fra beskeden.'; return; }
     const { error } = await busy(btn, sent.kind === 'email' ? verifyEmail(sent.to, token) : sb.auth.verifyOtp({ phone: sent.to, token, type: 'sms' }), 'Tjekker …');
     if (error) { $('#codeMsg').textContent = 'Koden passer ikke, eller den er udløbet.'; return; }
     sent = null; const next = new URLSearchParams(location.search).get('next') || '/';

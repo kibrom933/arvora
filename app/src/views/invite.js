@@ -24,8 +24,8 @@ export async function view(ctx) {
   return `<div class="eyebrow">${i.mode === 'live' ? 'mens de lever' : 'boet efter'}</div><h1>Hej ${esc(i.heir)}</h1>
   <p class="lead">Du er inviteret til at dele ${esc(i.estate)}s ting på Arvora. Dine ønsker er hemmelige, og ingen kan se dem, før alle har svaret.</p>
   <form class="card lock" id="inviteCode"><h2 style="margin:0">Skriv koden fra ${i.channel === 'sms' ? 'SMS\'en' : 'mailen'}</h2>
-    <p class="soft" style="margin:0">Vi har sendt en kode på 6 cifre til ${esc(i.masked)}. Det sikrer, at kun du kan afgive ${esc(i.heir)}s ønsker.</p>
-    <label class="f" for="icode">Kode</label><input id="icode" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="······" style="font-size:22px;text-align:center;letter-spacing:.3em;max-width:220px">
+    <p class="soft" style="margin:0">Vi har sendt en kode til ${esc(i.masked)}. Det sikrer, at kun du kan afgive ${esc(i.heir)}s ønsker.</p>
+    <label class="f" for="icode">Kode</label><input id="icode" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="Kode" style="font-size:22px;text-align:center;letter-spacing:.3em;max-width:220px">
     <label class="row" style="font-weight:400;font-size:13.5px;color:var(--soft)"><input type="checkbox" id="iok" required style="width:auto"> Jeg har læst <a href="/vilkaar">vilkårene</a> og <a href="/privatliv">privatlivspolitikken</a>.</label>
     <div class="row"><button class="btn go" type="submit">Fortsæt</button><button class="btn" type="button" id="iagain">Send koden igen</button></div>
     <p class="soft" id="iMsg" aria-live="polite" style="margin:0"></p></form>
@@ -35,7 +35,7 @@ export async function view(ctx) {
 export async function submit(e, ctx) {
   if (e.target.id !== 'inviteCode') return;
   const i = st.info, token = $('#icode').value.replace(/\D/g, ''), btn = e.target.querySelector('button[type=submit]');
-  if (token.length < 6) { $('#iMsg').textContent = 'Koden har 6 cifre.'; return; }
+  if (token.length < 6) { $('#iMsg').textContent = 'Skriv hele koden fra beskeden.'; return; }
   const { error } = await busy(btn, i.channel === 'sms' ? sb.auth.verifyOtp({ phone: i.send_to, token, type: 'sms' }) : verifyEmail(i.send_to, token), 'Tjekker …');
   if (error) { $('#iMsg').textContent = 'Koden passer ikke, eller den er udløbet.'; return; }
   try {
