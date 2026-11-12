@@ -2,6 +2,9 @@
 
 Produktvalg, der ændrer, hvad familien oplever. Nyeste øverst. Skriv dato, valget og hvorfor.
 
+## 2026-11-12 · Forsiden ligner en stor dansk rådgivningsvirksomhed
+Ejeren bad om et udtryk som et stort advokat- eller ingeniørfirma med base i hele Danmark. Forsiden er sat om: navigationslinje med servicelinje over, mørkt blommebånd med fordelingslisten som "fotografi", situationerne som ydelsesområder, forløbet som tidslinje, metoden med litteraturhenvisninger og et bånd, der viser, at Arvora kan bruges i alle fem regioner, fordi alt foregår online. Ingen opdigtede kontorer, tal, kunder eller udtalelser. Farver, skrifter og tone er de samme som før.
+
 ## 2026-11-11 · Fordelingen beregnes på serveren, ikke i browseren
 Produktbriefen sagde "beregnes i browseren". Det ville kræve, at én browser (tovholderens) henter alle ønsker, og så er hemmeligheden brudt i praksis, selv om den holder i databasen. Nu kører motoren i serverfunktionen `run-distribution`. Browseren får resultatet (hvem fik hvad), sin egen forklaring, og lodtrækningerne. Den samlede liste af ønsker ligger i `distribution_inputs`, som ingen klient kan læse. Motoren er den samme kode som i prototypen (`engine/arvora-engine.js`), bevist i `tests/engine-parity.js`.
 
