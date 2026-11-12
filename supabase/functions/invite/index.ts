@@ -1,6 +1,6 @@
 // Tovholderen sender (eller gensender) et personligt engangslink til en arving.
 // Linket indeholder et tilfældigt token; kun hash gemmes. Udløber efter 14 dage. Kan tilbagekaldes.
-import { preflight, json, fail, currentUser, userClient, serviceClient, sha256, randomToken, allow, APP_URL } from '../_shared/common.ts';
+import { preflight, json, fail, currentUser, userClient, serviceClient, sha256, randomToken, allow, appUrl } from '../_shared/common.ts';
 
 Deno.serve(async (req) => {
   const pf = preflight(req); if (pf) return pf;
@@ -31,7 +31,7 @@ Deno.serve(async (req) => {
     expires_at: new Date(Date.now() + 14 * 864e5).toISOString(), created_by: user.id,
   });
   if (error) return fail('Kunne ikke oprette invitationen', 500);
-  const link = `${APP_URL}/i/${token}`;
+  const link = `${await appUrl()}/i/${token}`;
   const { data: tov } = await s.from('heirs').select('name').eq('estate_id', heir.estate_id).eq('user_id', user.id).maybeSingle();
   await s.from('notifications').insert({
     estate_id: heir.estate_id, heir_id: heirId, channel, kind: 'invitation', to_address: to,

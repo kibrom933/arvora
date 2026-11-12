@@ -2,7 +2,7 @@
 // Skrift: Hanken Grotesk (latin + udvidet latin) fra appens fonts-mappe, ellers Helvetica.
 import { PDFDocument, StandardFonts, rgb, type PDFFont } from 'npm:pdf-lib@1.17.1';
 import fontkit from 'npm:@pdf-lib/fontkit@1.1.1';
-import { preflight, fail, currentUser, userClient, APP_URL } from '../_shared/common.ts';
+import { preflight, fail, currentUser, userClient, appUrl } from '../_shared/common.ts';
 
 const kr = (n: number) => Math.round(n).toLocaleString('da-DK') + ' kr.';
 const lot = (no: number) => 'Nr. ' + String(no).padStart(3, '0');
@@ -31,7 +31,8 @@ Deno.serve(async (req) => {
   doc.registerFontkit(fontkit);
   let font: PDFFont, bold: PDFFont;
   try {
-    const [a, b] = await Promise.all([fetch(`${APP_URL}/fonts/hk-400.ttf`), fetch(`${APP_URL}/fonts/hk-700.ttf`)]);
+    const base = await appUrl();
+    const [a, b] = await Promise.all([fetch(`${base}/fonts/hk-400.ttf`), fetch(`${base}/fonts/hk-700.ttf`)]);
     if (!a.ok || !b.ok) throw new Error('fonts');
     font = await doc.embedFont(await a.arrayBuffer()); bold = await doc.embedFont(await b.arrayBuffer());
   } catch { font = await doc.embedFont(StandardFonts.Helvetica); bold = await doc.embedFont(StandardFonts.HelveticaBold); }
@@ -64,5 +65,5 @@ Deno.serve(async (req) => {
   line((live ? 'Listen kan bruges som grundlag for et indbotestamente hos en advokat. ' : 'Indboets værdi skal stadig med i boopgørelsen til handelsværdi. ') + 'Arvora er en hjælp til at blive enige og ikke juridisk rådgivning. Godkendelsen er en elektronisk bekræftelse med engangskode, ikke en kvalificeret elektronisk signatur.', 8.5, font, rgb(0.42, 0.39, 0.46));
   line(`Dokument-hash ${String(R.document_hash ?? '').slice(0, 16)}… · lod ${run.lod} · motor ${R.engine ?? '1'}`, 8, font, rgb(0.6, 0.57, 0.63));
   const bytes = await doc.save();
-  return new Response(bytes, { headers: { 'Content-Type': 'application/pdf', 'Content-Disposition': `inline; filename="fordelingsliste-v${run.version}.pdf"`, 'Access-Control-Allow-Origin': '*' } });
+  return new Response(bytes as unknown as BodyInit, { headers: { 'Content-Type': 'application/pdf', 'Content-Disposition': `inline; filename="fordelingsliste-v${run.version}.pdf"`, 'Access-Control-Allow-Origin': '*' } });
 });

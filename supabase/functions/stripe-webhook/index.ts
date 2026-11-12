@@ -1,12 +1,12 @@
 // Stripes webhook. Signaturen tjekkes; kun bekræftede hændelser ændrer noget. Idempotent pr. session.
 import Stripe from 'npm:stripe@17.7.0';
-import { json, fail, serviceClient } from '../_shared/common.ts';
+import { json, fail, serviceClient, setting } from '../_shared/common.ts';
 
 Deno.serve(async (req) => {
-  const key = Deno.env.get('STRIPE_SECRET_KEY'), whsec = Deno.env.get('STRIPE_WEBHOOK_SECRET');
+  const key = await setting('stripe_secret_key'), whsec = await setting('stripe_webhook_secret');
   if (!key || !whsec) return fail('Betaling er ikke sat op', 503);
   const sig = req.headers.get('stripe-signature'); if (!sig) return fail('Ingen signatur', 400);
-  const stripe = new Stripe(key, { apiVersion: '2024-12-18.acacia' });
+  const stripe = new Stripe(key, { apiVersion: '2025-02-24.acacia' });
   let event: Stripe.Event;
   try { event = await stripe.webhooks.constructEventAsync(await req.text(), sig, whsec); }
   catch (e) { return fail('Ugyldig signatur: ' + (e as Error).message, 400); }

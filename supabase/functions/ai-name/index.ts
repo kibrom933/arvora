@@ -2,7 +2,7 @@
 // Kører på serveren, så API-nøglen aldrig er i browseren. Billedet sendes kun til modellen for at få et navn;
 // det gemmes ikke hos udbyderen (zero data retention aftales i ejerens API-konto, se owner-action-list.md).
 // AI må ikke opfinde værdi, ægthed eller alder. Brugeren kan rette alt.
-import { preflight, json, fail, currentUser, userClient, serviceClient, allow } from '../_shared/common.ts';
+import { preflight, json, fail, currentUser, userClient, serviceClient, allow, setting } from '../_shared/common.ts';
 
 const ROOMS = ['Stue', 'Køkken', 'Soveværelse', 'Værelse', 'Kælder', 'Have', 'Smykker', 'Andet'];
 const KINDS = ['table', 'plates', 'clock', 'sewing', 'painting', 'ring', 'armchair', 'pots', 'box', 'album', 'radio', 'dresser', 'garden', 'tools', 'plate', 'blanket', 'thing'];
@@ -17,7 +17,7 @@ Deno.serve(async (req) => {
   const pf = preflight(req); if (pf) return pf;
   if (req.method !== 'POST') return fail('Brug POST', 405);
   const user = await currentUser(req); if (!user) return fail('Ikke logget ind', 401);
-  const key = Deno.env.get('ANTHROPIC_API_KEY'); if (!key) return fail('AI-navne er ikke sat op endnu', 503);
+  const key = await setting('anthropic_api_key'); if (!key) return fail('AI-navne er ikke sat op endnu', 503);
   const { estate_id, path, existing } = await req.json().catch(() => ({}));
   if (typeof estate_id !== 'string' || typeof path !== 'string' || !path.startsWith(estate_id + '/')) return fail('estate_id eller path mangler');
   const { data: member } = await userClient(req).from('estate_members').select('role').eq('estate_id', estate_id).eq('user_id', user.id).maybeSingle();
@@ -33,7 +33,7 @@ Deno.serve(async (req) => {
   const known = Array.isArray(existing) ? existing.slice(0, 300).map((x: { no: number; name: string }) => `Nr. ${x.no}: ${x.name}`).join('\n') : '';
   const r = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST', headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
-    body: JSON.stringify({ model: Deno.env.get('ANTHROPIC_MODEL') ?? 'claude-haiku-4-5', max_tokens: 300, messages: [{ role: 'user', content: [
+    body: JSON.stringify({ model: await setting('anthropic_model', 'claude-haiku-4-5'), max_tokens: 300, messages: [{ role: 'user', content: [
       { type: 'image', source: { type: 'base64', media_type: media, data: btoa(b64) } },
       { type: 'text', text: PROMPT + (known ? '\n\nAllerede registreret:\n' + known : '') },
     ] }] }),

@@ -1,12 +1,10 @@
 // Serverens faste opgaver. Kaldes hvert kvarter af pg_cron (se migration 20261111000700) med en delt nøgle.
 // 1) Sender beskeder i kø (SMS via GatewayAPI, mail via Resend). 2) Påmindelser 3 dage før frist.
 // 3) Sletter billeder i storage for slettede boer. Uden udbydernøgler markeres beskeder som fejl (dev).
-import { json, fail, serviceClient, APP_URL } from '../_shared/common.ts';
+import { json, fail, serviceClient, appUrl, setting } from '../_shared/common.ts';
 
-const SMS_TOKEN = Deno.env.get('GATEWAYAPI_TOKEN');
-const RESEND_KEY = Deno.env.get('RESEND_API_KEY');
-const FROM_EMAIL = Deno.env.get('ARVORA_FROM_EMAIL') ?? 'Arvora <hej@arvora.dk>';
 const SENDER = 'Arvora';
+let APP_URL = 'https://app.arvora.dk';
 
 type Note = { id: string; estate_id: string | null; heir_id: string | null; channel: 'sms' | 'email' | 'papir'; kind: string; to_address: string; payload: Record<string, unknown> };
 
@@ -30,21 +28,23 @@ function text(n: Note): { subject: string; body: string } {
 }
 
 async function sendSms(to: string, body: string): Promise<void> {
-  if (!SMS_TOKEN) throw new Error('ingen SMS-udbyder sat op');
+  const SMS_TOKEN = await setting('gatewayapi_token'); if (!SMS_TOKEN) throw new Error('ingen SMS-udbyder sat op');
   const r = await fetch('https://gatewayapi.com/rest/mtsms', { method: 'POST', headers: { Authorization: 'Token ' + SMS_TOKEN, 'Content-Type': 'application/json' },
     body: JSON.stringify({ sender: SENDER, message: body, recipients: [{ msisdn: to.replace(/^\+/, '') }] }) });
   if (!r.ok) throw new Error('SMS ' + r.status + ' ' + (await r.text()).slice(0, 200));
 }
 async function sendEmail(to: string, subject: string, body: string): Promise<void> {
-  if (!RESEND_KEY) throw new Error('ingen mail-udbyder sat op');
+  const RESEND_KEY = await setting('resend_api_key'); if (!RESEND_KEY) throw new Error('ingen mail-udbyder sat op');
+  const FROM_EMAIL = await setting('from_email', 'Arvora <hej@arvora.dk>');
   const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: 'Bearer ' + RESEND_KEY, 'Content-Type': 'application/json' },
     body: JSON.stringify({ from: FROM_EMAIL, to: [to], subject, text: body }) });
   if (!r.ok) throw new Error('Mail ' + r.status + ' ' + (await r.text()).slice(0, 200));
 }
 
 Deno.serve(async (req) => {
-  const secret = Deno.env.get('HOUSEKEEPING_SECRET');
+  const secret = await setting('housekeeping_key');
   if (!secret || req.headers.get('x-housekeeping-key') !== secret) return fail('Ingen adgang', 401);
+  APP_URL = await appUrl();
   const s = serviceClient();
   const stats = { sent: 0, failed: 0, reminders: 0, purged: 0 };
 

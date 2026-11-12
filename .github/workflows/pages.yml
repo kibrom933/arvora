@@ -1,4 +1,4 @@
-# Udgiver forsiden, demoen og appen på GitHub Pages ved hvert push til main.
+# Udgiver forsiden, demoen og appen på GitHub Pages ved hvert push til main (bygger og skubber til grenen gh-pages).
 #   https://kibrom933.github.io/arvora/        forsiden
 #   https://kibrom933.github.io/arvora/demo/   prototypen
 #   https://kibrom933.github.io/arvora/app/    appen (mod Arvora dev)
@@ -8,14 +8,12 @@ on:
     branches: [main]
   workflow_dispatch:
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 concurrency:
   group: pages
   cancel-in-progress: true
 jobs:
-  build:
+  build-and-publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,18 +26,10 @@ jobs:
         env:
           VITE_SUPABASE_URL: https://jqulxozrejhrinqxyffr.supabase.co
           VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_V6RthOBvFUAWNJBgBU-fVA_objvrTa3
-      - uses: actions/configure-pages@v5
+      - uses: peaceiris/actions-gh-pages@v4
         with:
-          enablement: true
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: tests/out/site-dist
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: tests/out/site-dist
+          publish_branch: gh-pages
+          force_orphan: true
+          commit_message: "Udgivet fra ${{ github.sha }}"

@@ -42,7 +42,8 @@ Deno.serve(async (req) => {
     }
     const lod = Number(estate.lod);
     const input = { engine: ENGINE_VERSION, method: estate.method, lod, heirs, items, pts, bids };
-    const r = estate.method === 'point' ? solvePoints({ heirs, items, pts, lod }) : solveBids({ heirs, items, bids, lod });
+    // deno-lint-ignore no-explicit-any
+    const r: any = estate.method === 'point' ? solvePoints({ heirs, items, pts, lod }) : solveBids({ heirs, items, bids, lod });
     const { data: last } = await s.from('distribution_runs').select('version').eq('estate_id', estate_id).order('version', { ascending: false }).limit(1).maybeSingle();
     const version = (last?.version ?? 0) + 1;
     const nameOf: Record<string, string> = {}; heirs.forEach(h => nameOf[h.id] = h.name);
@@ -70,7 +71,7 @@ Deno.serve(async (req) => {
       const mine = estate.method === 'point'
         ? Object.entries(pts[h.id]).filter(([k]) => itemName[k]).sort((a, b) => b[1] - a[1]).map(([itemId, p]) => ({ itemId, name: itemName[itemId], mine: p, winnerId: owner[itemId] ?? null, winner: owner[itemId] ? nameOf[owner[itemId]] : null, winnerGave: owner[itemId] ? (pts[owner[itemId]][itemId] ?? 0) : null, got: owner[itemId] === h.id, lod: r.lodIds.includes(itemId) }))
         : Object.entries(bids[h.id]).filter(([k]) => itemName[k]).sort((a, b) => b[1] - a[1]).map(([itemId, b]) => ({ itemId, name: itemName[itemId], mine: b, winnerId: owner[itemId] ?? null, winner: owner[itemId] ? nameOf[owner[itemId]] : null, winnerGave: r.price ? r.price[itemId] ?? null : null, got: owner[itemId] === h.id, lod: r.lodIds.includes(itemId) }));
-      return { run_id: run.id, heir_id: h.id, data: { wishes: mine, got: r.out[h.id].map(x => x.itemId), score: r.score?.[h.id] ?? null, of: r.of?.[h.id] ?? null } };
+      return { run_id: run.id, heir_id: h.id, data: { wishes: mine, got: r.out[h.id].map((x: any) => x.itemId), score: r.score?.[h.id] ?? null, of: r.of?.[h.id] ?? null } };
     });
     await s.from('distribution_explanations').insert(expl);
     if (r.ties.length) await s.from('tie_break_records').insert(r.ties.map((t: { kind: string; itemId?: string; itemIds?: string[]; heirIds: string[]; winnerId: string }, k: number) => ({

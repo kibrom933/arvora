@@ -4,7 +4,22 @@ import { createClient, type SupabaseClient } from 'npm:@supabase/supabase-js@2.4
 export const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const ANON_KEY = Deno.env.get('SUPABASE_ANON_KEY')!;
 const SERVICE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-export const APP_URL = (Deno.env.get('ARVORA_APP_URL') ?? 'https://app.arvora.dk').replace(/\/$/, '');
+
+/** Indstillinger: Edge secrets (miljø) har forrang, derefter tabellen app_settings (kun serveren kan læse den), derefter standard. */
+const ENV_OF: Record<string, string> = { app_url: 'ARVORA_APP_URL', from_email: 'ARVORA_FROM_EMAIL', price_ore: 'ARVORA_PRICE_ORE', housekeeping_key: 'HOUSEKEEPING_SECRET',
+  anthropic_api_key: 'ANTHROPIC_API_KEY', anthropic_model: 'ANTHROPIC_MODEL', resend_api_key: 'RESEND_API_KEY', gatewayapi_token: 'GATEWAYAPI_TOKEN',
+  stripe_secret_key: 'STRIPE_SECRET_KEY', stripe_webhook_secret: 'STRIPE_WEBHOOK_SECRET', stripe_automatic_tax: 'STRIPE_AUTOMATIC_TAX' };
+let cache: Record<string, string> | null = null; let cachedAt = 0;
+export async function setting(key: string, fallback = ''): Promise<string> {
+  const env = ENV_OF[key] ? Deno.env.get(ENV_OF[key]) : undefined;
+  if (env) return env;
+  if (!cache || Date.now() - cachedAt > 60_000) {
+    const { data } = await serviceClient().from('app_settings').select('key, value');
+    cache = Object.fromEntries((data ?? []).map((r: { key: string; value: string }) => [r.key, r.value])); cachedAt = Date.now();
+  }
+  return cache[key] ?? fallback;
+}
+export async function appUrl(): Promise<string> { return (await setting('app_url', 'https://app.arvora.dk')).replace(/\/$/, ''); }
 
 const CORS: Record<string, string> = {
   'Access-Control-Allow-Origin': Deno.env.get('ARVORA_ALLOWED_ORIGIN') ?? '*',
@@ -35,7 +50,7 @@ export async function currentUser(req: Request) {
 
 export async function sha256(s: string | Uint8Array): Promise<string> {
   const bytes = typeof s === 'string' ? new TextEncoder().encode(s) : s;
-  const h = await crypto.subtle.digest('SHA-256', bytes);
+  const h = await crypto.subtle.digest('SHA-256', bytes as BufferSource);
   return [...new Uint8Array(h)].map(b => b.toString(16).padStart(2, '0')).join('');
 }
 export function randomToken(bytes = 32): string {
