@@ -1,0 +1,424 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Arvora · Fair deling af indbo</title>
+<meta name="description" content="Arvora hjælper arvinger i hele Danmark med at dele indbo fair. Billeder af tingene, hemmelige ønsker og en fordeling, alle kan skrive under på.">
+<meta name="theme-color" content="#2E1A3B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='13' fill='%23B08A3E'/%3E%3Cpath d='M14 14V1M14 14l11.3 6.5M14 14L2.7 20.5' stroke='%232E1A3B' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+/* Arvora · forside. Udtrykket er en stor, rolig dansk rådgivningsvirksomhed: hvidt papir, dyb blomme som institutionens farve,
+   messing kun som tynde streger og segl. Fraunces i let snit til overskrifter, Hanken Grotesk til brødtekst.
+   Ét stort greb: fordelingslisten som "fotografiet" i det mørke hero-bånd. Resten er stille og ordnet. */
+:root{
+  --paper:#FFFFFF; --mist:#F4F2F6; --ink:#1E1824; --soft:#5F5767; --line:#E3DFE8; --line-2:#CFC8D6;
+  --plum:#2E1A3B; --plum-2:#4B2D5E; --plum-3:#6E4D84; --on-plum:#F3EEF6; --on-plum-soft:#C9BCD3;
+  --brass:#B08A3E; --brass-2:#D7B46A; --brass-text:#8A6A28;
+  --serif:"Fraunces", Georgia, "Times New Roman", serif; --sans:"Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --wrap:1240px; --gut:clamp(20px,4vw,48px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#16111B; --mist:#1E1725; --ink:#EEE8F2; --soft:#B3A9BC; --line:#2E2636; --line-2:#3D3346; --brass-text:#D7B46A;
+}}
+:root[data-theme="dark"]{--paper:#16111B; --mist:#1E1725; --ink:#EEE8F2; --soft:#B3A9BC; --line:#2E2636; --line-2:#3D3346; --brass-text:#D7B46A}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.62 var(--sans);font-feature-settings:"kern","liga","tnum" 0;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:2px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gut)}
+h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.015em;margin:0;font-optical-sizing:auto}
+h2{font-size:clamp(32px,4.2vw,52px);line-height:1.08;max-width:18ch}
+h3{font-size:clamp(21px,2vw,25px);line-height:1.2}
+p{margin:0}
+.lead{font-size:clamp(18px,1.6vw,21px);line-height:1.55;color:var(--soft);max-width:60ch}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:0 26px;font:600 16px/1 var(--sans);text-decoration:none;border:1px solid transparent;border-radius:3px;cursor:pointer;transition:background-color .15s,border-color .15s,color .15s}
+.btn.solid{background:var(--brass);color:#1B1220;border-color:var(--brass)}
+.btn.solid:hover{background:var(--brass-2);border-color:var(--brass-2)}
+.btn.line{color:var(--on-plum);border-color:rgba(243,238,246,.42)}
+.btn.line:hover{border-color:var(--on-plum);background:rgba(255,255,255,.06)}
+.btn.ink{background:var(--plum);color:var(--on-plum)}
+.btn.ink:hover{background:var(--plum-2)}
+.txt{font-weight:600;color:var(--plum-2);text-decoration:none;border-bottom:1px solid var(--line-2);padding-bottom:2px}
+.txt:hover{border-color:currentColor}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .txt{color:var(--brass-2)}}
+
+/* ---------- Top ---------- */
+.util{background:var(--plum);color:var(--on-plum-soft);font-size:13.5px}
+.util .wrap{display:flex;gap:24px;align-items:center;min-height:38px}
+.util .grow{flex:1}
+@media (max-width:640px){.util .grow{visibility:hidden;width:0;overflow:hidden;white-space:nowrap}}
+.util a{text-decoration:none;color:var(--on-plum-soft)}
+.util a:hover{color:var(--on-plum)}
+header.nav{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line)}
+header.nav .wrap{display:flex;align-items:center;gap:36px;min-height:76px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;font:500 26px/1 var(--serif);letter-spacing:-.01em;color:var(--ink)}
+.logo svg{flex:none}
+.menu{display:flex;gap:30px;margin-left:auto;font-weight:500;font-size:15.5px}
+.menu a{text-decoration:none;color:var(--ink);padding:6px 0;border-bottom:2px solid transparent}
+.menu a:hover{border-bottom-color:var(--brass)}
+header.nav .btn{min-height:44px;padding:0 20px;font-size:15px}
+@media (max-width:1040px){.menu{display:none} header.nav .btn{margin-left:auto}}
+
+/* ---------- Hero ---------- */
+.hero{background:var(--plum);color:var(--on-plum);position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(1100px 520px at 88% 30%,rgba(110,77,132,.55),transparent 62%),
+  linear-gradient(180deg,transparent 70%,rgba(0,0,0,.18));pointer-events:none}
+.hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(32px,5vw,80px);align-items:center;padding-top:clamp(56px,8vw,112px);padding-bottom:clamp(64px,9vw,128px)}
+.hero h1{font-size:clamp(46px,7.2vw,104px);line-height:.98;letter-spacing:-.03em;font-weight:300}
+.hero h1 span{display:block}
+.hero .lead{color:var(--on-plum-soft);margin-top:28px;max-width:34em}
+.hero .acts{display:flex;flex-wrap:wrap;gap:14px;margin-top:40px}
+.hero .note{margin-top:22px;font-size:14.5px;color:var(--on-plum-soft)}
+.doc{background:#FFFFFF;color:#1E1824;border-radius:2px;padding:30px 32px 28px;box-shadow:-12px 12px 0 -2px #E4DCEA,-12px 12px 0 -1px rgba(46,26,59,.25),0 30px 60px -20px rgba(10,4,16,.6),0 60px 120px -40px rgba(10,4,16,.5);transform:rotate(1.4deg);position:relative;max-width:460px;justify-self:end;width:100%}
+.doc .k{font-size:13px;color:#7A7084}
+.doc .t{font:500 23px/1.2 var(--serif);margin-top:4px;letter-spacing:-.01em}
+.doc .m{font-size:13px;color:#7A7084;margin-top:4px;padding-bottom:16px;border-bottom:1px solid #E3DFE8}
+.doc .h{padding:14px 0 12px;border-bottom:1px solid #EFECF2}
+.doc .h .n{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:15px}
+.doc .h .n span{font-size:13px;color:#7A7084}
+.doc .h .n strong{color:#4B2D5E}
+.doc ul{list-style:none;margin:8px 0 0;padding:0;font-size:14px;display:grid;gap:3px}
+.doc li{display:flex;gap:12px}
+.doc li i{font-style:normal;color:#8A6A28;font-variant-numeric:tabular-nums;width:56px;flex:none;font-size:13px;padding-top:1px}
+.doc li em{font-style:normal;font-size:12px;color:#8A6A28;margin-left:auto;white-space:nowrap}
+.doc .s{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:18px}
+.doc .sig{display:flex;gap:16px;font:italic 400 19px/1 var(--serif);color:#4B2D5E}
+.seal{width:76px;height:76px;border-radius:50%;border:1.5px solid #B08A3E;color:#8A6A28;display:grid;place-items:center;text-align:center;font-size:11px;line-height:1.2;font-weight:600;padding:8px;transform:rotate(-8deg);flex:none}
+@media (prefers-reduced-motion:no-preference){
+  .doc{animation:lay 900ms cubic-bezier(.2,.8,.2,1) 120ms both}
+  @keyframes lay{from{opacity:0;transform:translateY(28px) rotate(4deg)}to{opacity:1;transform:rotate(1.4deg)}}
+}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr} .doc{justify-self:center;transform:rotate(.6deg)} @keyframes lay{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:rotate(.6deg)}}}
+
+/* ---------- Tillid (under hero) ---------- */
+.trust{border-bottom:1px solid var(--line)}
+.trust .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+.trust .wrap>div{padding:30px 28px 30px 0;border-right:1px solid var(--line)}
+.trust .wrap>div+div{padding-left:28px}
+.trust .wrap>div:last-child{border-right:0}
+.trust b{display:block;font:500 19px/1.25 var(--serif);margin-bottom:6px}
+.trust span{font-size:15px;color:var(--soft);line-height:1.5;display:block}
+@media (max-width:900px){.trust .wrap{grid-template-columns:1fr 1fr}.trust .wrap>div{padding:24px 18px 24px 0}.trust .wrap>div:nth-child(2n){border-right:0;padding-left:18px}.trust .wrap>div:nth-child(n+3){border-top:1px solid var(--line)}.trust .wrap>div:nth-child(2n+1){padding-left:0}}
+@media (max-width:520px){.trust .wrap{grid-template-columns:1fr}.trust .wrap>div{border-right:0!important;padding:20px 0!important}.trust .wrap>div+div{border-top:1px solid var(--line)}}
+
+/* ---------- Sektioner ---------- */
+section{padding:clamp(72px,9vw,128px) 0}
+section.mist{background:var(--mist)}
+.head{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(24px,5vw,72px);align-items:end;margin-bottom:clamp(40px,5vw,64px)}
+.head .lead{justify-self:start}
+@media (max-width:900px){.head{grid-template-columns:1fr;align-items:start}}
+
+/* Situationer: som en rådgivers ydelsesoversigt */
+.areas{border-top:1px solid var(--ink)}
+.area{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,6fr) minmax(0,2fr);gap:clamp(20px,4vw,56px);padding:34px 0;border-bottom:1px solid var(--line-2);align-items:start}
+.area p{color:var(--soft)}
+.area .st{justify-self:end;font-size:14px;font-weight:600;color:var(--brass-text);white-space:nowrap}
+.area .st.now{color:var(--plum-2)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .area .st.now{color:var(--on-plum)}}
+@media (max-width:760px){.area{grid-template-columns:1fr;gap:10px}.area .st{justify-self:start}}
+
+/* Forløb: fire trin på en tidslinje */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:0;counter-reset:s;position:relative}
+.steps li{position:relative;padding:44px 28px 0 0;counter-increment:s}
+.steps li::before{content:counter(s);position:absolute;top:0;left:0;width:30px;height:30px;border-radius:50%;background:var(--paper);border:1.5px solid var(--brass);color:var(--brass-text);font:600 14px/27px var(--sans);text-align:center;z-index:1}
+.steps li::after{content:"";position:absolute;top:15px;left:30px;right:0;height:1px;background:var(--line-2)}
+.steps li:last-child::after{display:none}
+.steps h3{margin-bottom:10px}
+.steps p{color:var(--soft);font-size:16px}
+@media (max-width:900px){.steps{grid-template-columns:1fr}.steps li{padding:0 0 34px 54px}.steps li::after{top:30px;left:15px;right:auto;width:1px;height:100%}}
+
+/* Metoden */
+.method{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(32px,6vw,96px);align-items:start}
+.props{display:grid;grid-template-columns:1fr 1fr;gap:34px 40px;margin-top:44px}
+.props div{border-top:2px solid var(--brass);padding-top:16px}
+.props b{display:block;font:500 19px/1.3 var(--serif);margin-bottom:6px}
+.props span{color:var(--soft);font-size:15.5px;display:block}
+@media (max-width:640px){.props{grid-template-columns:1fr}}
+.refs{margin-top:44px;padding-top:20px;border-top:1px solid var(--line-2);font-size:14px;color:var(--soft)}
+.refs p{margin-bottom:4px}
+.refs cite{font-style:italic}
+.panel{background:var(--paper);border:1px solid var(--line);padding:32px;position:sticky;top:110px}
+.panel h3{font-size:21px}
+.panel .sub{font-size:14px;color:var(--soft);margin:4px 0 22px}
+.bar{display:grid;grid-template-columns:72px 1fr 48px;gap:14px;align-items:center;margin:12px 0;font-size:15px}
+.bar .tr{height:8px;background:var(--mist);border-radius:4px;overflow:hidden}
+.bar .tr span{display:block;height:100%;background:var(--plum-3);border-radius:4px}
+.bar b{font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.panel .why{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:15px;color:var(--soft)}
+.panel .why strong{color:var(--ink);font-weight:600;display:block;margin-bottom:4px}
+@media (max-width:900px){.method{grid-template-columns:1fr}.panel{position:static}}
+
+/* Hele landet */
+.land{background:var(--plum);color:var(--on-plum);position:relative;overflow:hidden}
+.land .wrap{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:clamp(32px,6vw,96px);align-items:center}
+.land h2{max-width:14ch}
+.land .lead{color:var(--on-plum-soft);margin-top:24px}
+.regions{list-style:none;margin:0;padding:0;border-top:1px solid rgba(243,238,246,.22)}
+.regions li{display:flex;justify-content:space-between;gap:20px;padding:20px 0;border-bottom:1px solid rgba(243,238,246,.22);font:400 clamp(22px,2.4vw,30px)/1.15 var(--serif);letter-spacing:-.01em}
+.regions li span{font:400 14.5px/1.4 var(--sans);color:var(--on-plum-soft);text-align:right;align-self:center}
+@media (max-width:900px){.land .wrap{grid-template-columns:1fr}}
+
+/* Pris */
+.price{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px);border-top:1px solid var(--ink);padding-top:40px}
+.amount{font:300 clamp(64px,9vw,120px)/.95 var(--serif);letter-spacing:-.04em;white-space:nowrap}
+.amount small{display:block;font:400 16px/1.5 var(--sans);letter-spacing:0;color:var(--soft);margin-top:16px}
+.incl{list-style:none;margin:0;padding:0;columns:2;column-gap:40px}
+.incl li{break-inside:avoid;padding:14px 0;border-bottom:1px solid var(--line);font-size:16.5px}
+.price .fine{font-size:14px;color:var(--soft);margin-top:22px;max-width:60ch}
+.price .acts{display:flex;flex-wrap:wrap;gap:20px;align-items:center;margin-top:32px}
+@media (max-width:900px){.price{grid-template-columns:1fr}}
+@media (max-width:560px){.incl{columns:1}}
+
+/* Rådgivere */
+.partner{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px)}
+.partner .lead{margin-top:22px}
+.partner .contact{margin-top:30px;font-size:15.5px}
+.partner ol{list-style:none;margin:0;padding:0;counter-reset:p;border-top:1px solid var(--ink)}
+.partner li{counter-increment:p;display:grid;grid-template-columns:44px 1fr;gap:16px;padding:24px 0;border-bottom:1px solid var(--line-2)}
+.partner li::before{content:counter(p);font:400 28px/1 var(--serif);color:var(--brass-text)}
+.partner li b{display:block;font-weight:600;margin-bottom:4px}
+.partner li span{color:var(--soft);font-size:15.5px}
+@media (max-width:900px){.partner{grid-template-columns:1fr}}
+
+/* Spørgsmål */
+.faq{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px)}
+.faq .list{border-top:1px solid var(--ink)}
+.faq details{border-bottom:1px solid var(--line-2)}
+.faq summary{list-style:none;cursor:pointer;padding:22px 44px 22px 0;position:relative;font:500 19px/1.35 var(--serif)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:6px;top:50%;width:14px;height:14px;margin-top:-7px;background:linear-gradient(var(--ink),var(--ink)) center/14px 1.5px no-repeat,linear-gradient(var(--ink),var(--ink)) center/1.5px 14px no-repeat;transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{padding:0 44px 24px 0;color:var(--soft);max-width:62ch}
+@media (max-width:900px){.faq{grid-template-columns:1fr}}
+
+/* Afslutning */
+.closing{background:var(--mist);border-top:1px solid var(--line)}
+.closing .wrap{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:40px;align-items:end}
+.closing h2{max-width:20ch}
+.closing .acts{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-self:end}
+@media (max-width:900px){.closing .wrap{grid-template-columns:1fr}.closing .acts{justify-self:start}}
+
+/* Fod */
+footer{background:#1A1120;color:#C3B8CC;font-size:15px;padding:72px 0 32px}
+footer .cols{display:grid;grid-template-columns:minmax(0,4fr) repeat(3,minmax(0,2fr));gap:40px;padding-bottom:48px;border-bottom:1px solid #33283B}
+footer .logo{color:#F3EEF6;margin-bottom:18px}
+footer h4{font:600 14.5px/1.3 var(--sans);color:#F3EEF6;margin:0 0 14px}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+footer a{text-decoration:none;color:#C3B8CC}
+footer a:hover{color:#F3EEF6}
+footer .legal{display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between;padding-top:26px;font-size:13.5px;color:#9A8EA4}
+@media (max-width:900px){footer .cols{grid-template-columns:1fr 1fr}footer .cols>div:first-child{grid-column:1/-1}}
+</style>
+<a class="skip" href="#indhold" style="position:absolute;left:-9999px">Spring til indhold</a>
+
+<div class="util">
+  <div class="wrap">
+    <span class="grow">Fair deling af indbo for familier i hele Danmark</span>
+    <a href="#raadgivere">For bedemænd og advokater</a>
+    <a href="app/">Log ind</a>
+  </div>
+</div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Arvora, til toppen">
+      <svg width="30" height="30" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="13" fill="var(--brass)"/><path d="M14 14V1M14 14l11.3 6.5M14 14L2.7 20.5" stroke="var(--plum)" stroke-width="1.8" stroke-linecap="round"/></svg>
+      Arvora
+    </a>
+    <nav class="menu" aria-label="Hovedmenu">
+      <a href="#situationer">Situationer</a>
+      <a href="#forloeb">Sådan foregår det</a>
+      <a href="#metoden">Metoden</a>
+      <a href="#pris">Pris</a>
+      <a href="#spoergsmaal">Spørgsmål</a>
+    </nav>
+    <a class="btn ink" href="app/nyt">Opret bo</a>
+  </div>
+</header>
+
+<main id="indhold">
+<section class="hero" id="top" style="padding:0">
+  <div class="wrap">
+    <div>
+      <h1><span>Del tingene.</span><span>Ikke familien.</span></h1>
+      <p class="lead">Arvora hjælper arvinger med at dele indboet, når et hjem skal opløses. Hver arving giver sine ønsker i hemmelighed, og Arvora finder en fordeling, der er fair for alle. Uden forhandling ved spisebordet.</p>
+      <div class="acts">
+        <a class="btn solid" href="app/nyt">Opret et bo</a>
+        <a class="btn line" href="demo/" target="_blank" rel="noopener">Se et eksempel</a>
+      </div>
+      <p class="note">Ingen app at hente og ingen adgangskode. Arvingerne får et personligt link.</p>
+    </div>
+    <div class="doc" aria-label="Eksempel på en fordelingsliste, som alle arvinger har skrevet under på">
+      <div class="k">Fordelingsliste</div>
+      <div class="t">Boet efter Inger Marie Jensen</div>
+      <div class="m">16 ting, 3 arvinger, pointmetoden. Eksempel.</div>
+      <div class="h"><div class="n"><b>Mette</b><span>fik <strong>65 %</strong> af sine ønsker</span></div><ul><li><i>Nr. 001</i>Musselmalet stel, 48 dele</li><li><i>Nr. 007</i>Mormors symaskine</li><li><i>Nr. 014</i>Strikket tæppe</li></ul></div>
+      <div class="h"><div class="n"><b>Lars</b><span>fik <strong>90 %</strong> af sine ønsker</span></div><ul><li><i>Nr. 002</i>Spisebord i eg</li><li><i>Nr. 003</i>Bornholmerur<em>afgjort ved lod</em></li><li><i>Nr. 009</i>Lænestol i læder</li></ul></div>
+      <div class="h" style="border-bottom:0"><div class="n"><b>Anna</b><span>fik <strong>50 %</strong> af sine ønsker</span></div><ul><li><i>Nr. 005</i>Maleri af Skagen strand</li><li><i>Nr. 011</i>Fotoalbum 1960–1990</li><li><i>Nr. 012</i>Kommode i teak</li></ul></div>
+      <div class="s"><div class="sig" aria-label="Underskrevet af Mette, Lars og Anna"><span>Mette</span><span>Lars</span><span>Anna</span></div><div class="seal">Alle har skrevet under</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <div class="wrap">
+    <div><b>Hemmelige ønsker</b><span>Ingen kan se de andres ønsker. Heller ikke tovholderen, og heller ikke os.</span></div>
+    <div><b>En anerkendt metode</b><span>Fordelingen bygger på forskningen i fair deling af ting, der ikke kan deles.</span></div>
+    <div><b>Data i EU</b><span>Alt ligger i Frankfurt og slettes automatisk 90 dage efter, I er færdige.</span></div>
+    <div><b>Én fast pris</b><span>795 kr. for hele boet. Resten af familien er med uden at betale.</span></div>
+  </div>
+</div>
+
+<section id="situationer">
+  <div class="wrap">
+    <div class="head">
+      <h2>Når et hjem skal deles</h2>
+      <p class="lead">Konflikten handler sjældent om penge. Den handler om mors stel, fars ur og lænestolen, alle har siddet i. Arvora tager forhandlingen ud af det.</p>
+    </div>
+    <div class="areas">
+      <div class="area"><h3>Dødsboet</h3><p>Når forældrene er døde, og søskende skal dele indboet, før boet gøres op. Ting, der står i testamentet, går til den rette og tæller ikke med i fordelingen.</p><span class="st now">Tilgængeligt nu</span></div>
+      <div class="area"><h3>Mens de lever</h3><p>Når mor og far flytter i en mindre bolig eller plejebolig og selv vil være med til at bestemme, hvem der får hvad. Resultatet kan blive grundlaget for et indbotestamente hos en advokat.</p><span class="st">Fra 2027</span></div>
+      <div class="area"><h3>Fraflytning og samlivsophør</h3><p>Når et fælles hjem skal skilles ad, og flere skal blive enige om, hvem der tager hvad med sig.</p><span class="st">Senere</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="mist" id="forloeb">
+  <div class="wrap">
+    <div class="head">
+      <h2>Sådan foregår det</h2>
+      <p class="lead">Fire trin, som familien klarer på telefonen. Typisk på en uge, uden at nogen skal mødes.</p>
+    </div>
+    <ol class="steps">
+      <li><h3>Fotografér tingene</h3><p>Tovholderen går gennem hjemmet med mobilen. Hver ting får et nummer, og Arvora foreslår et navn ud fra billedet.</p></li>
+      <li><h3>Inviter arvingerne</h3><p>Alle får et personligt link. Den, der arver en halv andel, tæller som en halv andel.</p></li>
+      <li><h3>Ønsk i hemmelighed</h3><p>Hver arving fordeler 100 point på det, der betyder mest. Til værdifulde ting kan I byde i kroner i stedet.</p></li>
+      <li><h3>Fordel og skriv under</h3><p>Arvora deler tingene og viser hver arving hvorfor. Fordelingen gælder, når alle har bekræftet med en kode.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section id="metoden">
+  <div class="wrap method">
+    <div>
+      <h2>En metode, der passer på den stille søskende</h2>
+      <p class="lead" style="margin-top:24px">Når man skiftes til at vælge, vinder den, der vælger først eller taler højest. Arvora ser på alle ønsker på én gang og finder den fordeling, hvor alle bliver så tilfredse som muligt samtidig. Metoden hedder maksimal Nash-velfærd og er beskrevet i forskningen om fair deling.</p>
+      <div class="props">
+        <div><b>Ingen misunder de andre</b><span>Fjerner man én ting fra en andens kasse, vil hver arving hellere have sin egen. Det er standardmålet for fair deling af udelelige ting.</span></div>
+        <div><b>Ingen bytning gør det bedre</b><span>Ingen flytning eller bytning kan gøre én gladere uden at gøre en anden mindre glad.</span></div>
+        <div><b>Testamentet går forud</b><span>Testamenterede ting går til den rette og tæller ikke med i pointene.</span></div>
+        <div><b>Et lod afgør, når to står helt lige</b><span>Loddet trækkes, når boet oprettes, kan ikke trækkes om og står åbent i fordelingen.</span></div>
+      </div>
+      <div class="refs">
+        <p>Caragiannis, Kurokawa, Moulin, Procaccia, Shah og Wang (2016). <cite>The Unreasonable Fairness of Maximum Nash Welfare.</cite> ACM EC.</p>
+        <p>Chakraborty, Igarashi, Suksompong og Zick (2021). <cite>Weighted Envy-Freeness in Indivisible Item Allocation.</cite> ACM TEAC.</p>
+        <p>Budish (2011). <cite>The Combinatorial Assignment Problem.</cite> Journal of Political Economy.</p>
+      </div>
+    </div>
+    <aside class="panel" aria-label="Eksempel på et resultat">
+      <h3>Boet efter Inger Marie Jensen</h3>
+      <p class="sub">Eksempel. Hvor meget hver arving fik af det, de gav point.</p>
+      <div class="bar"><span>Mette</span><div class="tr"><span style="width:65%"></span></div><b>65 %</b></div>
+      <div class="bar"><span>Lars</span><div class="tr"><span style="width:90%"></span></div><b>90 %</b></div>
+      <div class="bar"><span>Anna</span><div class="tr"><span style="width:50%"></span></div><b>50 %</b></div>
+      <div class="why"><strong>Hvorfor fik Anna netop det her?</strong>Hver arving kan se sin egen forklaring: hvad hun gav point, hvem der fik tingene, og hvor mange point den anden gav. Det tager luften ud af "hvorfor fik du den?".</div>
+    </aside>
+  </div>
+</section>
+
+<section class="land" id="landet">
+  <div class="wrap">
+    <div>
+      <h2>Fra Skagen til Gedser</h2>
+      <p class="lead">Alt foregår online, så det er lige meget, hvor familien bor. Søskende i hver sin ende af landet, eller i udlandet, deler boet på samme vilkår, og ingen skal rejse for at være med.</p>
+    </div>
+    <div><ul class="regions" aria-label="Arvora kan bruges i alle regioner">
+      <li>Nordjylland</li>
+      <li>Midtjylland</li>
+      <li>Syddanmark</li>
+      <li>Sjælland</li>
+      <li>Hovedstaden</li>
+    </ul><p style="margin-top:18px;font-size:15px;color:var(--on-plum-soft)">Og fra udlandet, når en af jer bor uden for Danmark.</p></div>
+  </div>
+</section>
+
+<section id="pris">
+  <div class="wrap">
+    <div class="head"><h2>Én pris for hele boet</h2><p class="lead">Én betaler. Resten af familien er med uden at betale. Intet abonnement.</p></div>
+    <div class="price">
+      <div class="amount">795 kr.<small>inkl. moms, for ét bo</small></div>
+      <div>
+        <ul class="incl">
+          <li>Op til 6 arvinger</li>
+          <li>Op til 300 ting</li>
+          <li>Pointmetode og kronemetode</li>
+          <li>Navneforslag ud fra billeder</li>
+          <li>Fordelingsliste som PDF</li>
+          <li>Liste over ting, ingen ønskede</li>
+          <li>Underskrift med kode</li>
+          <li>Sletning efter 90 dage</li>
+        </ul>
+        <p class="fine">Flere end 6 arvinger: 195 kr. ekstra. 14 dages fortrydelsesret, indtil fordelingen er vist første gang.</p>
+        <div class="acts"><a class="btn ink" href="app/nyt">Opret et bo</a><a class="txt" href="demo/" target="_blank" rel="noopener">Se et eksempel først</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mist" id="raadgivere">
+  <div class="wrap partner">
+    <div>
+      <h2>For bedemænd, advokater og bobestyrere</h2>
+      <p class="lead">Giv familien en rolig vej gennem indboet som en del af jeres service. I betaler 495 kr. pr. bo, der bliver brugt, og intet for de koder, der ikke gør.</p>
+      <p class="contact">Skriv til <a class="txt" href="mailto:partner@arvora.dk">partner@arvora.dk</a></p>
+    </div>
+    <ol>
+      <li><div><b>I får et kort med en kode</b><span>Det giver I til de familier, I tror kan have gavn af det. Det kræver intet arbejde af jer.</span></div></li>
+      <li><div><b>Familien går selv i gang</b><span>Ingen konto og ingen app. Tovholderen fotograferer, arvingerne ønsker i hemmelighed.</span></div></li>
+      <li><div><b>I får en kort status hver måned</b><span>Hvor mange familier der har brugt koden. Uden navne og uden indblik i boet. Gratis de første tre måneder.</span></div></li>
+    </ol>
+  </div>
+</section>
+
+<section id="spoergsmaal">
+  <div class="wrap faq">
+    <div><h2>Spørgsmål</h2><p class="lead" style="margin-top:22px">Mangler du et svar, så skriv til <a class="txt" href="mailto:hej@arvora.dk">hej@arvora.dk</a>.</p></div>
+    <div class="list">
+      <details><summary>Kan de andre se, hvad jeg ønsker?</summary><p>Nej. Ønskerne kan kun ses af den, der har givet dem. Heller ikke tovholderen eller Arvora kan se dem. Efter fordelingen ser du, hvad du selv fik, og hvorfor.</p></details>
+      <details><summary>Hvad med testamentet?</summary><p>Ting, der er testamenteret, går til den, der står i testamentet, og indgår ikke i fordelingen.</p></details>
+      <details><summary>Far har ingen smartphone.</summary><p>Tovholderen kan afgive ønsker på hans vegne, når han har givet lov. Det skrives ned og står i fordelingslisten.</p></details>
+      <details><summary>Hvad hvis to vil have det samme lige meget?</summary><p>Så afgør et lod det. Loddet trækkes, når boet oprettes, kan ikke trækkes om, og det står åbent i fordelingen, hvem det tilfaldt.</p></details>
+      <details><summary>Er fordelingen bindende?</summary><p>Den gælder først, når alle har skrevet under. Kan I ikke blive enige, må boet behandles af en bobestyrer. Arvora er ikke juridisk rådgivning.</p></details>
+      <details><summary>Hvad med værdien i boopgørelsen?</summary><p>Indboet skal stadig med til handelsværdi. Værdifulde ting bør vurderes af en vurderingsmand eller et auktionshus. Arvora markerer de ting, der bør vurderes.</p></details>
+      <details><summary>Hvad sker der med billederne?</summary><p>De gemmes i EU og slettes automatisk 90 dage efter, at I er færdige. Vi beder aldrig om CPR-nummer eller MitID.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="closing">
+  <div class="wrap">
+    <h2>Det skal ikke koste en søskendeflok at dele mors ting</h2>
+    <div class="acts"><a class="btn ink" href="app/nyt">Opret et bo</a><a class="txt" href="demo/" target="_blank" rel="noopener">Se et eksempel</a></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a class="logo" href="#top"><svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="13" fill="#B08A3E"/><path d="M14 14V1M14 14l11.3 6.5M14 14L2.7 20.5" stroke="#1A1120" stroke-width="1.8" stroke-linecap="round"/></svg>Arvora</a>
+        <p style="max-width:38ch">Fair deling af indbo mellem arvinger. Billeder, hemmelige ønsker og en fordeling, alle kan skrive under på. Arvora er ikke juridisk rådgivning.</p>
+      </div>
+      <div><h4>Arvora</h4><ul><li><a href="#situationer">Situationer</a></li><li><a href="#forloeb">Sådan foregår det</a></li><li><a href="#metoden">Metoden</a></li><li><a href="#pris">Pris</a></li></ul></div>
+      <div><h4>Samarbejde</h4><ul><li><a href="#raadgivere">Bedemænd og advokater</a></li><li><a href="mailto:partner@arvora.dk">partner@arvora.dk</a></li></ul></div>
+      <div><h4>Kontakt</h4><ul><li><a href="mailto:hej@arvora.dk">hej@arvora.dk</a></li><li><a href="app/">Log ind</a></li><li><a href="app/vilkaar">Vilkår</a></li><li><a href="app/privatliv">Privatliv</a></li></ul></div>
+    </div>
+    <div class="legal"><span>© 2026 Arvora. CVR tilføjes ved lanceringen.</span><span>Data opbevares i EU</span></div>
+  </div>
+</footer>
+</body>
+</html>
