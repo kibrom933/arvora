@@ -1,6 +1,6 @@
 // Login med engangskode på mail eller SMS. Ingen adgangskoder.
 import { sb } from '../supabase.js';
-import { normPhone, isEmail } from '../api.js';
+import { normPhone, isEmail, fn } from '../api.js';
 import { $, esc, toast, busy } from '../ui.js';
 
 let sent = null; // { kind: 'email'|'phone', to }
@@ -9,7 +9,7 @@ export function view(ctx) {
   const next = new URLSearchParams(location.search).get('next') || '/';
   if (ctx.user) return `<h1>Du er logget ind</h1><p class="lead"><a class="btn go" href="${esc(next)}">Fortsæt</a></p>`;
   if (sent) return `<div class="eyebrow">log ind</div><h1>Skriv koden</h1>
-    <p class="lead">Vi har sendt en kode på 6 cifre til <b>${esc(sent.to)}</b>. Den gælder i 10 minutter.</p>
+    <p class="lead">Vi har sendt en kode på 6 cifre til <b>${esc(sent.to)}</b>. Tjek også spam, hvis den ikke kommer.</p>
     <form class="card lock" id="codeForm"><label class="f" for="code">Kode</label><input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="······" style="font-size:22px;text-align:center;letter-spacing:.3em;max-width:220px" autofocus>
     <div class="row"><button class="btn go" type="submit">Log ind</button><button class="btn" type="button" id="again">Send en ny kode</button></div>
     <p class="soft" id="codeMsg" aria-live="polite" style="margin:0"></p></form>`;
@@ -27,14 +27,16 @@ export async function submit(e, ctx) {
     const raw = $('#who').value.trim(); const btn = f.querySelector('button[type=submit]');
     const email = isEmail(raw) ? raw.toLowerCase() : null, phone = email ? null : normPhone(raw);
     if (!email && !phone) { $('#loginMsg').textContent = 'Skriv en mailadresse eller et mobilnummer med 8 cifre.'; return; }
-    const { error } = await busy(btn, email ? sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true } }) : sb.auth.signInWithOtp({ phone, options: { shouldCreateUser: true } }), 'Sender …');
-    if (error) { $('#loginMsg').textContent = error.message.includes('rate') ? 'Der er sendt for mange koder. Vent lidt.' : 'Koden kunne ikke sendes. ' + (phone ? 'Prøv med din mail i stedet.' : 'Tjek adressen.'); return; }
+    let error = null;
+    if (email) { try { await busy(btn, fn('login-code', { email }, { anon: true }), 'Sender …'); } catch (e) { error = e; } }
+    else ({ error } = await busy(btn, sb.auth.signInWithOtp({ phone, options: { shouldCreateUser: true } }), 'Sender …'));
+    if (error) { $('#loginMsg').textContent = /mange|rate/i.test(error.message) ? 'Der er sendt for mange koder. Vent lidt.' : phone ? 'Login med mobil er ikke slået til endnu. Brug din mail.' : 'Koden kunne ikke sendes. Tjek adressen, og prøv igen.'; return; }
     sent = { kind: email ? 'email' : 'phone', to: email || phone }; ctx.render();
   }
   if (f.id === 'codeForm') {
     const token = $('#code').value.replace(/\D/g, ''); const btn = f.querySelector('button[type=submit]');
     if (token.length < 6) { $('#codeMsg').textContent = 'Koden har 6 cifre.'; return; }
-    const { error } = await busy(btn, sent.kind === 'email' ? sb.auth.verifyOtp({ email: sent.to, token, type: 'email' }) : sb.auth.verifyOtp({ phone: sent.to, token, type: 'sms' }), 'Tjekker …');
+    const { error } = await busy(btn, sent.kind === 'email' ? verifyEmail(sent.to, token) : sb.auth.verifyOtp({ phone: sent.to, token, type: 'sms' }), 'Tjekker …');
     if (error) { $('#codeMsg').textContent = 'Koden passer ikke, eller den er udløbet.'; return; }
     sent = null; const next = new URLSearchParams(location.search).get('next') || '/';
     toast('Du er logget ind'); ctx.nav(next, true);
@@ -42,4 +44,12 @@ export async function submit(e, ctx) {
 }
 export async function click(e, ctx) {
   if (e.target.closest('#again')) { sent = null; ctx.render(); }
+}
+
+/** Koden fra vores egen mail er en "magiclink"-kode; nyere Supabase tager den som type 'email', ældre som 'magiclink'. */
+export async function verifyEmail(email, token) {
+  const a = await sb.auth.verifyOtp({ email, token, type: 'email' });
+  if (!a.error) return a;
+  const b = await sb.auth.verifyOtp({ email, token, type: 'magiclink' });
+  return b.error ? a : b;
 }

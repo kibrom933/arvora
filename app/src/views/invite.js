@@ -3,6 +3,7 @@
 import { sb } from '../supabase.js';
 import { fn } from '../api.js';
 import { $, esc, toast, busy, msg } from '../ui.js';
+import { verifyEmail } from './login.js';
 
 let st = { token: null, info: null, error: null, step: 'start' };
 
@@ -35,7 +36,7 @@ export async function submit(e, ctx) {
   if (e.target.id !== 'inviteCode') return;
   const i = st.info, token = $('#icode').value.replace(/\D/g, ''), btn = e.target.querySelector('button[type=submit]');
   if (token.length < 6) { $('#iMsg').textContent = 'Koden har 6 cifre.'; return; }
-  const { error } = await busy(btn, i.channel === 'sms' ? sb.auth.verifyOtp({ phone: i.send_to, token, type: 'sms' }) : sb.auth.verifyOtp({ email: i.send_to, token, type: 'email' }), 'Tjekker …');
+  const { error } = await busy(btn, i.channel === 'sms' ? sb.auth.verifyOtp({ phone: i.send_to, token, type: 'sms' }) : verifyEmail(i.send_to, token), 'Tjekker …');
   if (error) { $('#iMsg').textContent = 'Koden passer ikke, eller den er udløbet.'; return; }
   try {
     const r = await busy(btn, fn('link-invite', { token: st.token }), 'Kobler …');

@@ -68,3 +68,27 @@ export async function allow(key: string, max: number, windowSeconds: number): Pr
 }
 export function maskPhone(p: string): string { return p.replace(/^(\+\d{2})(\d+)(\d{2})$/, (_, a, b, c) => a + ' ' + '•'.repeat(Math.max(2, b.length)) + c); }
 export function maskEmail(e: string): string { const [u, d] = e.split('@'); return (u[0] ?? '') + '•••@' + d; }
+
+/** Send en mail gennem Resend. Afsender og nøgle fra setting(). */
+export async function sendMail(to: string, subject: string, body: string): Promise<void> {
+  const key = await setting('resend_api_key'); if (!key) throw new Error('ingen mail-udbyder sat op');
+  const from = await setting('from_email', 'Arvora <hej@arvora.dk>');
+  const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from, to: [to], subject, text: body }) });
+  if (!r.ok) throw new Error('Mail ' + r.status + ' ' + (await r.text()).slice(0, 200));
+}
+
+/** Login-kode på mail uden Supabase' egne mailskabeloner: koden laves med admin.generateLink (som ikke sender noget),
+ *  og vi sender den selv. Brugeren oprettes, hvis hun ikke findes. Klienten bekræfter med verifyOtp({ email, token, type: 'email' }). */
+export async function sendLoginCode(email: string): Promise<void> {
+  const s = serviceClient();
+  let res = await s.auth.admin.generateLink({ type: 'magiclink', email });
+  if (res.error) {
+    const c = await s.auth.admin.createUser({ email, email_confirm: true });
+    if (c.error && !/already/i.test(c.error.message)) throw new Error(c.error.message);
+    res = await s.auth.admin.generateLink({ type: 'magiclink', email });
+  }
+  const code = res.data?.properties?.email_otp;
+  if (res.error || !code) throw new Error(res.error?.message ?? 'ingen kode');
+  await sendMail(email, 'Din kode til Arvora', `Din kode til Arvora er ${code}\n\nSkriv den på siden, hvor du bad om den. Koden gælder i en time.\nHar du ikke bedt om den, kan du se bort fra mailen.\n\nArvora`);
+}

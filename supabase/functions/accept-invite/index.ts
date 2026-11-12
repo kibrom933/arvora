@@ -1,6 +1,6 @@
 // Arvingen åbner sit link. Uden login: token slås op (hash), og vi fortæller kun, hvem linket er til,
 // og hvortil engangskoden sendes. Selve adgangen gives først i link-invite, når koden er bekræftet.
-import { preflight, json, fail, serviceClient, sha256, allow, clientIp, maskPhone, maskEmail } from '../_shared/common.ts';
+import { preflight, json, fail, serviceClient, sha256, allow, clientIp, maskPhone, maskEmail, sendLoginCode } from '../_shared/common.ts';
 
 Deno.serve(async (req) => {
   const pf = preflight(req); if (pf) return pf;
@@ -20,10 +20,10 @@ Deno.serve(async (req) => {
   if (!heir || !estate) return fail('Boet findes ikke længere', 404);
   // Engangskoden sendes herfra (Supabase Auth), så klienten ikke selv kan bede om koder til vilkårlige numre.
   if (!(await allow(`otp:${inv.heir_id}`, 5, 900))) return fail('Der er sendt for mange koder. Vent 15 minutter.', 429);
-  const { error: otpErr } = inv.channel === 'sms'
-    ? await s.auth.signInWithOtp({ phone: inv.sent_to, options: { shouldCreateUser: true } })
-    : await s.auth.signInWithOtp({ email: inv.sent_to, options: { shouldCreateUser: true } });
-  if (otpErr) { console.error('otp', otpErr.message); return fail('Koden kunne ikke sendes. Prøv igen om lidt.', 502); }
+  try {
+    if (inv.channel === 'sms') { const { error } = await s.auth.signInWithOtp({ phone: inv.sent_to, options: { shouldCreateUser: true } }); if (error) throw error; }
+    else await sendLoginCode(inv.sent_to);
+  } catch (e) { console.error('otp', (e as Error).message); return fail('Koden kunne ikke sendes. Prøv igen om lidt.', 502); }
   // Adressen returneres kun til den, der har det hemmelige link (som blev sendt til samme adresse); klienten skal bruge den til verifyOtp.
   return json({
     heir: heir.name, estate: estate.name, mode: estate.mode, channel: inv.channel, send_to: inv.sent_to,

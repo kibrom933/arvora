@@ -101,7 +101,7 @@ export async function click(e, ctx) {
     await ctx.reload(); toast('Tak. Du har sagt, at du ikke ønsker noget.'); return;
   }
   if (b.id === 'unsubmit') { await busy(b, rpc('unlock_my_wishes', { p_estate: B.id }), 'Låser op …'); await ctx.reload(); return; }
-  if (d.remind) { const h = B.heirs.find(x => x.id === d.remind); try { await busy(b, fn('invite', { heir_id: h.id, channel: h.phone ? 'sms' : 'email' }), 'Sender …'); toast('Nyt link sendt til ' + h.name); } catch (err) { toast(msg(err), true); } return; }
+  if (d.remind) { const h = B.heirs.find(x => x.id === d.remind); try { await busy(b, fn('invite', { heir_id: h.id, channel: h.email ? 'email' : 'sms' }), 'Sender …'); toast('Nyt link sendt til ' + h.name); } catch (err) { toast(msg(err), true); } return; }
   if (d.proxy) { proxy = { heirId: d.proxy, wishes: {}, consented: false }; ctx.render(); return; }
   if (b.id === 'proxyCancel') { proxy = null; ctx.render(); return; }
 }

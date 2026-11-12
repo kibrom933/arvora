@@ -61,7 +61,7 @@ export async function click(e, ctx) {
   if (b.id === 'delnow') { if (!arm('del', b, 'Slet alt? Tryk igen')) return; await busy(b, rpc('delete_estate_now', { p_estate: B.id }), 'Sletter …'); toast('Boet er slettet'); ctx.B = null; ctx.nav('/', true); return; }
   if (b.id === 'remindAll') {
     const who = B.heirs.filter(h => !h.submitted_at && h.user_id !== ctx.user.id && (h.phone || h.email));
-    let n = 0; for (const h of who) { try { await fn('invite', { heir_id: h.id, channel: h.phone ? 'sms' : 'email' }); n++; } catch (err) { toast(h.name + ': ' + msg(err), true); } }
+    let n = 0; for (const h of who) { try { await fn('invite', { heir_id: h.id, channel: h.email ? 'email' : 'sms' }); n++; } catch (err) { toast(h.name + ': ' + msg(err), true); } }
     if (n) toast('Nyt link sendt til ' + n + (n === 1 ? ' arving' : ' arvinger')); return;
   }
   if (b.id === 'showlog') {

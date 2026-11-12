@@ -39,7 +39,7 @@ export async function click(e, ctx) {
   const B = ctx.B, b = e.target.closest('button'); if (!b) return; const d = b.dataset;
   if (d.invite) {
     const h = B.heirs.find(x => x.id === d.invite); if (!h) return;
-    try { const r = await busy(b, fn('invite', { heir_id: h.id, channel: h.phone ? 'sms' : 'email' }), 'Sender …'); invitesFor = null; toast(`Link sendt til ${h.name} (${r.sent_to}). Det gælder i 14 dage.`, true); ctx.render(); }
+    try { const r = await busy(b, fn('invite', { heir_id: h.id, channel: h.email ? 'email' : 'sms' }), 'Sender …'); invitesFor = null; toast(`Link sendt til ${h.name} (${r.sent_to}). Det gælder i 14 dage.`, true); ctx.render(); }
     catch (err) { toast(msg(err), true); }
     return;
   }
@@ -58,6 +58,6 @@ export async function submit(e, ctx) {
   const btn = e.target.querySelector('button[type=submit]');
   const h = await busy(btn, (async () => must(await sb.from('heirs').insert({ estate_id: B.id, name, relation: $('#hRel').value.trim() || null, phone, email, sort: B.heirs.length }).select('*').single()))(), 'Tilføjer …');
   let sent = '';
-  if ($('#hSend').checked && (phone || email)) { try { await fn('invite', { heir_id: h.id, channel: phone ? 'sms' : 'email' }); sent = ' Linket er sendt.'; } catch (err) { sent = ' Linket kunne ikke sendes: ' + msg(err); } }
+  if ($('#hSend').checked && (phone || email)) { try { await fn('invite', { heir_id: h.id, channel: email ? 'email' : 'sms' }); sent = ' Linket er sendt.'; } catch (err) { sent = ' Linket kunne ikke sendes: ' + msg(err); } }
   invitesFor = null; await ctx.reload(); toast(`${name} er tilføjet.${sent}`, true);
 }
