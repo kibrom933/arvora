@@ -12,7 +12,8 @@
 | Motor som modul | `engine-props.js` (26 egenskaber: optimalitet 600 + 300 vægtede familier, EF1, ingen dubletter, determinisme, lod-jævnhed χ², validering), `engine-parity.js` (1.500 familier prototype vs. modul) | 11. nov. | 26 PASS; 1.500/1.500 |
 | Forside | Skærmbilleder 390/860/1280 px, lyst + mørkt; manuel gennemgang | 10. nov. | OK |
 | Datamodel | 8 migrationer anvendt på Arvora dev uden fejl; sikkerhedslinter | 11. nov. | Linter: 0 fejl ud over tilsigtede "no policy" |
-| Adgangsregler | `supabase/tests/rls.sql`, 49 regler | **Ikke kørt** | Afventer ejerens ja i Supabase MCP |
+| Adgangsregler | `supabase/tests/rls.sql`, 55 regler, kørt mod Arvora dev | 12. nov. | 54 PASS, 1 FAIL (besked til tovholderen, når alle har svaret; tovholder-arvingen manglede adresse). Rettet i migration `20261112000300` |
+| Live-prøve | Login med kode på mail, opret bo, ting, arving, invitation, cron-udsendelse, link i mailen. Mod Arvora dev fra GitHub Pages | 12. nov. | Virker. Fandt og rettede: oversigten manglede `created_at`; underskriftskoden ventede op til 15 min i køen |
 | Serverfunktioner | Deployet. Ingen test endnu. | – | **Ikke testet** |
 | Appen | `tests/app.mjs`: hele forløbet med tre personer i tre browsere mod `fake-supabase.mjs` (login, opret bo, 5 ting + AI-navn fra billede, omdøb, rum, fjern, testamente, 2 arvinger med links på SMS og mail, betaling, åbning, invitation med forkert og rigtig kode, point, løbende gemning, afgiv/fortryd, hemmelighed, tovholderens overblik, fordeling med kasser/procent/forklaring/testamente, underskrift med forkert og rigtig kode, PDF-download, kopi, ny runde med alles ja, slet nu, ingen konsolfejl, intet overløb). Computer, iPhone 13, iPhone 13 mørk. | 11. nov. | 64 × 3 PASS |
 

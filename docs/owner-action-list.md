@@ -2,15 +2,22 @@
 
 *11. november 2026. Rækkefølgen er den, der låser mest op. Alt andet laver Claude.*
 
-## Nu
+## Status 12. november
 
-| # | Handling | Hvorfor | Hvordan |
-|---|---|---|---|
-| 1 | **Dobbeltklik `C:\Users\mohaa\arvora\kobl-til-github.cmd`** | Din mappe på PC'en bliver koblet til github.com/kibrom933/arvora, så `git pull` virker | Scriptet ligger i mappen. Det sletter intet. |
-| 2 | **Stop den anden Claude-session**, der arbejder på repoet (Fable 5.2), eller giv den besked om kun at røre `prototype/` og `site/` | Den har én gang pushet et konkurrerende skema | Luk den, eller skriv til den |
-| 3 | **Sig "ja" til Supabase**, når MCP spørger om lov til at køre `rls.sql` og migrationerne `000900` og `001000` | Adgangsreglerne er ikke bevist, før testen er kørt | Spørgsmålet vises i chatten |
-| 4 | **Tjek arvora.dk og varemærket** | Navnet er valgt, men ikke sikret | dk-hostmaster.dk → søg; dkpto.dk → varemærkesøgning; tmdn.org/tmview |
-| 5 | **Køb arvora.dk**, hvis frit | | Hos en dansk registrator (fx Simply, One.com, GratisDNS). Ca. 60–100 kr./år. Peg ikke DNS endnu. |
+Arvora er live som lukket test: forsiden på https://kibrom933.github.io/arvora/, appen på …/arvora/app/. Login med mail, oprettelse af bo, ting, arvinger, invitationer på mail og den automatiske udsendelse virker mod den rigtige database (prøvet live). Adgangsreglerne er prøvet mod databasen: 54 af 55 bestod i første kørsel, og den ene fejl (tovholderen fik ikke besked) er rettet. Betaling kan ikke bruges endnu, så brug prøvekoden **PROEVE26** (gratis til 31. marts 2027) som partnerkode, når du opretter et bo til en testfamilie.
+
+## Nu (det, der låser mest op)
+
+| # | Handling | Hvorfor |
+|---|---|---|
+| 1 | **Stripe-konto i Arvoras navn** (kræver CVR), og send mig en *restricted* nøgle med adgang til Checkout | Uden den kan ingen betale; i dag virker kun prøvekoden |
+| 2 | **Køb arvora.dk** | Mails kommer i dag fra arvora@zoonex.dk (din Resend-konto), og adressen er kibrom933.github.io. Med domænet flytter jeg begge |
+| 3 | **Anthropic API-nøgle** (console.anthropic.com) | Navneforslag ud fra billeder; uden den skriver tovholderen navnet selv |
+| 4 | **GatewayAPI-konto** | SMS til arvinger uden mail og login med mobilnummer |
+| 5 | **Jurist** på vilkår og privatlivspolitik | Før rigtige familier i sorg bruger det |
+| 6 | Dobbeltklik `C:\Users\mohaa\arvora\kobl-til-github.cmd` | Din mappe på PC'en følger med |
+
+Nøgler kan du sende i chatten; jeg lægger dem i `app_settings` på serveren, aldrig i koden.
 
 ## Konti (til udvikling; testnøgler er fint)
 

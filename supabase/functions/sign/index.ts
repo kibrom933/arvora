@@ -1,7 +1,7 @@
 // Underskrift i to trin. 1) "request": en 6-cifret engangskode sendes til arvingens telefon/mail.
 // 2) "verify": koden tjekkes (højst 5 forsøg, 10 minutter), et underskrift_otp-samtykke oprettes, og sign_run
 // kaldes som brugeren selv, så underskriften bindes til run-version og dokument-hash.
-import { preflight, json, fail, currentUser, userClient, serviceClient, sha256, allow, clientIp } from '../_shared/common.ts';
+import { preflight, json, fail, currentUser, userClient, serviceClient, sha256, allow, clientIp, channelFor, sendMail, sendSms } from '../_shared/common.ts';
 
 Deno.serve(async (req) => {
   const pf = preflight(req); if (pf) return pf;
@@ -14,7 +14,7 @@ Deno.serve(async (req) => {
   if (!run || !run.released_at || run.superseded_at) return fail('Fordelingen kan ikke underskrives', 409);
   const { data: heir } = await s.from('heirs').select('id, name, phone, email').eq('estate_id', run.estate_id).eq('user_id', user.id).maybeSingle();
   if (!heir) return fail('Du er ikke arving i boet', 403);
-  const channel = heir.phone ? 'sms' : heir.email ? 'email' : null;
+  const channel = await channelFor(heir);
   if (!channel) return fail('Der er hverken telefon eller mail at sende koden til');
 
   if (body.step === 'request') {
@@ -22,8 +22,13 @@ Deno.serve(async (req) => {
     const code = String(crypto.getRandomValues(new Uint32Array(1))[0] % 1000000).padStart(6, '0');
     await s.from('otp_codes').delete().eq('heir_id', heir.id).eq('run_id', runId);
     await s.from('otp_codes').insert({ heir_id: heir.id, run_id: runId, code_hash: await sha256(`${runId}:${heir.id}:${code}`), expires_at: new Date(Date.now() + 10 * 60e3).toISOString() });
-    await s.from('notifications').insert({ estate_id: run.estate_id, heir_id: heir.id, channel, kind: 'underskrift_kode', to_address: heir.phone ?? heir.email, payload: { code, name: heir.name } });
-    return json({ ok: true, channel, sent_to_masked: channel === 'sms' ? heir.phone.slice(0, 3) + '••••' + heir.phone.slice(-2) : heir.email.replace(/^(.).*@/, '$1•••@') });
+    // Koden sendes med det samme og gemmes aldrig i klartekst (kun hash i otp_codes).
+    const to = channel === 'sms' ? heir.phone! : heir.email!;
+    const text = `Din kode til at skrive under i Arvora er ${code}. Den gælder i 10 minutter. Har du ikke bedt om den, kan du se bort fra beskeden.`;
+    try { if (channel === 'sms') await sendSms(to, text); else await sendMail(to, 'Din kode til underskrift', text + '\n\nArvora'); }
+    catch (e) { console.error('sign-send', (e as Error).message); return fail('Koden kunne ikke sendes. Prøv igen om lidt.', 502); }
+    await s.from('notifications').insert({ estate_id: run.estate_id, heir_id: heir.id, channel, kind: 'underskrift_kode', to_address: to, payload: { name: heir.name }, status: 'sendt', sent_at: new Date().toISOString() });
+    return json({ ok: true, channel, sent_to_masked: channel === 'sms' ? to.slice(0, 3) + '••••' + to.slice(-2) : to.replace(/^(.).*@/, '$1•••@') });
   }
   if (body.step === 'verify') {
     if (!(await allow(`sign-verify:${heir.id}:${clientIp(req)}`, 10, 600))) return fail('For mange forsøg', 429);

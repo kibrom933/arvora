@@ -92,3 +92,24 @@ export async function sendLoginCode(email: string): Promise<void> {
   if (res.error || !code) throw new Error(res.error?.message ?? 'ingen kode');
   await sendMail(email, 'Din kode til Arvora', `Din kode til Arvora er ${code}\n\nSkriv den på siden, hvor du bad om den. Koden gælder i en time.\nHar du ikke bedt om den, kan du se bort fra mailen.\n\nArvora`);
 }
+
+/** Send en SMS gennem GatewayAPI (afsender "Arvora"). */
+export async function sendSms(to: string, body: string): Promise<void> {
+  const token = await setting('gatewayapi_token'); if (!token) throw new Error('ingen SMS-udbyder sat op');
+  const r = await fetch('https://gatewayapi.com/rest/mtsms', { method: 'POST', headers: { Authorization: 'Token ' + token, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ sender: 'Arvora', message: body, recipients: [{ msisdn: to.replace(/^\+/, '') }] }) });
+  if (!r.ok) throw new Error('SMS ' + r.status + ' ' + (await r.text()).slice(0, 200));
+}
+/** Hvilken kanal når en person? SMS kun, når en SMS-udbyder er sat op; ellers mail. */
+export async function channelFor(p: { phone?: string | null; email?: string | null }): Promise<'sms' | 'email' | null> {
+  const sms = !!(await setting('gatewayapi_token'));
+  if (p.phone && sms) return 'sms';
+  if (p.email) return 'email';
+  return p.phone ? 'sms' : null;
+}
+/** Send beskeder i kø med det samme (i stedet for at vente på det næste kvarter). */
+export async function kickHousekeeping(): Promise<void> {
+  const key = await setting('housekeeping_key'); if (!key) return;
+  try { await fetch(SUPABASE_URL + '/functions/v1/housekeeping', { method: 'POST', headers: { 'x-housekeeping-key': key, 'Content-Type': 'application/json' }, body: '{}' }); }
+  catch (e) { console.error('housekeeping', (e as Error).message); }
+}
